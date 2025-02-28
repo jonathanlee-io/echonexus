@@ -1,0 +1,152 @@
+name: Verify Node.js
+
+on:
+  push:
+    branches: [staging]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint-backend:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    strategy:
+      matrix:
+        node-version: [22.x]
+    name: Lint Backend (v${{ matrix.node-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: useblacksmith/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install --frozen-lockfile
+        working-directory: ./echonexus-api
+      - name: Lint (v${{ matrix.node-version }})
+        working-directory: ./echonexus-api
+        run: yarn run lint
+
+  build-backend:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    strategy:
+      matrix:
+        node-version: [22.x]
+    name: Build Backend (v${{ matrix.node-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: useblacksmith/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install --frozen-lockfile
+        working-directory: ./echonexus-api
+      - name: Build (v${{ matrix.node-version }})
+        working-directory: ./echonexus-api
+        run: yarn run build
+
+  test-backend:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    strategy:
+      matrix:
+        node-version: [22.x]
+    name: Test Backend (v${{ matrix.node-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: useblacksmith/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install --frozen-lockfile
+        working-directory: ./echonexus-api
+      - name: Test (v${{ matrix.node-version }})
+        working-directory: ./echonexus-api
+        run: yarn run test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          FRONT_END_URLS: ${{ secrets.FRONT_END_URLS }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+          STRIPE_WEBHOOK_URL: ${{ secrets.STRIPE_WEBHOOK_URL }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLIC_KEY: ${{ secrets.SUPABASE_PUBLIC_KEY }}
+          SUPABASE_JWT_SECRET: ${{ secrets.SUPABASE_JWT_SECRET }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+
+  lint-frontend:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    strategy:
+      matrix:
+        node-version: [22.x]
+    name: Lint Frontend (v${{ matrix.node-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: useblacksmith/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install --frozen-lockfile
+        working-directory: ./echonexus-ui
+      - name: Lint (v${{ matrix.node-version }})
+        working-directory: ./echonexus-ui
+        run: yarn run lint
+
+  build-frontend:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    strategy:
+      matrix:
+        node-version: [22.x]
+    name: Build Frontend (v${{ matrix.node-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: useblacksmith/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install --frozen-lockfile
+        working-directory: ./echonexus-ui
+      - name: Build Staging (v${{ matrix.node-version }})
+        working-directory: ./echonexus-ui
+        run: yarn run build:stage
+      - name: Build (v${{ matrix.node-version }})
+        working-directory: ./echonexus-ui
+        run: yarn run build
+
+  test-frontend:
+    runs-on: blacksmith-4vcpu-ubuntu-2204
+    strategy:
+      matrix:
+        node-version: [22.x]
+    name: Test Frontend (v${{ matrix.node-version }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: useblacksmith/setup-node@v5
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+          cache-dependency-path: '**/yarn.lock'
+      - run: yarn install --frozen-lockfile
+        working-directory: ./echonexus-ui
+#      - name: Test (v${{ matrix.node-version }})
+#        working-directory: ./echonexus-ui
+#        run: yarn run test

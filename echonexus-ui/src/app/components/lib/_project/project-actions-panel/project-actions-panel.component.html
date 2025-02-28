@@ -1,0 +1,43 @@
+<div class="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+  <div>
+    <h2 class="text-4xl font-extrabold text-light-text-primary dark:text-dark-text-primary tracking-wide">
+      Project Actions
+    </h2>
+  </div>
+
+  <div class="space-y-10">
+    <fieldset *ngIf="!projectStore.isLoading() else loadingSpinner">
+      <legend class="text-3xl font-bold text-light-text-primary dark:text-dark-text-primary">Preview / Delete
+      </legend>
+      <div class="mt-6 space-y-6">
+        <div class="flex gap-3">
+          <div class="flex items-center">
+            <div class="grid grid-cols-1">
+              <a [routerLink]="getProductPath()" pButton>
+                <span pButtonLabel>Go to Product Page</span>
+                <span class="pi pi-arrow-right" pButtonIcon></span>
+                <span class="sr-only">Go to Product Page</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex items-center">
+            <div class="grid grid-cols-1">
+              <button (click)="promptDeleteProject()" pButton severity="danger">
+                <span pButtonLabel>Delete Project</span>
+                <span class="pi pi-trash" pButtonIcon></span>
+                <span class="sr-only">Delete Project</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <ng-template #loadingSpinner>
+      <div class="flex justify-center items-center">
+        <p-progressSpinner styleClass="mt-8" />
+      </div>
+    </ng-template>
+  </div>
+</div>
