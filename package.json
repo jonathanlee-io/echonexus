@@ -17,8 +17,7 @@
     "Feedback"
   ],
   "author": "Jonathan Lee <jonathan.lee.devel@gmail.com>",
-  "license": "GPL-3.0-or-later",
-  "description": "Open-Source Feedback Platform",
+  "description": "Easy-to-use Feedback Platform",
   "devDependencies": {
     "concurrently": "^9.1.0",
     "husky": "^9.1.7"
