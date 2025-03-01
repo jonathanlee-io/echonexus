@@ -1,13 +1,13 @@
 <header class="relative isolate z-10 shadow-lg bg-light-navbar-color dark:bg-dark-navbar-color">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+  <nav aria-label="Global" class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
     <div class="flex lg:flex-1">
       <a [routerLink]="rebaseRoutePath(RoutePath.LANDING_PAGE)"
          class="-m-1.5 p-1.5 hover:scale-105 transition-transform duration-200">
         <span class="sr-only">Your Company</span>
-        <img class="h-10 w-auto" src="/logo.svg" alt="Kavindra logo">
+        <img alt="EchoNexus logo" class="h-10 w-auto" src="/logo.svg">
       </a>
-      <a pButton *ngIf="userAuthenticationStore.isLoggedIn()" [routerLink]="rebaseRoutePath(RoutePath.DASHBOARD)"
-         class="text-sm font-bold leading-6 text-gray-900 bg-green-300 rounded-md px-5 py-2 mx-3 shadow-md hover:bg-green-400 hover:scale-105 transition-transform duration-300 bg-light-white dark:bg-dark-white">
+      <a *ngIf="userAuthenticationStore.isLoggedIn()" [routerLink]="rebaseRoutePath(RoutePath.DASHBOARD)" class="text-sm font-bold leading-6 text-gray-900 bg-green-300 rounded-md px-5 py-2 mx-3 shadow-md hover:bg-green-400 hover:scale-105 transition-transform duration-300 bg-light-white dark:bg-dark-white"
+         pButton>
         Main Dashboard
       </a>
     </div>
@@ -22,22 +22,22 @@
             <div class="justify-center items-center text-center">
               <ng-container *ngIf="!userAuthenticationStore.isLoggedIn() && !userAuthenticationStore.isLoading()">
                 <div class="flex justify-center items-center text-center py-2">
-                  <a pButton [routerLink]="rebaseRoutePath(RoutePath.REGISTER)">Register</a>
+                  <a [routerLink]="rebaseRoutePath(RoutePath.REGISTER)" pButton>Register</a>
                 </div>
                 <div class="flex justify-center items-center text-center py-2">
-                  <a pButton [routerLink]="rebaseRoutePath(RoutePath.LOGIN)">Login</a>
+                  <a [routerLink]="rebaseRoutePath(RoutePath.LOGIN)" pButton>Login</a>
                 </div>
               </ng-container>
               <ng-container *ngIf="userAuthenticationStore.isLoggedIn() && !userAuthenticationStore.isLoading()">
                 <div class="flex justify-center items-center text-center py-2">
-                  <button pButton icon="pi pi-sign-out" label="Log Out" (click)="userAuthenticationStore.logout()"></button>
+                  <button (click)="userAuthenticationStore.logout()" icon="pi pi-sign-out" label="Log Out" pButton></button>
                 </div>
               </ng-container>
               <div class="py-2 flex flex-col gap-2 justify-center items-center text-center">
-                <p-toggleswitch class="mt-2" [(ngModel)]="isDarkMode"
-                                (onChange)="userPreferencesStore.toggleDarkMode()"/>
-                <i class="pi text-light-secondary dark:text-light-white mb-0.5 px-2"
-                   [ngClass]="userPreferencesStore.isDarkMode() ? 'pi-moon' : 'pi-sun'"></i>
+                <p-toggleswitch (onChange)="userPreferencesStore.toggleDarkMode()" [(ngModel)]="isDarkMode"
+                                class="mt-2"/>
+                <i [ngClass]="userPreferencesStore.isDarkMode() ? 'pi-moon' : 'pi-sun'"
+                   class="pi text-light-secondary dark:text-light-white mb-0.5 px-2"></i>
                 <span class="font-medium text-surface-900 dark:text-surface-0 block mb-2">Dark Mode</span>
                 <span
                   class="text-surface-500 dark:text-surface-700">{{ getColorModePrompt() }}</span>

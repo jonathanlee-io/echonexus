@@ -33,7 +33,7 @@ import {FooterComponent} from './components/lib/footer/footer.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'Kavindra';
+  title = 'EchoNexus';
   isSidebarVisible = signal<boolean>(false);
   private readonly userAuthenticationStore = inject(UserAuthenticationStore);
 

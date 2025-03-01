@@ -48,7 +48,7 @@ export class LandingPageComponent implements OnInit {
     },
     {
       title: 'Integrate in Minutes',
-      description: 'With the feedback widget in a single deployable bundle, you can integrate it into your application in minutes, no need to worry about the complexities of authentication, authorization, and data storage.',
+      description: 'With the feedback widget in a single deployable bundle, you can integrate it into your application in minutes, no need to worry about the complexities of data storage.',
       primeIconClass: 'pi-bolt',
     },
     {
