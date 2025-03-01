@@ -19,7 +19,10 @@ export class AuthenticatedUsersService {
       requestingUserEmail,
     );
     if (existingUser) {
-      if (existingUser.supabaseUserId !== requestingUserSubjectId) {
+      if (
+        existingUser.supabaseUserId !== requestingUserSubjectId ||
+        existingUser.email !== requestingUserEmail
+      ) {
         this.usersRepository.updateUserSupabaseIdByEmail(
           requestingUserSubjectId,
           requestingUserEmail,
