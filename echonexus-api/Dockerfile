@@ -25,7 +25,7 @@ COPY --chown=node:node . .
 
 RUN yarn run build
 
-RUN yarn run widget:build
+RUN yarn run widget:build:prod
 
 RUN npx prisma generate
 
