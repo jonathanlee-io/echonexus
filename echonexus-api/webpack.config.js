@@ -1,13 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
-var copyWebpackPlugin = require('copy-webpack-plugin');
+const copyWebpackPlugin = require('copy-webpack-plugin');
 const bundleOutputDir = './widget/dist';
 
 module.exports = (env) => {
-    const isDevBuild = !(env && env.prod);
+    console.log(env);
+    const isDevBuild = !(env && env.production);
 
     return [{
-        entry: './widget/main.js',
+        entry: (isDevBuild) ? './widget/main-dev.js' : './widget/main.js',
         output: {
             filename: 'echonexus-widget.js',
             path: path.resolve(bundleOutputDir),
@@ -15,13 +16,11 @@ module.exports = (env) => {
         devServer: {
             contentBase: bundleOutputDir
         },
-        plugins: isDevBuild
-            ? [new webpack.SourceMapDevToolPlugin(), new copyWebpackPlugin([{ from: './widget/demo/' }])]
-            : [new webpack.optimize.UglifyJsPlugin()],
+        plugins: [new webpack.SourceMapDevToolPlugin(), new copyWebpackPlugin([{ from: './widget/demo/' }])],
         module: {
             rules: [
                 { test: /\.html$/i, use: 'html-loader' },
-                { test: /\.css$/i, use: ['style-loader', 'css-loader' + (isDevBuild ? '' : '?minimize')] },
+                { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
                 {
                     test: /\.js$/i, use: {
                         loader: 'babel-loader',

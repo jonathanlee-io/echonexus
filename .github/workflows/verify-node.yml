@@ -73,17 +73,7 @@ jobs:
         run: yarn run test
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          FRONT_END_URLS: ${{ secrets.FRONT_END_URLS }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
-          STRIPE_WEBHOOK_URL: ${{ secrets.STRIPE_WEBHOOK_URL }}
-          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_PUBLIC_KEY: ${{ secrets.SUPABASE_PUBLIC_KEY }}
-          SUPABASE_JWT_SECRET: ${{ secrets.SUPABASE_JWT_SECRET }}
-          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
 
   lint-frontend:
     runs-on: blacksmith-4vcpu-ubuntu-2204

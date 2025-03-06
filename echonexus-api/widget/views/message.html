@@ -25,6 +25,7 @@
         max-height: 6rem;
         margin: 0.75rem 0.75rem 0.75rem auto;
         transition: transform 150ms, box-shadow 150ms;
+        cursor: pointer;
      "
          x-show="!isMainMenuOpen"
     >
@@ -144,7 +145,7 @@
       text-decoration: none;
       transition: color 200ms;"
                                        target="_blank">
-                                        echonexus.io
+                                        EchoNexus.io
                                     </a>
                                 </p>
                             </div>
@@ -186,7 +187,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$post({route: 'http://localhost:8080/v1/products/feedback/echonexus', body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'bug_report', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
+                                            @click="$post({route: `${$store.api.baseUrl}/products/feedback/echonexus`, body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'bug_report', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
                                             @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
@@ -246,7 +247,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$post({route: 'http://localhost:8080/v1/products/feedback/echonexus', body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'feature_request', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
+                                            @click="$post({route: `${$store.api.baseUrl}/products/feedback/echonexus`, body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'feature_request', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
                                             @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
@@ -306,7 +307,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$post({route: 'http://localhost:8080/v1/products/feedback/echonexus', body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'feature_feedback', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
+                                            @click="$post({route: `${$store.api.baseUrl}/products/feedback/echonexus`, body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'feature_feedback', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
                                             @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
