@@ -5,10 +5,9 @@ const bundleOutputDir = './widget/dist';
 
 module.exports = (env) => {
     console.log(env);
-    const isDevBuild = !(env && env.production);
 
     return [{
-        entry: (isDevBuild) ? './widget/main-dev.js' : './widget/main.js',
+        entry: (env.production) ? './widget/main.js' : './widget/main-dev.js',
         output: {
             filename: 'echonexus-widget.js',
             path: path.resolve(bundleOutputDir),
