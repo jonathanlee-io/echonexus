@@ -1,4 +1,11 @@
-import {Controller, Get, Header} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Header,
+  HttpCode,
+  HttpStatus,
+  Options,
+} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 
 import {ApiGatewayRequestHeaders} from '../../../../lib/auth/api-gateway/decorators/api-gateway-request-headers.decorator';
@@ -24,5 +31,11 @@ export class EmbedScriptsController {
   @Header('Content-Type', 'text/javascript')
   async getWidgetScript() {
     return this.projectsService.getWidgetScript();
+  }
+
+  @Options('echonexus-widget.js')
+  @HttpCode(HttpStatus.OK)
+  async getCorsHeadersForWidgetScript() {
+    return null;
   }
 }
