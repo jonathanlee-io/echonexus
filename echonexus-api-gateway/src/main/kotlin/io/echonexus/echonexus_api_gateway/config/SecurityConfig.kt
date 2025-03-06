@@ -27,14 +27,13 @@ class SecurityConfig(
     http.oauth2ResourceServer { it.jwt(withDefaults()) }
     http.authorizeExchange {
       it.pathMatchers("/v1/payments/plans").permitAll()
-      it.pathMatchers(HttpMethod.POST, "/v1/products/feedback/**").permitAll()
+      it.pathMatchers("/v1/products/feedback/**").permitAll()
         .pathMatchers("/v1/scripts/feedback-widget.js").permitAll()
         .pathMatchers("/v1/scripts/echonexus-widget.js").permitAll()
         .pathMatchers("/v1/clients/**").authenticated()
         .pathMatchers("/v1/issues/**").authenticated()
         .pathMatchers("/v1/projects/**").authenticated()
         .pathMatchers("/v1/users/**").authenticated()
-        .pathMatchers("/v1/products/**").authenticated()
     }
     return http.build()
   }
