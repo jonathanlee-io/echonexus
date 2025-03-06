@@ -13,7 +13,7 @@ function app(window) {
   Alpine.start();
 
   Alpine.store('api', {
-    baseUrl: 'https://api.echonexus.io/v1',
+    baseUrl: 'http://localhost:8080/v1',
   });
 
   console.log('echonexus Widget Starting...');
