@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpCode,
-  HttpStatus,
-  Ip,
-  Logger,
-  Options,
-  Param,
-  Post,
-} from '@nestjs/common';
+import {Body, Controller, Ip, Logger, Param, Post} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {Throttle} from '@nestjs/throttler';
 import {DateTime} from 'luxon';
@@ -35,11 +25,5 @@ export class ProductsController {
       userFeedback,
       submittedAt: DateTime.now().toISO(),
     });
-  }
-
-  @Options('feedback/:subdomain')
-  @HttpCode(HttpStatus.OK)
-  async getCorsPreflightForFeedback() {
-    return null;
   }
 }
