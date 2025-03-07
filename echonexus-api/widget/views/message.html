@@ -187,7 +187,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$post({route: `${$store.api.baseUrl}/products/feedback/echonexus`, body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'bug_report', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
+                                            @click="$store.api.reportBug(`${$store.api.baseUrl}/products/feedback/echonexus`, {userFeedback: userFeedback, widgetMetadata: {type: 'bug_report', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}})"
                                             @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"

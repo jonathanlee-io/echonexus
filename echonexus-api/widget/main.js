@@ -14,6 +14,15 @@ function app(window) {
 
   Alpine.store('api', {
     baseUrl: 'https://api.echonexus.io/v1',
+    reportBug(url, body) {
+      fetch('https://api.echonexus.io/v1/products/feedback/', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    },
   });
 
   console.log('echonexus Widget Starting...');
