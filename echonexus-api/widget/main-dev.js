@@ -5,8 +5,8 @@ import requests from 'alpinejs-requests';
 const supportedAPI = ['init', 'message']; // enlist all methods supported by API (e.g. `mw('event', 'user-login');`)
 
 /**
-    The main entry of the application
-    */
+ The main entry of the application
+ */
 function app(window) {
   window.alpine = Alpine;
   Alpine.plugin(requests);
@@ -14,6 +14,17 @@ function app(window) {
 
   Alpine.store('api', {
     baseUrl: 'http://localhost:8080/v1',
+    reportBug(url, body) {
+      fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        mode: 'cors',
+      }).then((r) => console.log(r));
+    },
   });
 
   console.log('echonexus Widget Starting...');
@@ -43,8 +54,8 @@ function app(window) {
 }
 
 /**
-    Method that handles all API calls
-    */
+ Method that handles all API calls
+ */
 function apiHandler(api, params) {
   if (!api) throw Error('API method required');
   api = api.toLowerCase();
