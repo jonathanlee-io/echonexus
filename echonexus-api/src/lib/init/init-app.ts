@@ -12,6 +12,8 @@ import {LoggingInterceptor} from '../util/interceptors/logging/logging.intercept
 export const initApp = (app: INestApplication) => {
   app.use(helmet.crossOriginResourcePolicy({policy: 'cross-origin'}));
 
+  app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
