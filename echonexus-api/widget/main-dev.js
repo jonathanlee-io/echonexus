@@ -15,13 +15,12 @@ function app(window) {
   Alpine.store('api', {
     baseUrl: 'http://jdevel.api.echonexus-local.io:8000/v1',
     reportBug(url, body) {
-      fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(body),
+      fetch(`${url}?${new URLSearchParams(body)}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           Accept: 'application/json',
         },
+        mode: 'no-cors',
       }).then((r) => console.log(r));
     },
   });

@@ -1,4 +1,4 @@
-import {Controller, Ip, Logger, Param, Post, Query} from '@nestjs/common';
+import {Controller, Get, Ip, Logger, Param, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {Throttle} from '@nestjs/throttler';
 import {DateTime} from 'luxon';
@@ -13,7 +13,7 @@ import {SubdomainParamDto} from '../../../../lib/dto/SubdomainParam.dto';
 export class ProductsController {
   @IsPublic()
   @Throttle({default: {limit: 3, ttl: 60_000}})
-  @Post('feedback/:subdomain')
+  @Get('feedback/:subdomain')
   async receiveFeedback(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
     @Param() {subdomain: urlSubdomain}: SubdomainParamDto,
