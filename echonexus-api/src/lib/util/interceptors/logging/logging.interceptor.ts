@@ -14,7 +14,7 @@ export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     this.logger.log(
-      `Request (${request.host}) from IP [${request.ip}] from user <${request?.user?.email ?? 'anonymous'}> ${request.method} ${request.url}`,
+      `Request (${request.hostname}) from IP [${request.ip}] from user <${request?.user?.email ?? 'anonymous'}> ${request.method} ${request.url}`,
     );
     return next.handle();
   }
