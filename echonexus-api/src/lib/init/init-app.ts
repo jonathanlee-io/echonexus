@@ -14,8 +14,7 @@ export const initApp = (app: INestApplication) => {
   app.use(helmet.crossOriginResourcePolicy({policy: 'cross-origin'}));
 
   app.enableCors({
-    origin:
-      /http:\/\/jdevel.echonexus-local.io:4200|https:\/\/(.*).echonexus.io/,
+    origin: /http:\/\/(.*).echonexus-local.io:4200|https:\/\/(.*).echonexus.io/,
     allowedHeaders: [
       'Accept',
       'Content-Type',
