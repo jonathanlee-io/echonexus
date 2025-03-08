@@ -5,14 +5,16 @@ import {
   VersioningType,
 } from '@nestjs/common';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
+import helmet from 'helmet';
 
 import {LoggingInterceptor} from '../util/interceptors/logging/logging.interceptor';
 
 export const initApp = (app: INestApplication) => {
-  // app.use(helmet.crossOriginResourcePolicy({policy: 'cross-origin'}));
+  app.use(helmet.crossOriginResourcePolicy({policy: 'cross-origin'}));
 
   app.enableCors({
-    origin: /http:\/\/jdevel.echonexus-local.io:4200/,
+    origin:
+      /http:\/\/jdevel.echonexus-local.io:4200|http:\/\/(.*).echonexus.io/,
     allowedHeaders: [
       'Accept',
       'Content-Type',
