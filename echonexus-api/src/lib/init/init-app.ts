@@ -1,4 +1,5 @@
 import {
+  HttpStatus,
   INestApplication,
   Logger,
   ValidationPipe,
@@ -14,7 +15,7 @@ export const initApp = (app: INestApplication) => {
 
   app.enableCors({
     origin:
-      /http:\/\/jdevel.echonexus-local.io:4200|http:\/\/(.*).echonexus.io/,
+      /http:\/\/jdevel.echonexus-local.io:4200|https:\/\/(.*).echonexus.io/,
     allowedHeaders: [
       'Accept',
       'Content-Type',
@@ -25,7 +26,7 @@ export const initApp = (app: INestApplication) => {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     preflightContinue: true,
     credentials: true,
-    optionsSuccessStatus: 204,
+    optionsSuccessStatus: HttpStatus.OK,
   });
 
   app.useGlobalPipes(
