@@ -21,14 +21,14 @@ export class UsersRepositoryService {
   }
 
   async createUserFromAuthUser(
-    requestingUserSubjectId: string,
+    requestingUserId: string,
     requestingUserEmail: string,
   ) {
     return this.prismaService.user.create({
       data: {
         email: requestingUserEmail,
         displayName: requestingUserEmail,
-        supabaseUserId: requestingUserSubjectId,
+        supabaseUserId: requestingUserId,
       },
     });
   }
@@ -40,12 +40,12 @@ export class UsersRepositoryService {
   }
 
   updateUserSupabaseIdByEmail(
-    requestingUserSubjectId: string,
+    requestingUserId: string,
     requestingUserEmail: string,
   ) {
     return this.prismaService.user.updateMany({
       where: {email: requestingUserEmail},
-      data: {supabaseUserId: requestingUserSubjectId},
+      data: {supabaseUserId: requestingUserId},
     });
   }
 }

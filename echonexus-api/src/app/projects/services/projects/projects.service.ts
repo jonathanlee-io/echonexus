@@ -26,17 +26,17 @@ export class ProjectsService {
   ) {}
 
   async createProject(
-    requestingUserSubjectId: string,
+    requestingUserId: string,
     createProjectDto: CreateProjectDto,
   ) {
     const client = await this.clientsService.getClientById(
-      requestingUserSubjectId,
+      requestingUserId,
       createProjectDto.clientId,
     );
     if (
       !client.admins
         .map((admin) => admin.supabaseUserId)
-        .includes(requestingUserSubjectId)
+        .includes(requestingUserId)
     ) {
       throw new ForbiddenException();
     }
@@ -50,45 +50,40 @@ export class ProjectsService {
       return new BadRequestException('Subdomain already exists');
     }
     const project = await this.projectsRepository.create(
-      requestingUserSubjectId,
+      requestingUserId,
       createProjectDto,
     );
     this.eventEmitter.emit(
       ProjectCreatedEvent.eventName,
-      new ProjectCreatedEvent(requestingUserSubjectId, project.id),
+      new ProjectCreatedEvent(requestingUserId, project.id),
     );
     return project;
   }
 
-  async getProjectsWhereInvolved(requestingUserSubjectId: string) {
-    return this.projectsRepository.getProjectsWhereInvolved(
-      requestingUserSubjectId,
-    );
+  async getProjectsWhereInvolved(requestingUserId: string) {
+    return this.projectsRepository.getProjectsWhereInvolved(requestingUserId);
   }
 
-  async getProjectById(requestingUserSubjectId: string, projectId: string) {
+  async getProjectById(requestingUserId: string, projectId: string) {
     const project = await this.projectsRepository.findById(projectId);
-    await this.clientsService.getClientById(
-      requestingUserSubjectId,
-      project.clientId,
-    ); // Will throw not found or forbidden exception
+    await this.clientsService.getClientById(requestingUserId, project.clientId); // Will throw not found or forbidden exception
     return project;
   }
 
   async updateProjectById(
-    requestingUserSubjectId: string,
+    requestingUserId: string,
     projectId: string,
     updateProjectDto: UpdateProjectDto,
   ) {
     const project = await this.projectsRepository.findById(projectId);
     const client = await this.clientsService.getClientById(
-      requestingUserSubjectId,
+      requestingUserId,
       project.clientId,
     ); // Will throw not found or forbidden exception
     if (
       !client.admins
         .map((admin) => admin.supabaseUserId)
-        .includes(requestingUserSubjectId)
+        .includes(requestingUserId)
     ) {
       throw new ForbiddenException();
     }
@@ -98,11 +93,8 @@ export class ProjectsService {
     );
   }
 
-  async getProjectsForClient(
-    requestingUserSubjectId: string,
-    clientId: string,
-  ) {
-    await this.clientsService.getClientById(requestingUserSubjectId, clientId); // Will throw not found or forbidden exception
+  async getProjectsForClient(requestingUserId: string, clientId: string) {
+    await this.clientsService.getClientById(requestingUserId, clientId); // Will throw not found or forbidden exception
     return this.projectsRepository.getProjectsForClient(clientId);
   }
 
@@ -134,7 +126,7 @@ export class ProjectsService {
     );
   }
 
-  async deleteProjectById(requestingUserSubjectId: string, projectId: string) {
+  async deleteProjectById(requestingUserId: string, projectId: string) {
     const project = await this.projectsRepository.findById(projectId);
     if (!project) {
       throw new NotFoundException(
@@ -142,13 +134,13 @@ export class ProjectsService {
       );
     }
     const client = await this.clientsService.getClientById(
-      requestingUserSubjectId,
+      requestingUserId,
       project.clientId,
     );
     if (
       !client.admins
         .map((admin) => admin.supabaseUserId)
-        .includes(requestingUserSubjectId)
+        .includes(requestingUserId)
     ) {
       throw new ForbiddenException();
     }
@@ -165,7 +157,7 @@ export class ProjectsService {
     } else if (this.applicationConfig.nodeEnv === 'staging') {
       widgetSrc = `https://${clientSubdomain}.api.echonexus-staging.com/v1/scripts/echonexus-widget.js`;
     } else {
-      widgetSrc = `http://${clientSubdomain}.api.echonexus-local.com:8080/v1/scripts/echonexus-widget.js`;
+      widgetSrc = `http://${clientSubdomain}.api.echonexus-local.io:8000/v1/scripts/echonexus-widget.js`;
     }
     return `
         (function (w,d,s,o,f,js,fjs) {

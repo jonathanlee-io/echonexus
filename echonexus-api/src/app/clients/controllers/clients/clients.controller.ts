@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 
-import {ApiGatewayRequestHeaders} from '../../../../lib/auth/api-gateway/decorators/api-gateway-request-headers.decorator';
-import {ApiGatewayRequestHeadersDto} from '../../../../lib/auth/api-gateway/domain/ApiGatewayRequestHeaders.dto';
+import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-user.decorator';
+import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {IdParamDto} from '../../../../lib/validation/id.param.dto';
 import {CreateClientDto} from '../../dto/CreateClient.dto';
 import {IsSubdomainAvailableDto} from '../../dto/IsSubdomainAvailable.dto';
@@ -24,12 +24,11 @@ export class ClientsController {
 
   @Post('create')
   async registerNewClient(
-    @ApiGatewayRequestHeaders()
-    {requestingUserEmail, requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser()
+    {requestingUserEmail}: CurrentUserDto,
     @Body() createClientDto: CreateClientDto,
   ) {
     return this.clientsService.createClient(
-      requestingUserSubjectId,
       requestingUserEmail,
       createClientDto,
     );
@@ -47,25 +46,25 @@ export class ClientsController {
 
   @Get('where-involved')
   async getClientsWhereInvolved(
-    @ApiGatewayRequestHeaders()
-    {requestingUserEmail}: ApiGatewayRequestHeadersDto,
+    @CurrentUser()
+    {requestingUserEmail}: CurrentUserDto,
   ) {
     return this.clientsService.getClientsWhereInvolved(requestingUserEmail);
   }
 
   @Get(':id')
   async getClientById(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser()
+    {requestingUserId}: CurrentUserDto,
     @Param() {id: clientId}: IdParamDto,
   ) {
-    return this.clientsService.getClientById(requestingUserSubjectId, clientId);
+    return this.clientsService.getClientById(requestingUserId, clientId);
   }
 
   @Patch(':id/remove-member')
   async removeMemberFromClientById(
-    @ApiGatewayRequestHeaders()
-    {requestingUserEmail}: ApiGatewayRequestHeadersDto,
+    @CurrentUser()
+    {requestingUserEmail}: CurrentUserDto,
     @Param() {id: clientId}: IdParamDto,
     @Body() {emailToRemove}: {emailToRemove: string},
   ) {
@@ -78,8 +77,8 @@ export class ClientsController {
 
   @Patch(':id/add-member')
   async addMemberToClientById(
-    @ApiGatewayRequestHeaders()
-    {requestingUserEmail}: ApiGatewayRequestHeadersDto,
+    @CurrentUser()
+    {requestingUserEmail}: CurrentUserDto,
     @Param() {id: clientId}: IdParamDto,
     @Body() {emailToAdd}: {emailToAdd: string},
   ) {

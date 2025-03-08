@@ -13,7 +13,7 @@ function app(window) {
   Alpine.start();
 
   Alpine.store('api', {
-    baseUrl: 'http://localhost:8080/v1',
+    baseUrl: 'http://jdevel.api.echonexus-local.io:8000/v1',
     reportBug(url, body) {
       fetch(url, {
         method: 'POST',
@@ -22,7 +22,6 @@ function app(window) {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        mode: 'cors',
       }).then((r) => console.log(r));
     },
   });

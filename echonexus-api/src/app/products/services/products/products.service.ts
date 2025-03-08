@@ -15,14 +15,14 @@ export class ProductsService {
 
   @OnEvent(ProjectCreatedEvent.eventName, {async: true})
   async createProductFromProject({
-    requestingUserSubjectId,
+    requestingUserId,
     projectId,
   }: ProjectCreatedEvent) {
     this.logger.log(
-      `User with subject ID: ${requestingUserSubjectId} Creating product for project ID: ${projectId}`,
+      `User with subject ID: ${requestingUserId} Creating product for project ID: ${projectId}`,
     );
     const project = await this.projectsService.getProjectById(
-      requestingUserSubjectId,
+      requestingUserId,
       projectId,
     );
     if (!project) {

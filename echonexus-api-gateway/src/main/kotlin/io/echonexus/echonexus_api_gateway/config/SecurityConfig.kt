@@ -24,6 +24,7 @@ class SecurityConfig(
   @Bean
   fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
     http.csrf { it.disable() }
+    http.cors(withDefaults())
     http.oauth2ResourceServer { it.jwt(withDefaults()) }
     http.authorizeExchange {
       it.pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()

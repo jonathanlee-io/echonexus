@@ -15,6 +15,7 @@ import {ProductsModule} from './products/products.module';
 import {ProjectsModule} from './projects/projects.module';
 import {UsersModule} from './users/users.module';
 import {AuthModule} from '../lib/auth/auth.module';
+import {JwtAuthGuard} from '../lib/auth/guards/jwt-auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -45,6 +46,10 @@ import {AuthModule} from '../lib/auth/auth.module';
     EmbedScriptsModule,
   ],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,

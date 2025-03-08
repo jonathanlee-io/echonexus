@@ -24,7 +24,6 @@ export class ClientsService {
   ) {}
 
   async createClient(
-    requestingUserSubjectId: string,
     requestingUserEmail: string,
     {
       clientDisplayName,
@@ -74,7 +73,7 @@ export class ClientsService {
     };
   }
 
-  async getClientById(requestingUserSubjectId: string, clientId: string) {
+  async getClientById(requestingUserId: string, clientId: string) {
     const client = await this.clientsRepository.getClientById(clientId, {
       isIncludeAdmins: true,
       isIncludeMembers: true,
@@ -84,13 +83,13 @@ export class ClientsService {
       throw new NotFoundException(`Could not find client with id: ${clientId}`);
     }
     if (
-      client.createdBy.supabaseUserId !== requestingUserSubjectId &&
+      client.createdBy.supabaseUserId !== requestingUserId &&
       !client.members
         .map((member) => member.supabaseUserId)
-        .includes(requestingUserSubjectId) &&
+        .includes(requestingUserId) &&
       !client.admins
         .map((admin) => admin.supabaseUserId)
-        .includes(requestingUserSubjectId)
+        .includes(requestingUserId)
     ) {
       throw new ForbiddenException();
     }

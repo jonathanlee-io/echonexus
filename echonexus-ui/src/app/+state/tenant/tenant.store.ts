@@ -27,11 +27,11 @@ export const TenantStore = signalStore(
       return {
         getFullRequestUrl: (apiPath: string) => {
           const scheme = store.apiEnvironment() === 'local' ? 'http' : 'https';
-          const port = store.apiEnvironment() === 'local' ? '8080' : '443';
+          const port = store.apiEnvironment() === 'local' ? '8000' : '443';
           if (window.location.hostname.toLowerCase().includes('localhost')) {
             return `${scheme}://${window.location.hostname}:${port}/${apiPath}`;
           }
-          const domain = store.apiEnvironment() === 'production' ? 'echonexus.io' : 'echonexus-staging.com';
+          const domain = store.apiEnvironment() === 'production' ? 'echonexus.io' : 'echonexus-local.io';
           const apiUrl = `${scheme}://${window.location.hostname.toLowerCase().split('.')?.[0] ?? 'www'}.api.${domain}:${port}/${apiPath}`;
           return store.customHostname() ? `https://${store.customHostname()}/${apiPath}` : apiUrl;
         },

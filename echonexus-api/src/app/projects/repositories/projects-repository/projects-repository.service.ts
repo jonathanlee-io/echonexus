@@ -13,7 +13,7 @@ export class ProjectsRepositoryService {
   ) {}
 
   async create(
-    requestingUserSubjectId: string,
+    requestingUserId: string,
     {
       clientId,
       name,
@@ -23,12 +23,10 @@ export class ProjectsRepositoryService {
       isFeatureFeedbackEnabled,
     }: CreateProjectDto,
   ) {
-    const user = await this.usersRepository.findBySupabaseId(
-      requestingUserSubjectId,
-    );
+    const user = await this.usersRepository.findBySupabaseId(requestingUserId);
     if (!user) {
       throw new InternalServerErrorException(
-        `Could not find user with id: ${requestingUserSubjectId}`,
+        `Could not find user with id: ${requestingUserId}`,
       );
     }
     const [createdProject, createdSubdomain] =
@@ -77,21 +75,21 @@ export class ProjectsRepositoryService {
     };
   }
 
-  async getProjectsWhereInvolved(requestingUserSubjectId: string) {
+  async getProjectsWhereInvolved(requestingUserId: string) {
     const clientsWhereInvolved = await this.prismaService.client.findMany({
       where: {
         OR: [
           {
             members: {
               some: {
-                supabaseUserId: requestingUserSubjectId,
+                supabaseUserId: requestingUserId,
               },
             },
           },
           {
             admins: {
               some: {
-                supabaseUserId: requestingUserSubjectId,
+                supabaseUserId: requestingUserId,
               },
             },
           },

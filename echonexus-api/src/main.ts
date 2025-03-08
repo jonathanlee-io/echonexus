@@ -8,7 +8,7 @@ import {initApp} from './lib/init/init-app';
 import {runPrismaMigrations} from './lib/util/helpers.util';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {cors: true});
   const databaseConfig = app.get<DatabaseConfig>(DatabaseConfig);
   const appConfig = app.get<ApplicationConfig>(ApplicationConfig);
 

@@ -1,8 +1,8 @@
 import {Controller, Get, Header} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 
-import {ApiGatewayRequestHeaders} from '../../../../lib/auth/api-gateway/decorators/api-gateway-request-headers.decorator';
-import {ApiGatewayRequestHeadersDto} from '../../../../lib/auth/api-gateway/domain/ApiGatewayRequestHeaders.dto';
+import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-user.decorator';
+import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {ProjectsService} from '../../../projects/services/projects/projects.service';
 
 @ApiTags('Embed Scripts')
@@ -14,8 +14,8 @@ export class EmbedScriptsController {
   @Header('Content-Type', 'text/javascript')
   @Header('Cache-Control', 'no-cache, no-store, must-revalidate')
   async getFeedbackWidgetScript(
-    @ApiGatewayRequestHeaders()
-    {clientSubdomain}: ApiGatewayRequestHeadersDto,
+    @CurrentUser()
+    {clientSubdomain}: CurrentUserDto,
   ) {
     return this.projectsService.getFeedbackWidgetScript(clientSubdomain);
   }

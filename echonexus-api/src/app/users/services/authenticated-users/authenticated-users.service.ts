@@ -11,20 +11,20 @@ export class AuthenticatedUsersService {
   ) {}
 
   async checkIn(
-    requestingUserSubjectId: string,
+    requestingUserId: string,
     requestingUserEmail: string,
   ): Promise<POSTSuccessDto & {isCreatedNew: boolean}> {
     const existingUser = await this.usersRepository.findBySupabaseIdOrEmail(
-      requestingUserSubjectId,
+      requestingUserId,
       requestingUserEmail,
     );
     if (existingUser) {
       if (
-        existingUser.supabaseUserId !== requestingUserSubjectId ||
+        existingUser.supabaseUserId !== requestingUserId ||
         existingUser.email !== requestingUserEmail
       ) {
         this.usersRepository.updateUserSupabaseIdByEmail(
-          requestingUserSubjectId,
+          requestingUserId,
           requestingUserEmail,
         );
       }
@@ -32,7 +32,7 @@ export class AuthenticatedUsersService {
     }
     this.logger.log(`Creating new user for <${requestingUserEmail}>`);
     await this.usersRepository.createUserFromAuthUser(
-      requestingUserSubjectId,
+      requestingUserId,
       requestingUserEmail,
     );
     return {isSuccessful: true, isCreatedNew: true};

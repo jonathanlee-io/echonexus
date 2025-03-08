@@ -9,8 +9,8 @@ import {
   Put,
 } from '@nestjs/common';
 
-import {ApiGatewayRequestHeaders} from '../../../../lib/auth/api-gateway/decorators/api-gateway-request-headers.decorator';
-import {ApiGatewayRequestHeadersDto} from '../../../../lib/auth/api-gateway/domain/ApiGatewayRequestHeaders.dto';
+import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-user.decorator';
+import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {IdParamDto} from '../../../../lib/validation/id.param.dto';
 import {CreateProjectDto} from '../../dto/CreateProject.dto';
 import {UpdateProjectDto} from '../../dto/UpdateProject.dto';
@@ -22,59 +22,49 @@ export class ProjectsController {
 
   @Post('create')
   async registerNewProject(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Body() createProjectDto: CreateProjectDto,
   ) {
     return this.projectsService.createProject(
-      requestingUserSubjectId,
+      requestingUserId,
       createProjectDto,
     );
   }
 
   @Get('where-involved')
   async getProjectsWhereInvolved(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
   ) {
-    return this.projectsService.getProjectsWhereInvolved(
-      requestingUserSubjectId,
-    );
+    return this.projectsService.getProjectsWhereInvolved(requestingUserId);
   }
 
   @Get('for-client/:id')
   async getProjectsForClient(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Param() {id: clientId}: IdParamDto,
   ) {
     return this.projectsService.getProjectsForClient(
-      requestingUserSubjectId,
+      requestingUserId,
       clientId,
     );
   }
 
   @Get(':id')
   async getProjectById(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Param() {id: projectId}: IdParamDto,
   ) {
-    return this.projectsService.getProjectById(
-      requestingUserSubjectId,
-      projectId,
-    );
+    return this.projectsService.getProjectById(requestingUserId, projectId);
   }
 
   @Put(':id')
   async updateProjectById(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Param() {id: projectId}: IdParamDto,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
     return this.projectsService.updateProjectById(
-      requestingUserSubjectId,
+      requestingUserId,
       projectId,
       updateProjectDto,
     );
@@ -82,20 +72,15 @@ export class ProjectsController {
 
   @Delete(':id')
   async deleteProjectById(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Param() {id: projectId}: IdParamDto,
   ) {
-    return this.projectsService.deleteProjectById(
-      requestingUserSubjectId,
-      projectId,
-    );
+    return this.projectsService.deleteProjectById(requestingUserId, projectId);
   }
 
   @Post('for-client/:id')
   async createProjectForClient(
-    @ApiGatewayRequestHeaders()
-    {requestingUserSubjectId}: ApiGatewayRequestHeadersDto,
+    @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Param() {id: clientId}: IdParamDto,
     @Body() createProjectDto: CreateProjectDto,
   ) {
@@ -103,7 +88,7 @@ export class ProjectsController {
       throw new BadRequestException('Client ID in URL does not match body');
     }
     return this.projectsService.createProject(
-      requestingUserSubjectId,
+      requestingUserId,
       createProjectDto,
     );
   }

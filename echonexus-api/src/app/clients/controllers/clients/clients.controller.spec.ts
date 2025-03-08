@@ -2,7 +2,7 @@ import {faker} from '@faker-js/faker/locale/en';
 import {Mocked, TestBed} from '@suites/unit';
 
 import {ClientsController} from './clients.controller';
-import {ApiGatewayRequestHeadersDto} from '../../../../lib/auth/api-gateway/domain/ApiGatewayRequestHeaders.dto';
+import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {
   createMockCreateClientDto,
   createMockRequestingUser,
@@ -37,9 +37,9 @@ describe('ClientsController', () => {
 
     const result = await controller.registerNewClient(
       {
-        requestingUserSubjectId: mockUser.userSubjectId,
+        requestingUserId: mockUser.userSubjectId,
         requestingUserEmail: mockUser.email,
-      } as unknown as ApiGatewayRequestHeadersDto,
+      } as unknown as CurrentUserDto,
       mockCreateClientDto,
     );
 
