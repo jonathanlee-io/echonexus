@@ -1,4 +1,4 @@
-import {Body, Controller, Ip, Logger, Param, Post} from '@nestjs/common';
+import {Controller, Ip, Logger, Param, Post, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {Throttle} from '@nestjs/throttler';
 import {DateTime} from 'luxon';
@@ -7,7 +7,6 @@ import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-
 import {IsPublic} from '../../../../lib/auth/decorators/is-public/is-public.decorator';
 import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {SubdomainParamDto} from '../../../../lib/dto/SubdomainParam.dto';
-import {SubmitProductFeedbackRequestDto} from '../../dto/SubmitProductFeedbackRequest.dto';
 
 @ApiTags('Products')
 @Controller()
@@ -17,14 +16,13 @@ export class ProductsController {
   @Post('feedback/:subdomain')
   async receiveFeedback(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
-    @Body() {widgetMetadata, userFeedback}: SubmitProductFeedbackRequestDto,
     @Param() {subdomain: urlSubdomain}: SubdomainParamDto,
+    @Query() query: any,
     @Ip() ip: string,
   ) {
     Logger.log('Saving feedback', {
       clientMetadata: {ip, clientSubdomain, urlSubdomain},
-      widgetMetadata,
-      userFeedback,
+      query,
       submittedAt: DateTime.now().toISO(),
     });
   }
