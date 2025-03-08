@@ -13,7 +13,7 @@ function app(window) {
   Alpine.start();
 
   Alpine.store('api', {
-    baseUrl: 'https://api.echonexus.io/v1',
+    baseUrl: `https://${window.location.hostname.split('.')[0]}.api.echonexus.io/v1`,
     reportBug(url, body) {
       fetch(`${url}?${new URLSearchParams(body)}`, {
         method: 'GET',
