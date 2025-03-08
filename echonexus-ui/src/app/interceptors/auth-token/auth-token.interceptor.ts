@@ -19,7 +19,6 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
     return next(
       (supabaseService.session?.access_token) ?
         req.clone({
-          withCredentials: true,
           setHeaders: {
             Authorization: `Bearer ${supabaseService.session?.access_token}`,
           },
