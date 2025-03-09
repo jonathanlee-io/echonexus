@@ -11,7 +11,7 @@ function app(window) {
   Alpine.start();
 
   Alpine.store('api', {
-    baseUrl: `https://${window.location.hostname.split('.')[0]}.api.echonexus.io/v1`,
+    baseUrl: `https://${window.location.hostname.split('.')[window.location.hostname.split('.').length - 2]}.api.echonexus.io/v1`,
 
     isLoading: false,
     isMainMenuOpen: false,
