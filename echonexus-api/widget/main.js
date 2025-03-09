@@ -8,7 +8,6 @@ const supportedAPI = ['init', 'message']; // enlist all methods supported by API
  */
 function app(window) {
   window.alpine = Alpine;
-  Alpine.plugin(requests);
   Alpine.start();
 
   Alpine.store('api', {
