@@ -368,3 +368,68 @@
         </div>
     </div>
 </div>
+<div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog" x-show="$store.api.isSubmissionErrorOpen">
+    <div aria-hidden="false"
+         style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
+    <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
+        <div style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); display: flex; align-items: center; justify-content: center; z-index: 50;">
+            <div style="position: relative; width: 91.666667%; max-width: 28rem; padding: 2rem; background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);">
+
+                <!-- Error Icon -->
+                <div style="width: 4rem; height: 4rem; margin: 0 auto; background-color: #F87171; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                    <svg fill="none" stroke="currentColor" style="width: 2rem; height: 2rem; color: white;" viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                </div>
+
+                <!-- Error Message -->
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <h3 style="font-size: 1.5rem; font-weight: 600; color: #111827; margin-bottom: 0.75rem;">
+                        Error Submitting Feedback
+                    </h3>
+                    <p style="color: #6B7280; font-size: 1rem; margin-bottom: 1.5rem;">
+                        Please try again.
+                    </p>
+                </div>
+
+                <!-- Close Button -->
+                <div style="text-align: center;">
+                    <button
+                            @click="$store.api.closeErrorModal()"
+                            onmouseout="this.style.backgroundColor='#F87171'"
+                            onmouseover="this.style.backgroundColor='#EF4444'"
+                            style="padding: 0.75rem 2rem; background-color: #F87171; color: white; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; transition: background-color 150ms;">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog" x-show="$store.api.isLoading">
+    <div aria-hidden="false"
+         style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
+    <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
+        <div style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); display: flex; align-items: center; justify-content: center; z-index: 50;">
+            <div style="position: relative; width: 91.666667%; max-width: 28rem; padding: 2rem; background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);">
+
+                <!-- Loading Spinner -->
+                <div style="width: 4rem; height: 4rem; margin: 0 auto; border: 0.25rem solid #4B5563; border-top-color: #34D399; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+
+                <!-- Loading Message -->
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <p style="color: #6B7280; font-size: 1rem;">
+                        Loading...
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>

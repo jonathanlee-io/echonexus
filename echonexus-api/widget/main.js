@@ -13,11 +13,13 @@ function app(window) {
   Alpine.store('api', {
     baseUrl: `https://${window.location.hostname.split('.')[0]}.api.echonexus.io/v1`,
 
+    isLoading: false,
     isMainMenuOpen: false,
     isBugReportOpen: false,
     isFeatureRequestOpen: false,
     isFeatureFeedbackOpen: false,
     isSubmissionSuccessfulOpen: false,
+    isSubmissionErrorOpen: false,
 
     openMainMenu() {
       this.isMainMenuOpen = true;
@@ -56,20 +58,37 @@ function app(window) {
       this.isSubmissionSuccessfulOpen = false;
     },
 
+    openLoadingModal() {
+      this.isLoading = true;
+      this.isMainMenuOpen = false;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
     submitFeedback(url, body) {
-      fetch(`${url}?${new URLSearchParams(body)}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-        mode: 'no-cors',
-      }).then(() => {
-        this.isMainMenuOpen = false;
-        this.isBugReportOpen = false;
-        this.isFeatureRequestOpen = false;
-        this.isFeatureFeedbackOpen = false;
-        this.isSubmissionSuccessfulOpen = true;
-      });
+      this.openLoadingModal();
+      setTimeout(
+        () =>
+          fetch(`${url}?${new URLSearchParams(body)}`, {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+            mode: 'no-cors',
+          })
+            .then(() => {
+              this.isLoading = false;
+              this.isSubmissionSuccessfulOpen = true;
+            })
+            .catch((err) => {
+              console.error(err);
+              this.isLoading = false;
+              this.isSubmissionErrorOpen = true;
+            }),
+        1000,
+      );
     },
 
     closeNonMainMenu() {
@@ -81,6 +100,16 @@ function app(window) {
 
     closeSuccessModal() {
       this.isSubmissionSuccessfulOpen = false;
+      this.isMainMenuOpen = false;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+    },
+
+    closeErrorModal() {
+      this.isLoading = false;
+      this.isSubmissionSuccessfulOpen = false;
+      this.isSubmissionErrorOpen = false;
       this.isMainMenuOpen = false;
       this.isBugReportOpen = false;
       this.isFeatureRequestOpen = false;
