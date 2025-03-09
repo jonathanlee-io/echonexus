@@ -64,7 +64,7 @@ function app(window) {
         },
         mode: 'no-cors',
       }).then(() => {
-        this.isMainMenuOpen = true;
+        this.isMainMenuOpen = false;
         this.isBugReportOpen = false;
         this.isFeatureRequestOpen = false;
         this.isFeatureFeedbackOpen = false;
