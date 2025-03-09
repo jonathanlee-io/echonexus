@@ -6,6 +6,7 @@ import {DateTime} from 'luxon';
 import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-user.decorator';
 import {IsPublic} from '../../../../lib/auth/decorators/is-public/is-public.decorator';
 import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
+import {SubmitProductFeedbackRequestDto} from '../../dto/SubmitProductFeedbackRequest.dto';
 
 @ApiTags('Products')
 @Controller()
@@ -15,7 +16,7 @@ export class ProductsController {
   @Get('feedback')
   async receiveFeedback(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
-    @Query() query: any,
+    @Query() query: SubmitProductFeedbackRequestDto,
     @Ip() ip: string,
   ) {
     Logger.log('Saving feedback', {

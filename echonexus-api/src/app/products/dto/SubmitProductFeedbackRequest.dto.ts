@@ -1,25 +1,10 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsDefined, IsNotEmpty, IsString} from 'class-validator';
+import {IsDefined, IsNotEmpty, IsString, IsUrl, Matches} from 'class-validator';
 
-export class WidgetMetadataDto {
-  @IsNotEmpty()
-  @IsString()
-  @IsDefined()
-  @ApiProperty({required: true})
-  type: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @IsDefined()
-  @ApiProperty({required: true})
-  timezone: string;
-
-  @IsNotEmpty()
-  @IsString()
-  @IsDefined()
-  @ApiProperty({required: true})
-  url: string;
-}
+export type WidgetMetadataType =
+  | 'bug_report'
+  | 'feature_request'
+  | 'feature_feedback';
 
 export class SubmitProductFeedbackRequestDto {
   @IsNotEmpty()
@@ -28,7 +13,23 @@ export class SubmitProductFeedbackRequestDto {
   @ApiProperty({required: true})
   userFeedback: string;
 
+  @IsNotEmpty()
+  @IsString()
+  @IsDefined()
+  @Matches(/(bug_report|feature_request|feature_feedback)/)
+  @ApiProperty({required: true})
+  widgetMetadataType: WidgetMetadataType;
+
+  @IsNotEmpty()
+  @IsString()
   @IsDefined()
   @ApiProperty({required: true})
-  widgetMetadata: WidgetMetadataDto;
+  widgetMetadataTimezone: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsDefined()
+  @IsUrl()
+  @ApiProperty({required: true})
+  widgetMetadataUrl: string;
 }
