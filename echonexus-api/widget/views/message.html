@@ -26,10 +26,12 @@
         margin: 0.75rem 0.75rem 0.75rem auto;
         transition: transform 150ms, box-shadow 150ms;
         cursor: pointer;
+        display: flex; /* Added for alignment */
+        align-items: center; /* Added for alignment */
      "
          x-show="!$store.api.isMainMenuOpen"
     >
-        Provide Feedback
+        <span>Provide Feedback</span>
     </div>
     <div>
         <div class="js-widget-modal-menu widget-modal items-center justify-center" x-show="$store.api.isMainMenuOpen">
