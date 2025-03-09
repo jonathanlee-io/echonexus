@@ -1,6 +1,5 @@
 import {show} from './views/message';
 import Alpine from 'alpinejs';
-import requests from 'alpinejs-requests';
 
 const supportedAPI = ['init', 'message']; // enlist all methods supported by API (e.g. `mw('event', 'user-login');`)
 
