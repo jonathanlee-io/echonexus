@@ -16,7 +16,7 @@ export class SubmitProductFeedbackRequestDto {
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  @Matches(/(bug_report|feature_request|feature_feedback)/)
+  @Matches(/(^bug_report$|^feature_request$|^feature_feedback$)/)
   @ApiProperty({required: true})
   widgetMetadataType: WidgetMetadataType;
 

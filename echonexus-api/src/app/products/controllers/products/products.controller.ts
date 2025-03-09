@@ -16,12 +16,21 @@ export class ProductsController {
   @Get('feedback')
   async receiveFeedback(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
-    @Query() query: SubmitProductFeedbackRequestDto,
+    @Query()
+    {
+      userFeedback,
+      widgetMetadataType,
+      widgetMetadataUrl,
+      widgetMetadataTimezone,
+    }: SubmitProductFeedbackRequestDto,
     @Ip() ip: string,
   ) {
     Logger.log('Saving feedback', {
       clientMetadata: {ip, clientSubdomain},
-      query,
+      userFeedback,
+      widgetMetadataType,
+      widgetMetadataUrl,
+      widgetMetadataTimezone,
       submittedAt: DateTime.now().toISO(),
     });
   }
