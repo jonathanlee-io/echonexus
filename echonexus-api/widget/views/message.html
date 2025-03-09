@@ -1,8 +1,8 @@
-<div x-data="{ isMainMenuOpen: false, isBugReportOpen: false, isFeatureRequestOpen: false, isFeatureFeedbackOpen: false, isSubmissionSuccessfulOpen: false, userFeedback: '' }">
+<div x-data="{ userFeedback: '' }">
     <div class="js-widget-overlay"
          style="color: black;">
     </div>
-    <div @click="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = false; userFeedback = '';"
+    <div @click="$store.api.openMainMenu()"
          class="js-widget-dialog center"
          onmouseout="
         this.style.transform='scale(1)';
@@ -27,12 +27,12 @@
         transition: transform 150ms, box-shadow 150ms;
         cursor: pointer;
      "
-         x-show="!isMainMenuOpen"
+         x-show="!$store.api.isMainMenuOpen"
     >
         Provide Feedback
     </div>
     <div>
-        <div class="js-widget-modal-menu widget-modal items-center justify-center" x-show="isMainMenuOpen">
+        <div class="js-widget-modal-menu widget-modal items-center justify-center" x-show="$store.api.isMainMenuOpen">
             <div aria-labelledby="modal-title" aria-modal="true" class="js-widget-modal-content z-10" role="dialog">
                 <div aria-hidden="false"
                      style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -51,7 +51,7 @@
 
                                 <!-- Bug Button -->
                                 <button
-                                        @click="isMainMenuOpen = true; isBugReportOpen = true; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = false;"
+                                        @click="$store.api.openBugReportMenu()"
                                         id="js-widget-modal-menu-bug-button"
                                         onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.12)';"
                                         onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 20px rgba(0, 0, 0, 0.15)';"
@@ -72,7 +72,7 @@
 
                                 <!-- Feature Request Button -->
                                 <button
-                                        @click="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = true; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = false;"
+                                        @click="$store.api.openFeatureRequestMenu()"
                                         id="js-widget-modal-menu-feature-request-button"
                                         onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.12)';"
                                         onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 20px rgba(0, 0, 0, 0.15)';"
@@ -93,7 +93,7 @@
 
                                 <!-- Feature Feedback Button -->
                                 <button
-                                        @click="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = true; isSubmissionSuccessfulOpen = false;"
+                                        @click="$store.api.openFeatureFeedbackMenu()"
                                         id="js-widget-modal-menu-feature-feedback-button"
                                         onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 8px 16px rgba(0, 0, 0, 0.12)';"
                                         onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 10px 20px rgba(0, 0, 0, 0.15)';"
@@ -114,7 +114,7 @@
 
                                 <!-- Close Button -->
                                 <button
-                                        @click="isMainMenuOpen = false;"
+                                        @click="$store.api.closeMainMenu()"
                                         id="js-widget-modal-menu-close-button"
                                         onmouseout="this.style.backgroundColor='black'; this.style.transform='scale(1)';"
                                         onmouseover="this.style.backgroundColor='rgba(0,0,0,0.8)'; this.style.transform='scale(1.05)';"
@@ -154,7 +154,7 @@
                 </div>
             </div>
             <div aria-labelledby="modal-title" aria-modal="true" class="js-widget-modal-bug-report z-10" role="dialog"
-                 x-show="isBugReportOpen">
+                 x-show="$store.api.isBugReportOpen">
                 <div aria-hidden="false"
                      style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
                 <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -166,8 +166,7 @@
                             <h3 style="font-size: 1.125rem; font-weight: 600; text-align: center; color: black;">
                                 Report a Bug
                             </h3>
-                            <div
-                                    style="width: 100%; max-width: 600px; margin: 2rem auto; padding: 1rem; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; gap: 1rem;"
+                            <div style="width: 100%; max-width: 600px; margin: 2rem auto; padding: 1rem; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; gap: 1rem;"
                             >
                                 <!-- Form Header -->
                                 <h2 style="font-size: 1.5rem; font-weight: 600; text-align: center; color: #333;">
@@ -187,8 +186,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$store.api.reportBug(`${$store.api.baseUrl}/products/feedback/echonexus`, {userFeedback: userFeedback, widgetMetadataType: 'bug_report', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
-                                            @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
+                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback/echonexus`, {userFeedback: userFeedback, widgetMetadataType: 'bug_report', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: white; border: none; border-radius: 9999px; background: linear-gradient(to right, #f59e0b, #ef4444); cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 200ms;"
@@ -199,7 +197,7 @@
 
                                     <!-- Cancel Button -->
                                     <button
-                                            @click="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; userFeedback = '';"
+                                            @click="$store.api.closeNonMainMenu()"
                                             onmouseout="this.style.backgroundColor='#f7f7f7';"
                                             onmouseover="this.style.backgroundColor='#e2e2e2';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: #333; border: 2px solid #eeeeee; border-radius: 6px; background-color: #f7f7f7; cursor: pointer; transition: background-color 200ms;"
@@ -213,7 +211,7 @@
                 </div>
             </div>
             <div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog"
-                 x-show="isFeatureRequestOpen">
+                 x-show="$store.api.isFeatureRequestOpen">
                 <div aria-hidden="false"
                      style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
                 <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -247,8 +245,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$post({route: `${$store.api.baseUrl}/products/feedback/echonexus`, body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'feature_request', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
-                                            @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
+                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback/echonexus`, {userFeedback: userFeedback, widgetMetadataType: 'feature_request', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: white; border: none; border-radius: 9999px; background: linear-gradient(to right, #f59e0b, #ef4444); cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 200ms;"
@@ -259,7 +256,7 @@
 
                                     <!-- Cancel Button -->
                                     <button
-                                            @click="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; userFeedback = '';"
+                                            @click="$store.api.closeNonMainMenu()"
                                             onmouseout="this.style.backgroundColor='#f7f7f7';"
                                             onmouseover="this.style.backgroundColor='#e2e2e2';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: #333; border: 2px solid #eeeeee; border-radius: 6px; background-color: #f7f7f7; cursor: pointer; transition: background-color 200ms;"
@@ -273,7 +270,7 @@
                 </div>
             </div>
             <div aria-labelledby="modal-title" aria-modal="true" class="js-widget-modal-feature-feedback z-10" role="dialog"
-                 x-show="isFeatureFeedbackOpen">
+                 x-show="$store.api.isFeatureFeedbackOpen">
                 <div aria-hidden="false"
                      style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
                 <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -307,8 +304,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$post({route: `${$store.api.baseUrl}/products/feedback/echonexus`, body: JSON.stringify({userFeedback: userFeedback, widgetMetadata: {type: 'feature_feedback', timezone: Intl.DateTimeFormat().resolvedOptions().timeZone, url: window.location.href}}), headers: {'Content-Type': 'application/json'}})"
-                                            @post="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false; isSubmissionSuccessfulOpen = true;"
+                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback/echonexus`, {userFeedback: userFeedback, widgetMetadataType: 'feature_feedback', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: white; border: none; border-radius: 9999px; background: linear-gradient(to right, #f59e0b, #ef4444); cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 200ms;"
@@ -318,7 +314,7 @@
 
                                     <!-- Cancel Button -->
                                     <button
-                                            @click="isMainMenuOpen = true; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false;"
+                                            @click="$store.api.closeNonMainMenu()"
                                             onmouseout="this.style.backgroundColor='#f7f7f7';"
                                             onmouseover="this.style.backgroundColor='#e2e2e2';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: #333; border: 2px solid #eeeeee; border-radius: 6px; background-color: #f7f7f7; cursor: pointer; transition: background-color 200ms;"
@@ -331,7 +327,7 @@
                     </div>
                 </div>
             </div>
-            <div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog" x-show="isSubmissionSuccessfulOpen">
+            <div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog" x-show="$store.api.isSubmissionSuccessfulOpen">
                 <div aria-hidden="false"
                      style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
                 <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -358,7 +354,7 @@
                             <!-- Close Button -->
                             <div style="text-align: center;">
                                 <button
-                                        @click="isSubmissionSuccessfulOpen = false; isMainMenuOpen = false; isBugReportOpen = false; isFeatureRequestOpen = false; isFeatureFeedbackOpen = false;"
+                                        @click="$store.api.closeSuccessModal()"
                                         onmouseout="this.style.backgroundColor='#34D399'"
                                         onmouseover="this.style.backgroundColor='#10B981'"
                                         style="padding: 0.75rem 2rem; background-color: #34D399; color: white; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; transition: background-color 150ms;">

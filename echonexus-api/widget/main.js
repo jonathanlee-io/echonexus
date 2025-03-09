@@ -14,14 +14,79 @@ function app(window) {
 
   Alpine.store('api', {
     baseUrl: `https://${window.location.hostname.split('.')[0]}.api.echonexus.io/v1`,
-    reportBug(url, body) {
+
+    isMainMenuOpen: false,
+    isBugReportOpen: false,
+    isFeatureRequestOpen: false,
+    isFeatureFeedbackOpen: false,
+    isSubmissionSuccessfulOpen: false,
+
+    openMainMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+      this.userFeedback = '';
+    },
+
+    closeMainMenu() {
+      this.isMainMenuOpen = false;
+    },
+
+    openBugReportMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = true;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    openFeatureRequestMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = true;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    openFeatureFeedbackMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = true;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    submitFeedback(url, body) {
       fetch(`${url}?${new URLSearchParams(body)}`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
         },
         mode: 'no-cors',
-      }).then((r) => console.log(r));
+      }).then(() => {
+        this.isMainMenuOpen = true;
+        this.isBugReportOpen = false;
+        this.isFeatureRequestOpen = false;
+        this.isFeatureFeedbackOpen = false;
+        this.isSubmissionSuccessfulOpen = true;
+      });
+    },
+
+    closeNonMainMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+    },
+
+    closeSuccessModal() {
+      this.isSubmissionSuccessfulOpen = false;
+      this.isMainMenuOpen = false;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
     },
   });
 

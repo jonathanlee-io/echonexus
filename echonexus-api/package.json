@@ -40,7 +40,6 @@
     "@supabase/storage-js": "^2.7.1",
     "@supabase/supabase-js": "^2.47.10",
     "alpinejs": "^3.14.8",
-    "alpinejs-requests": "^1.0.4",
     "cache-manager": "^5.7.6",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

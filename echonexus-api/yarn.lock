@@ -2806,13 +2806,6 @@ ajv@^8.0.0, ajv@^8.9.0:
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
 
-alpinejs-requests@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/alpinejs-requests/-/alpinejs-requests-1.0.4.tgz"
-  integrity sha512-rxfFlkjZ+/fqvkvYLpeLwSB2iepjcIoUbRNRMEl8PMhXJ1mdPh7P/H6Y3z0h+uOfsT1oJmNpCyUyRtCkETOdDQ==
-  dependencies:
-    esbuild "^0.12.22"
-
 alpinejs@^3.14.8:
   version "3.14.8"
   resolved "https://registry.npmjs.org/alpinejs/-/alpinejs-3.14.8.tgz"
@@ -4399,11 +4392,6 @@ es6-templates@^0.2.3:
   dependencies:
     recast "~0.11.12"
     through "~2.3.6"
-
-esbuild@^0.12.22:
-  version "0.12.29"
-  resolved "https://registry.npmjs.org/esbuild/-/esbuild-0.12.29.tgz"
-  integrity sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==
 
 escalade@^3.1.1, escalade@^3.2.0:
   version "3.2.0"
