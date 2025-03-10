@@ -51,4 +51,12 @@ export class ProductsRepositoryService {
       },
     });
   }
+
+  async getFeedbackForProduct(productId: string) {
+    return this.prisma.productFeedbackSubmission.findMany({
+      where: {
+        productId,
+      },
+    });
+  }
 }

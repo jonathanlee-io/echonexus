@@ -35,4 +35,24 @@ export class ProductsService {
       productFeedback,
     );
   }
+
+  async getProductFeedbackForProjectId(
+    requestingUserId: string,
+    projectId: string,
+  ) {
+    const project = await this.projectsService.getProjectById(
+      requestingUserId,
+      projectId,
+    ); // Will throw forbidden exception
+    if (!project) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
+    }
+    const product = await this.productsRepository.findProductFromProject(
+      project.id,
+    );
+    if (!product) {
+      throw new NotFoundException(`Product for project ${projectId} not found`);
+    }
+    return this.productsRepository.getFeedbackForProduct(product.id);
+  }
 }

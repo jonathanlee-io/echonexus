@@ -3,6 +3,7 @@ import {inject, Injectable} from '@angular/core';
 
 import {TenantStore} from '../../+state/tenant/tenant.store';
 import {CreateProjectDto} from '../../dtos/projects/CreateProject.dto';
+import {ProductFeedbackSubmissionDto} from '../../dtos/projects/ProductFeedbackSubmissionDto';
 import {ProjectDto} from '../../dtos/projects/Project.dto';
 
 @Injectable({
@@ -34,5 +35,9 @@ export class ProjectsService {
 
   deleteProjectById(projectId: string) {
     return this.httpClient.delete<ProjectDto>(this.tenantStore.getFullRequestUrl(`v1/projects/${projectId}`));
+  }
+
+  fetchProductFeedbackForProjectById(projectId: string) {
+    return this.httpClient.get<ProductFeedbackSubmissionDto[]>(this.tenantStore.getFullRequestUrl(`v1/products/feedback/${projectId}`));
   }
 }

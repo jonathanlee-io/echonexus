@@ -1,10 +1,12 @@
 import {inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
+import {DateTime} from 'luxon';
 import {catchError, take, tap, throwError} from 'rxjs';
 
 import {RoutePath} from '../../app.routes';
 import {CreateProjectDto} from '../../dtos/projects/CreateProject.dto';
+import {ProductFeedbackSubmissionDto} from '../../dtos/projects/ProductFeedbackSubmissionDto';
 import {ProjectDto} from '../../dtos/projects/Project.dto';
 import {ProjectsService} from '../../services/projects/projects.service';
 import {rebaseRoutePathAsString, RouterUtils} from '../../util/router/Router.utils';
@@ -15,6 +17,7 @@ export type ProjectState = {
   projectById: ProjectDto | null;
   projectsWhereInvolved: ProjectDto[];
   projectsForClient: ProjectDto[];
+  productFeedbackSubmissions: (ProductFeedbackSubmissionDto & {serverResponseTime: string})[];
 };
 
 const initialState: ProjectState = {
@@ -22,6 +25,7 @@ const initialState: ProjectState = {
   projectById: null,
   projectsWhereInvolved: [],
   projectsForClient: [],
+  productFeedbackSubmissions: [],
 };
 
 export const ProjectStore = signalStore(
@@ -69,6 +73,28 @@ export const ProjectStore = signalStore(
                   take(1),
                   tap((projectById) => {
                     patchState(store, {isLoading: false, projectById: {...projectById}});
+                  }),
+                  catchError((err) => {
+                    patchState(store, {...initialState});
+                    return throwError(() => err);
+                  }),
+              ).subscribe();
+        },
+        loadProductFeedbackByProjectId: (projectId: string) => {
+          patchState(store, {isLoading: true});
+          projectsService.fetchProductFeedbackForProjectById(projectId)
+              .pipe(
+                  take(1),
+                  tap((productFeedbackSubmissions) => {
+                    patchState(store, {isLoading: false, productFeedbackSubmissions: [...productFeedbackSubmissions.map((submission) => ({
+                      ...submission,
+                      serverResponseTime: String(Math.abs(DateTime
+                          .fromJSDate(new Date(submission.submittedAt))
+                          .diff(
+                              DateTime.fromJSDate(new Date(submission.createdAt)),
+                              ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'],
+                          ).toMillis())),
+                    }))]});
                   }),
                   catchError((err) => {
                     patchState(store, {...initialState});

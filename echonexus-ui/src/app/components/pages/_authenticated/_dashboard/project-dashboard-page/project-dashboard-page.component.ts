@@ -3,7 +3,6 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {FormControl, FormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {uuid} from '@supabase/supabase-js/dist/main/lib/helpers';
-import {DateTime} from 'luxon';
 import {ButtonModule} from 'primeng/button';
 import {filter, Subscription, tap} from 'rxjs';
 
@@ -80,22 +79,13 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
     this.featureFeedbackSubscription = this.featureFeedbackEnabledFormControl.valueChanges.pipe(
         tap((newValue) => this.updateProjectFormControlValue({isFeatureFeedbackEnabled: newValue})),
     ).subscribe();
-
-    this.productFeedbackSubmissions = this.productFeedbackSubmissions.map((submission) => ({
-      ...submission,
-      serverResponseTime: String(DateTime
-          .fromJSDate(new Date(submission.submittedAt))
-          .diff(
-              DateTime.fromJSDate(new Date(submission.createdAt)),
-              ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'],
-          ).toMillis()),
-    }));
   }
 
   ngOnInit() {
     this.routeParamsSubscription = this.route.params.pipe(
         tap((params) => {
           this.projectStore.loadProjectById(params['projectId']);
+          this.projectStore.loadProductFeedbackByProjectId(params['projectId']);
         }),
     ).subscribe();
   }
