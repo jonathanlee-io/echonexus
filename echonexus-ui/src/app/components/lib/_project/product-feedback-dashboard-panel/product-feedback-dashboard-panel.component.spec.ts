@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ProductFeedbackDashboardPanelComponent } from './product-feedback-dashboard-panel.component';
+import {ProductFeedbackDashboardPanelComponent} from './product-feedback-dashboard-panel.component';
 
 describe('ProductFeedbackDashboardPanelComponent', () => {
   let component: ProductFeedbackDashboardPanelComponent;
@@ -8,9 +8,9 @@ describe('ProductFeedbackDashboardPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductFeedbackDashboardPanelComponent]
+      imports: [ProductFeedbackDashboardPanelComponent],
     })
-    .compileComponents();
+        .compileComponents();
 
     fixture = TestBed.createComponent(ProductFeedbackDashboardPanelComponent);
     component = fixture.componentInstance;
