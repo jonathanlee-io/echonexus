@@ -1,15 +1,15 @@
 <div *ngIf="productFeedbackSubmissions() && productFeedbackSubmissions().length > 0; else noFeedback">
-  <div *ngFor="let feedback of productFeedbackSubmissions()" class="border p-4 mb-4 rounded">
-    <div class="flex justify-between mb-2">
+  <div *ngFor="let feedback of productFeedbackSubmissions()" class="border p-4 mb-4 rounded shadow-md">
+    <div class="flex flex-col md:flex-row justify-between mb-2">
       <span class="font-bold">Type: {{ feedback.widgetMetadataType }}</span>
-      <span>Submitted: {{ feedback.submittedAt | date }}</span>
+      <span class="md:ml-4">Submitted: {{ feedback.submittedAt | date }}</span>
     </div>
-    <div class="grid grid-cols-[auto_1fr] gap-2">
+    <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-2">
       <div class="font-bold">User Feedback:</div> <div>{{ feedback.userFeedback }}</div>
       <div class="font-bold">Product ID:</div> <div>{{ feedback.productId }}</div>
       <div class="font-bold">Client IP:</div> <div>{{ feedback.clientIp }}</div>
       <div class="font-bold">Client Subdomain:</div> <div>{{ feedback.clientSubdomain }}</div>
-      <div class="font-bold">Widget Metadata URL:</div> <div>{{ feedback.widgetMetadataUrl }}</div>
+      <div class="font-bold">Widget Metadata URL:</div> <div class="break-all">{{ feedback.widgetMetadataUrl }}</div>
       <div class="font-bold">Widget Metadata Timezone:</div> <div>{{ feedback.widgetMetadataTimezone }}</div>
       <div class="font-bold">Server Response Time:</div> <div>{{ feedback.serverResponseTime }} ms</div>
       <div class="font-bold">Created At:</div> <div>{{ feedback.createdAt | date }}</div>
