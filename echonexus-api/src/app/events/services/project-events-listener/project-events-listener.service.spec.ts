@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ProjectEventsListenerService } from './project-events-listener.service';
+import {Test, TestingModule} from '@nestjs/testing';
+
+import {ProjectEventsListenerService} from './project-events-listener.service';
 
 describe('ProjectEventsListenerService', () => {
   let service: ProjectEventsListenerService;
@@ -9,7 +10,9 @@ describe('ProjectEventsListenerService', () => {
       providers: [ProjectEventsListenerService],
     }).compile();
 
-    service = module.get<ProjectEventsListenerService>(ProjectEventsListenerService);
+    service = module.get<ProjectEventsListenerService>(
+      ProjectEventsListenerService,
+    );
   });
 
   it('should be defined', () => {
