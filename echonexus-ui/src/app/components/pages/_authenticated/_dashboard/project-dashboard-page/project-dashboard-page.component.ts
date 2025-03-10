@@ -1,14 +1,14 @@
+import {NgIf} from '@angular/common';
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormControl, FormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
-import {uuid} from '@supabase/supabase-js/dist/main/lib/helpers';
 import {ButtonModule} from 'primeng/button';
+import {ProgressSpinner} from 'primeng/progressspinner';
 import {filter, Subscription, tap} from 'rxjs';
 
 import {ProjectStore} from '../../../../../+state/project/project.store';
 import {RoutePath} from '../../../../../app.routes';
-import {ProductFeedbackSubmissionDto} from '../../../../../dtos/projects/ProductFeedbackSubmissionDto';
 import {ProjectDto} from '../../../../../dtos/projects/Project.dto';
 import {rebaseRoutePath, rebaseRoutePathAsString} from '../../../../../util/router/Router.utils';
 import {
@@ -29,6 +29,8 @@ import {
     FormsModule,
     ProjectActionsPanelComponent,
     ProductFeedbackDashboardPanelComponent,
+    NgIf,
+    ProgressSpinner,
   ],
   templateUrl: './project-dashboard-page.component.html',
   styleUrl: './project-dashboard-page.component.scss',
@@ -46,7 +48,6 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
     nonNullable: true,
     validators: [Validators.required],
   });
-  productFeedbackSubmissions: (ProductFeedbackSubmissionDto & {serverResponseTime: string})[] = this.generateSampleData(10);
   protected readonly projectStore = inject(ProjectStore);
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
@@ -104,26 +105,5 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
       return;
     }
     this.projectStore.updateProjectById(projectById.id, {...projectById, ...updateProjectValue});
-  }
-
-  private generateSampleData(count: number): (ProductFeedbackSubmissionDto & {serverResponseTime: string})[] {
-    const data: (ProductFeedbackSubmissionDto & {serverResponseTime: string})[] = [];
-    for (let i = 0; i < count; i++) {
-      data.push({
-        id: uuid(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        submittedAt: new Date().toISOString(),
-        serverResponseTime: Math.random() * 1000 + 'ms',
-        productId: `product-${i + 1}`,
-        clientIp: `192.168.1.${i + 1}`,
-        clientSubdomain: `example-${i + 1}.com`,
-        widgetMetadataType: 'feedback',
-        widgetMetadataUrl: '/feedback',
-        widgetMetadataTimezone: 'UTC',
-        userFeedback: `Sample feedback ${i + 1}`,
-      });
-    }
-    return data;
   }
 }

@@ -14,6 +14,7 @@ import {ToastStore} from '../toast/toast.store';
 
 export type ProjectState = {
   isLoading: boolean;
+  isFeedbackLoading: boolean;
   projectById: ProjectDto | null;
   projectsWhereInvolved: ProjectDto[];
   projectsForClient: ProjectDto[];
@@ -22,6 +23,7 @@ export type ProjectState = {
 
 const initialState: ProjectState = {
   isLoading: false,
+  isFeedbackLoading: false,
   projectById: null,
   projectsWhereInvolved: [],
   projectsForClient: [],
@@ -81,20 +83,22 @@ export const ProjectStore = signalStore(
               ).subscribe();
         },
         loadProductFeedbackByProjectId: (projectId: string) => {
-          patchState(store, {isLoading: true});
+          patchState(store, {isFeedbackLoading: true});
           projectsService.fetchProductFeedbackForProjectById(projectId)
               .pipe(
                   take(1),
                   tap((productFeedbackSubmissions) => {
-                    patchState(store, {isLoading: false, productFeedbackSubmissions: [...productFeedbackSubmissions.map((submission) => ({
-                      ...submission,
-                      serverResponseTime: String(Math.abs(DateTime
-                          .fromJSDate(new Date(submission.submittedAt))
-                          .diff(
-                              DateTime.fromJSDate(new Date(submission.createdAt)),
-                              ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'],
-                          ).toMillis())),
-                    }))]});
+                    patchState(store, {
+                      isFeedbackLoading: false,
+                      productFeedbackSubmissions: [...productFeedbackSubmissions.map((submission) => ({
+                        ...submission,
+                        serverResponseTime: String(Math.abs(DateTime
+                            .fromJSDate(new Date(submission.submittedAt))
+                            .diff(
+                                DateTime.fromJSDate(new Date(submission.createdAt)),
+                                ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'],
+                            ).toMillis())),
+                      }))]});
                   }),
                   catchError((err) => {
                     patchState(store, {...initialState});
