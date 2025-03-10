@@ -9,6 +9,7 @@ import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 import {routes} from './app.routes';
 import {ClientsModule} from './clients/clients.module';
 import {EmbedScriptsModule} from './embed-scripts/embed-scripts.module';
+import {EventsModule} from './events/events.module';
 import {IssuesModule} from './issues/issues.module';
 import {PaymentsModule} from './payments/payments.module';
 import {ProductsModule} from './products/products.module';
@@ -36,6 +37,7 @@ import {JwtAuthGuard} from '../lib/auth/guards/jwt-auth/jwt-auth.guard';
     CacheModule.register({
       isGlobal: true,
     }),
+    EventsModule,
     AuthModule,
     IssuesModule,
     ClientsModule,
@@ -44,6 +46,7 @@ import {JwtAuthGuard} from '../lib/auth/guards/jwt-auth/jwt-auth.guard';
     ProductsModule,
     PaymentsModule,
     EmbedScriptsModule,
+    EventsModule,
   ],
   providers: [
     {

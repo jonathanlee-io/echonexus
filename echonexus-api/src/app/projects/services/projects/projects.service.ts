@@ -5,6 +5,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import {EventEmitter2} from '@nestjs/event-emitter';
@@ -19,6 +20,7 @@ import {ProjectsRepositoryService} from '../../repositories/projects-repository/
 @Injectable()
 export class ProjectsService {
   constructor(
+    private readonly logger: Logger,
     private readonly projectsRepository: ProjectsRepositoryService,
     private readonly clientsService: ClientsService,
     private readonly eventEmitter: EventEmitter2,
@@ -52,6 +54,9 @@ export class ProjectsService {
     const project = await this.projectsRepository.create(
       requestingUserId,
       createProjectDto,
+    );
+    this.logger.log(
+      `Project created successfully with ID: ${project.id}, emitting event to begin linked product creation`,
     );
     this.eventEmitter.emit(
       ProjectCreatedEvent.eventName,
@@ -145,6 +150,13 @@ export class ProjectsService {
       throw new ForbiddenException();
     }
     return this.projectsRepository.deleteProjectById(projectId);
+  }
+
+  async getProjectFromSubdomain(clientSubdomain: string) {
+    return this.projectsRepository.findBySubdomain(clientSubdomain, {
+      isIncludeClient: true,
+      isIncludeCreatedBy: true,
+    });
   }
 
   private async generateWidgetInitScript(

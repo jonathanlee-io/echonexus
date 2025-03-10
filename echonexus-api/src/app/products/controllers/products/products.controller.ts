@@ -1,4 +1,4 @@
-import {Controller, Get, Ip, Logger, Query} from '@nestjs/common';
+import {Controller, Get, Ip, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {Throttle} from '@nestjs/throttler';
 import {DateTime} from 'luxon';
@@ -7,10 +7,13 @@ import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-
 import {IsPublic} from '../../../../lib/auth/decorators/is-public/is-public.decorator';
 import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {SubmitProductFeedbackRequestDto} from '../../dto/SubmitProductFeedbackRequest.dto';
+import {ProductsService} from '../../services/products/products.service';
 
 @ApiTags('Products')
 @Controller()
 export class ProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
   @IsPublic()
   @Throttle({default: {limit: 3, ttl: 60_000}})
   @Get('feedback')
@@ -25,12 +28,13 @@ export class ProductsController {
     }: SubmitProductFeedbackRequestDto,
     @Ip() ip: string,
   ) {
-    Logger.log('Saving feedback', {
-      clientMetadata: {ip, clientSubdomain},
+    this.productsService.submitProductFeedback({
+      clientSubdomain,
       userFeedback,
       widgetMetadataType,
       widgetMetadataUrl,
       widgetMetadataTimezone,
+      ip,
       submittedAt: DateTime.now().toISO(),
     });
   }

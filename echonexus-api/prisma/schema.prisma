@@ -87,9 +87,31 @@ model Hostname {
 }
 
 model Product {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId String   @unique
+  id                        String                      @id @default(uuid())
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime                    @default(now())
+  project                   Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId                 String                      @unique
+  ProductFeedbackSubmission ProductFeedbackSubmission[]
+}
+
+enum ProductFeedbackSubmissionType {
+  BUG_REPORT
+  FEATURE_REQUEST
+  FEATURE_FEEDBACK
+}
+
+model ProductFeedbackSubmission {
+  id                     String                        @id @default(uuid())
+  createdAt              DateTime                      @default(now())
+  updatedAt              DateTime                      @default(now())
+  product                Product                       @relation(fields: [productId], references: [id])
+  productId              String                        @unique
+  clientIp               String
+  clientSubdomain        String
+  widgetMetadataType     ProductFeedbackSubmissionType
+  widgetMetadataUrl      String
+  widgetMetadataTimezone String
+  submittedAt            DateTime
+  userFeedback           String
 }

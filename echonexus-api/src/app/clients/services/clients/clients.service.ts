@@ -6,10 +6,12 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import {EventEmitter2} from '@nestjs/event-emitter';
 
 import {reservedSubdomains} from '../../../../lib/constants/subdomains/reserved-subdomains.constants';
 import {POSTSuccessDto} from '../../../../lib/dto/POSTSuccess.dto';
 import {PaymentsService} from '../../../payments/services/payments/payments.service';
+import {ProjectCreatedEvent} from '../../../projects/events/ProjectCreated.event';
 import {UsersRepositoryService} from '../../../users/repositories/users-repository/users-repository.service';
 import {CreateClientDto} from '../../dto/CreateClient.dto';
 import {IsSubdomainAvailableDto} from '../../dto/IsSubdomainAvailable.dto';
@@ -21,6 +23,7 @@ export class ClientsService {
     private readonly logger: Logger,
     private readonly clientsRepository: ClientsRepositoryService,
     private readonly usersRepository: UsersRepositoryService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async createClient(
@@ -56,6 +59,10 @@ export class ClientsService {
     if (!createdClient || !createdSubdomain || !createdProject) {
       throw new InternalServerErrorException();
     }
+    this.eventEmitter.emit(
+      ProjectCreatedEvent.eventName,
+      new ProjectCreatedEvent(requestingUserEmail, createdProject.id),
+    );
     return <POSTSuccessDto & {clientId: string}>{
       isSuccessful: true,
       clientId: createdClient.id,

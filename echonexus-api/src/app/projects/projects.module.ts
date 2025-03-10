@@ -5,10 +5,11 @@ import {ProjectsRepositoryService} from './repositories/projects-repository/proj
 import {ProjectsService} from './services/projects/projects.service';
 import {PrismaModule} from '../../lib/prisma/prisma.module';
 import {ClientsModule} from '../clients/clients.module';
+import {EventsModule} from '../events/events.module';
 import {UsersModule} from '../users/users.module';
 
 @Module({
-  imports: [PrismaModule, ClientsModule, UsersModule],
+  imports: [PrismaModule, ClientsModule, UsersModule, EventsModule],
   controllers: [ProjectsController],
   providers: [
     {

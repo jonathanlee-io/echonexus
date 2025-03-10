@@ -1,4 +1,5 @@
 import {Injectable} from '@nestjs/common';
+import {ProductFeedbackSubmissionType} from '@prisma/client';
 
 import {PrismaService} from '../../../../lib/prisma/services/prisma.service';
 
@@ -6,14 +7,49 @@ import {PrismaService} from '../../../../lib/prisma/services/prisma.service';
 export class ProductsRepositoryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createProduct(projectId: string) {
-    return this.prisma.product.create({
+  async createProductFeedback(
+    productId: string,
+    {
+      clientSubdomain,
+      ip: clientIp,
+      userFeedback,
+      widgetMetadataType,
+      widgetMetadataUrl,
+      widgetMetadataTimezone,
+      submittedAt,
+    }: {
+      clientSubdomain: string;
+      userFeedback: string;
+      widgetMetadataType: 'bug_report' | 'feature_request' | 'feature_feedback';
+      widgetMetadataUrl: string;
+      widgetMetadataTimezone: string;
+      ip: string;
+      submittedAt: string;
+    },
+  ) {
+    await this.prisma.productFeedbackSubmission.create({
       data: {
-        project: {
+        product: {
           connect: {
-            id: projectId,
+            id: productId,
           },
         },
+        userFeedback,
+        widgetMetadataType:
+          widgetMetadataType.toUpperCase() as ProductFeedbackSubmissionType,
+        widgetMetadataUrl,
+        widgetMetadataTimezone,
+        clientIp,
+        clientSubdomain,
+        submittedAt,
+      },
+    });
+  }
+
+  async findProductFromProject(projectId: string) {
+    return this.prisma.product.findUnique({
+      where: {
+        projectId,
       },
     });
   }
