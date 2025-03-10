@@ -1,5 +1,4 @@
 import {Injectable} from '@nestjs/common';
-import {ProductFeedbackSubmissionType} from '@prisma/client';
 
 import {PrismaService} from '../../../../lib/prisma/services/prisma.service';
 
@@ -35,8 +34,7 @@ export class ProductsRepositoryService {
           },
         },
         userFeedback,
-        widgetMetadataType:
-          widgetMetadataType.toUpperCase() as ProductFeedbackSubmissionType,
+        widgetMetadataType: widgetMetadataType.toUpperCase() as any, // Regex validation ensures valid
         widgetMetadataUrl,
         widgetMetadataTimezone,
         clientIp,
