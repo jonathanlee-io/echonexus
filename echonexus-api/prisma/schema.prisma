@@ -106,7 +106,7 @@ model ProductFeedbackSubmission {
   createdAt              DateTime                      @default(now())
   updatedAt              DateTime                      @default(now())
   product                Product                       @relation(fields: [productId], references: [id])
-  productId              String                        @unique
+  productId              String
   clientIp               String
   clientSubdomain        String
   widgetMetadataType     ProductFeedbackSubmissionType
