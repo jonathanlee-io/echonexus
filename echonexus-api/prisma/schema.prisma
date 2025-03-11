@@ -105,7 +105,7 @@ model ProductFeedbackSubmission {
   id                     String                        @id @default(uuid())
   createdAt              DateTime                      @default(now())
   updatedAt              DateTime                      @default(now())
-  product                Product                       @relation(fields: [productId], references: [id])
+  product                Product                       @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId              String
   clientIp               String
   clientSubdomain        String
