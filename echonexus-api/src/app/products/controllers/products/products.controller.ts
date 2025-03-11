@@ -1,6 +1,5 @@
 import {Controller, Get, Ip, Param, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {Throttle} from '@nestjs/throttler';
 import {DateTime} from 'luxon';
 
 import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-user.decorator';
@@ -16,7 +15,6 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @IsPublic()
-  @Throttle({default: {limit: 3, ttl: 60_000}})
   @Get('feedback')
   async receiveFeedback(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
