@@ -1,3 +1,4 @@
+import {faker} from '@faker-js/faker/locale/en';
 import {Mocked, TestBed} from '@suites/unit';
 
 import {AuthenticatedUsersController} from './authenticated-users.controller';
@@ -21,5 +22,22 @@ describe('AuthenticatedUsersController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
     expect(mockAuthenticatedUserService).toBeDefined();
+  });
+
+  it('should check in with requesting user ID and e-mail', async () => {
+    const requestingUserId = faker.string.uuid();
+    const requestingUserEmail = faker.internet.email();
+
+    mockAuthenticatedUserService.checkIn.mockResolvedValue({
+      isSuccessful: true,
+      isCreatedNew: true,
+    });
+
+    const result = await controller.checkIn({
+      requestingUserId,
+      requestingUserEmail,
+    } as never);
+
+    expect(result).toStrictEqual({isSuccessful: true, isCreatedNew: true});
   });
 });
