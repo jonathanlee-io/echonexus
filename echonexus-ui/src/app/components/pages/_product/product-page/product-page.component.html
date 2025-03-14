@@ -24,18 +24,43 @@
     </div>
     <p-divider/>
     <div class="space-y-6">
-      <h2 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-        Latest Updates
-      </h2>
-      @for(post of posts(); track $index;) {
-        <app-product-post [post]="post" />
-      } @empty {
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-300 dark:border-gray-700">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between">
-            <h3>No posts found</h3>
+      <div class="flex">
+        <h2 (click)="activeTab.set('updates')"
+            [class.underline]="activeTab() === 'updates'"
+            class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4 cursor-pointer border border-white rounded-lg px-4 py-2">
+          Latest Updates
+        </h2>
+        <h2 (click)="activeTab.set('issues')"
+            [class.underline]="activeTab() === 'issues'"
+            class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4 ml-4 cursor-pointer border border-white rounded-lg px-4 py-2">
+          Issues
+        </h2>
+      </div>
+
+      <div *ngIf="activeTab() === 'updates'">
+        @for (post of updates(); track $index) {
+          <app-product-post [post]="post"/>
+        } @empty {
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-300 dark:border-gray-700">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between">
+              <h3>No posts found</h3>
+            </div>
           </div>
-        </div>
-      }
+        }
+      </div>
+
+
+      <div *ngIf="activeTab() === 'issues'">
+        @for (post of issues(); track $index) {
+          <app-product-post [post]="post"/>
+        } @empty {
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-300 dark:border-gray-700">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between">
+              <h3>No posts found</h3>
+            </div>
+          </div>
+        }
+      </div>
     </div>
   </div>
 </div>
