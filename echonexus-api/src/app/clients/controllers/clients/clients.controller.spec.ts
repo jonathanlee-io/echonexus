@@ -45,7 +45,6 @@ describe('ClientsController', () => {
 
     expect(result.isSuccessful).toBe(true);
     expect(mockClientsService.createClient).toHaveBeenCalledWith(
-      mockUser.userSubjectId,
       mockUser.email,
       mockCreateClientDto,
     );

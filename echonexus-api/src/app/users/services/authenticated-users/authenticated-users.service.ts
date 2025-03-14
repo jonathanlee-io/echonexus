@@ -30,7 +30,9 @@ export class AuthenticatedUsersService {
       }
       return {isSuccessful: true, isCreatedNew: false};
     }
-    this.logger.log(`Creating new user for <${requestingUserEmail}>`);
+    this.logger.log(
+      `Creating new user for (${requestingUserId}) <${requestingUserEmail}>`,
+    );
     await this.usersRepository.createUserFromAuthUser(
       requestingUserId,
       requestingUserEmail,

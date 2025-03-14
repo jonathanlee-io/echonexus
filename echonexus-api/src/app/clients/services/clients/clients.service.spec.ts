@@ -42,11 +42,7 @@ describe('ClientsService', () => {
     mockClientsRepository.getClientsWhereUserInvolved.mockResolvedValue([]);
 
     await expect(
-      service.createClient(
-        mockUser.userSubjectId,
-        mockUser.email,
-        mockCreateClientDto,
-      ),
+      service.createClient(mockUser.email, mockCreateClientDto),
     ).rejects.toThrow(new BadRequestException('Subdomain already exists'));
   });
 
@@ -63,11 +59,7 @@ describe('ClientsService', () => {
     });
 
     await expect(
-      service.createClient(
-        mockUser.userSubjectId,
-        mockUser.email,
-        mockCreateClientDto,
-      ),
+      service.createClient(mockUser.email, mockCreateClientDto),
     ).rejects.toThrow(new InternalServerErrorException());
   });
 
@@ -86,7 +78,6 @@ describe('ClientsService', () => {
     } as any);
 
     const result = await service.createClient(
-      mockUser.userSubjectId,
       mockUser.email,
       mockCreateClientDto,
     );
