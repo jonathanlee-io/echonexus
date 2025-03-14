@@ -78,6 +78,7 @@ export const UserAuthenticationStore = signalStore(
         },
         logout: async () => {
           patchState(store, {loggedInState: 'LOADING'});
+          localStorage.removeItem('supabase-session');
           await supabaseService.signOut();
           patchState(store, {...initialState});
           router
