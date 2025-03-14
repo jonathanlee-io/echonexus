@@ -4,34 +4,22 @@
     </div>
     <div @click="$store.api.openMainMenu()"
          class="js-widget-dialog center"
-         onmouseout="
-        this.style.transform='scale(1)';
-        this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.1)';
-     "
-         onmouseover="
-        this.style.transform='scale(1.02)';
-        this.style.boxShadow='0 6px 12px rgba(0, 0, 0, 0.12)';
-     "
          style="
         color: white;
         background: linear-gradient(to right, #6366f1, #22d3ee);
         border-radius: 0.5rem;
-        padding: 0.75rem;
-        font-family: Arial, sans-serif;
+        padding: 0.75rem 1rem; /* Adjusted padding - more vertical, less horizontal */
         font-size: 0.85rem;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         text-align: center;
-        max-width: 20rem;
-        max-height: 6rem;
         margin: 0.75rem 0.75rem 0.75rem auto;
         transition: transform 150ms, box-shadow 150ms;
         cursor: pointer;
         display: flex; /* Added for alignment */
         align-items: center; /* Added for alignment */
      "
-         x-show="!$store.api.isMainMenuOpen"
-    >
-        <span>Provide Feedback</span>
+         x-show="!$store.api.isMainMenuOpen">
+        <span>Feedback</span>
     </div>
     <div>
         <div class="js-widget-modal-menu widget-modal items-center justify-center" x-show="$store.api.isMainMenuOpen">
@@ -188,7 +176,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback`, {userFeedback: userFeedback, widgetMetadataType: 'bug_report', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
+                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback`, {userFeedback: userFeedback, widgetMetadataType: 'bug_report', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href}).then(() => userFeedback = '');"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: white; border: none; border-radius: 9999px; background: linear-gradient(to right, #f59e0b, #ef4444); cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 200ms;"
@@ -247,7 +235,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback`, {userFeedback: userFeedback, widgetMetadataType: 'feature_request', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
+                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback`, {userFeedback: userFeedback, widgetMetadataType: 'feature_request', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href}).then(() => userFeedback = '');"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: white; border: none; border-radius: 9999px; background: linear-gradient(to right, #f59e0b, #ef4444); cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 200ms;"
@@ -306,7 +294,7 @@
                                 <div style="display: flex; justify-content: space-between; gap: 1rem;">
                                     <!-- Report Button -->
                                     <button
-                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback`, {userFeedback: userFeedback, widgetMetadataType: 'feature_feedback', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href})"
+                                            @click="$store.api.submitFeedback(`${$store.api.baseUrl}/products/feedback`, {userFeedback: userFeedback, widgetMetadataType: 'feature_feedback', widgetMetadataTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone, widgetMetadataUrl: window.location.href}).then(() => userFeedback = '');"
                                             onmouseout="this.style.transform='scale(1)';"
                                             onmouseover="this.style.transform='scale(1.05)';"
                                             style="flex: 1; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: bold; color: white; border: none; border-radius: 9999px; background: linear-gradient(to right, #f59e0b, #ef4444); cursor: pointer; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: transform 200ms;"

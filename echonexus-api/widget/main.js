@@ -69,26 +69,22 @@ function app(window) {
 
     submitFeedback(url, body) {
       this.openLoadingModal();
-      setTimeout(
-        () =>
-          fetch(`${url}?${new URLSearchParams(body)}`, {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-            },
-            mode: 'no-cors',
-          })
-            .then(() => {
-              this.isLoading = false;
-              this.isSubmissionSuccessfulOpen = true;
-            })
-            .catch((err) => {
-              console.error(err);
-              this.isLoading = false;
-              this.isSubmissionErrorOpen = true;
-            }),
-        1000,
-      );
+      return fetch(`${url}?${new URLSearchParams(body)}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+        mode: 'no-cors',
+      })
+        .then(() => {
+          this.isLoading = false;
+          this.isSubmissionSuccessfulOpen = true;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.isLoading = false;
+          this.isSubmissionErrorOpen = true;
+        });
     },
 
     closeNonMainMenu() {

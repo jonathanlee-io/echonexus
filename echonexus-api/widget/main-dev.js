@@ -1,6 +1,5 @@
 import {show} from './views/message';
 import Alpine from 'alpinejs';
-import requests from 'alpinejs-requests';
 
 const supportedAPI = ['init', 'message']; // enlist all methods supported by API (e.g. `mw('event', 'user-login');`)
 
@@ -9,19 +8,108 @@ const supportedAPI = ['init', 'message']; // enlist all methods supported by API
  */
 function app(window) {
   window.alpine = Alpine;
-  Alpine.plugin(requests);
   Alpine.start();
 
   Alpine.store('api', {
-    baseUrl: 'http://jdevel.api.echonexus-local.io:8000/v1',
-    reportBug(url, body) {
-      fetch(`${url}?${new URLSearchParams(body)}`, {
+    baseUrl: `http://roomyledger.api.echonexus-local.io:8000/v1`,
+
+    isLoading: false,
+    isMainMenuOpen: false,
+    isBugReportOpen: false,
+    isFeatureRequestOpen: false,
+    isFeatureFeedbackOpen: false,
+    isSubmissionSuccessfulOpen: false,
+    isSubmissionErrorOpen: false,
+
+    openMainMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+      this.userFeedback = '';
+    },
+
+    closeMainMenu() {
+      this.isMainMenuOpen = false;
+    },
+
+    openBugReportMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = true;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    openFeatureRequestMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = true;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    openFeatureFeedbackMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = true;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    openLoadingModal() {
+      this.isLoading = true;
+      this.isMainMenuOpen = false;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+      this.isSubmissionSuccessfulOpen = false;
+    },
+
+    submitFeedback(url, body) {
+      this.openLoadingModal();
+      return fetch(`${url}?${new URLSearchParams(body)}`, {
         method: 'GET',
         headers: {
           Accept: 'application/json',
         },
         mode: 'no-cors',
-      }).then((r) => console.log(r));
+      })
+        .then(() => {
+          this.isLoading = false;
+          this.isSubmissionSuccessfulOpen = true;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.isLoading = false;
+          this.isSubmissionErrorOpen = true;
+        });
+    },
+
+    closeNonMainMenu() {
+      this.isMainMenuOpen = true;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+    },
+
+    closeSuccessModal() {
+      this.isSubmissionSuccessfulOpen = false;
+      this.isMainMenuOpen = false;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
+    },
+
+    closeErrorModal() {
+      this.isLoading = false;
+      this.isSubmissionSuccessfulOpen = false;
+      this.isSubmissionErrorOpen = false;
+      this.isMainMenuOpen = false;
+      this.isBugReportOpen = false;
+      this.isFeatureRequestOpen = false;
+      this.isFeatureFeedbackOpen = false;
     },
   });
 

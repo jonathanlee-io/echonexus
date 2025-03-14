@@ -29,7 +29,7 @@ export class SubmitProductFeedbackRequestDto {
   @IsNotEmpty()
   @IsString()
   @IsDefined()
-  @IsUrl()
+  @IsUrl({require_tld: false}) // Allow localhost
   @ApiProperty({required: true})
   widgetMetadataUrl: string;
 }
