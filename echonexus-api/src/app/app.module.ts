@@ -46,7 +46,6 @@ import {JwtAuthGuard} from '../lib/auth/guards/jwt-auth/jwt-auth.guard';
     ProductsModule,
     PaymentsModule,
     EmbedScriptsModule,
-    EventsModule,
   ],
   providers: [
     {

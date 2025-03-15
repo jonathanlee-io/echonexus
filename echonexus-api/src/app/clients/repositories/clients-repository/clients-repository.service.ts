@@ -31,7 +31,7 @@ export class ClientsRepositoryService {
         `Could not find user with e-mail: ${requestingUserEmail}`,
       );
     }
-    const [createdClient, createdProject, createdSubdomain] =
+    const [createdClient, createdProject, createdSubdomain, createdProduct] =
       await this.prismaService.$transaction(async (prisma) => {
         const createdClient = await prisma.client.create({
           data: {
@@ -88,10 +88,26 @@ export class ClientsRepositoryService {
           },
         });
 
-        return [createdClient, createdProject, createdSubdomain];
+        // Creates the product here to avoid race conditions and circular dependency with products/projects services
+        const createdProduct = await prisma.product.create({
+          data: {
+            project: {
+              connect: {
+                id: createdProject.id,
+              },
+            },
+          },
+        });
+
+        return [
+          createdClient,
+          createdProject,
+          createdSubdomain,
+          createdProduct,
+        ];
       });
 
-    return {createdClient, createdSubdomain, createdProject};
+    return {createdClient, createdSubdomain, createdProject, createdProduct};
   }
 
   async isExistsSubdomain(subdomain: string) {
@@ -99,6 +115,29 @@ export class ClientsRepositoryService {
       where: {subdomain},
     });
     return existingSubdomain !== null && existingSubdomain !== undefined;
+  }
+
+  async findClientBySubdomain(subdomain: string) {
+    const subdomainRecord = await this.prismaService.subdomain.findUnique({
+      where: {subdomain},
+      include: {
+        project: true,
+      },
+    });
+    if (!subdomainRecord) {
+      return null;
+    }
+    return this.prismaService.client.findUnique({
+      where: {
+        id: subdomainRecord.project.clientId,
+      },
+      include: {
+        admins: true,
+        members: true,
+        createdBy: true,
+        projects: true,
+      },
+    });
   }
 
   async getClientsWhereUserInvolved(
@@ -183,7 +222,7 @@ export class ClientsRepositoryService {
     });
   }
 
-  addMemberToClientById(clientId: string, emailToAdd: string) {
+  async addMemberToClientById(clientId: string, emailToAdd: string) {
     return this.prismaService.client.update({
       where: {id: clientId},
       include: {
@@ -193,6 +232,24 @@ export class ClientsRepositoryService {
       },
       data: {
         members: {
+          connect: {
+            email: emailToAdd,
+          },
+        },
+      },
+    });
+  }
+
+  async addAdminToClientById(clientId: string, emailToAdd: string) {
+    return this.prismaService.client.update({
+      where: {id: clientId},
+      include: {
+        admins: true,
+        members: true,
+        createdBy: true,
+      },
+      data: {
+        admins: {
           connect: {
             email: emailToAdd,
           },

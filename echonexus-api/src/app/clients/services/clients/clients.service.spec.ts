@@ -56,6 +56,7 @@ describe('ClientsService', () => {
       createdClient: null,
       createdSubdomain: null,
       createdProject: null,
+      createdProduct: null,
     });
 
     await expect(
@@ -75,6 +76,7 @@ describe('ClientsService', () => {
       },
       createdSubdomain: {},
       createdProject: {},
+      createdProduct: {},
     } as any);
 
     const result = await service.createClient(

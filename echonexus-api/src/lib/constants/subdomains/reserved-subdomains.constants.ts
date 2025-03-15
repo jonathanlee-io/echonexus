@@ -1,9 +1,7 @@
 export const reservedSubdomains: string[] = [
   'echonexus',
   'default',
-  'www',
   'ww',
-  'www',
   'web',
   'staging',
   'production',

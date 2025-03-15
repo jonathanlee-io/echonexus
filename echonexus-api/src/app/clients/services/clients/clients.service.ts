@@ -5,26 +5,79 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
+  OnModuleInit,
 } from '@nestjs/common';
 import {EventEmitter2} from '@nestjs/event-emitter';
 
+import {AdminConfig} from '../../../../lib/config/AdminConfig';
 import {reservedSubdomains} from '../../../../lib/constants/subdomains/reserved-subdomains.constants';
 import {POSTSuccessDto} from '../../../../lib/dto/POSTSuccess.dto';
 import {PaymentsService} from '../../../payments/services/payments/payments.service';
-import {ProjectCreatedEvent} from '../../../projects/events/ProjectCreated.event';
 import {UsersRepositoryService} from '../../../users/repositories/users-repository/users-repository.service';
 import {CreateClientDto} from '../../dto/CreateClient.dto';
 import {IsSubdomainAvailableDto} from '../../dto/IsSubdomainAvailable.dto';
 import {ClientsRepositoryService} from '../../repositories/clients-repository/clients-repository.service';
 
 @Injectable()
-export class ClientsService {
+export class ClientsService implements OnModuleInit {
   constructor(
     private readonly logger: Logger,
+    private readonly adminConfig: AdminConfig,
     private readonly clientsRepository: ClientsRepositoryService,
     private readonly usersRepository: UsersRepositoryService,
     private readonly eventEmitter: EventEmitter2,
   ) {}
+
+  async onModuleInit() {
+    const adminUserRecord = await this.usersRepository.findByEmail(
+      this.adminConfig.adminEmail,
+    );
+    if (!adminUserRecord) {
+      this.logger.log(
+        `Unable to create default client as admin user does not exist, skipping...`,
+      );
+      return;
+    }
+    const defaultClientRecord =
+      await this.clientsRepository.findClientBySubdomain('www');
+    if (!defaultClientRecord) {
+      this.logger.log('Creating default client as no client exists yet');
+      const creationResult = await this.createClient(
+        this.adminConfig.adminEmail,
+        {
+          clientDisplayName: 'EchoNexus',
+          subdomain: 'www',
+          isBugReportsEnabled: true,
+          isFeatureRequestsEnabled: true,
+          isFeatureFeedbackEnabled: true,
+        },
+      );
+      if (!creationResult.isSuccessful) {
+        throw new InternalServerErrorException(
+          'Failed to create default client',
+        );
+      }
+      this.logger.log('Default client created successfully');
+      return;
+    }
+
+    if (
+      !defaultClientRecord.admins
+        .map((admin) => admin.email)
+        .includes(this.adminConfig.adminEmail)
+    ) {
+      this.logger.log(
+        `Default client exists but admin email is not set, updating now`,
+      );
+      await this.clientsRepository.addAdminToClientById(
+        defaultClientRecord.id,
+        this.adminConfig.adminEmail,
+      );
+      return;
+    }
+
+    this.logger.log('Default client exists and admin email is set');
+  }
 
   async createClient(
     requestingUserEmail: string,
@@ -44,7 +97,7 @@ export class ClientsService {
     ) {
       throw new BadRequestException('Subdomain already exists');
     }
-    const {createdClient, createdSubdomain, createdProject} =
+    const {createdClient, createdSubdomain, createdProject, createdProduct} =
       await this.clientsRepository.registerNewClientWithTransaction(
         requestingUserEmail,
         clientDisplayName,
@@ -56,13 +109,14 @@ export class ClientsService {
           isFeatureFeedbackEnabled,
         },
       );
-    if (!createdClient || !createdSubdomain || !createdProject) {
+    if (
+      !createdClient ||
+      !createdSubdomain ||
+      !createdProject ||
+      !createdProduct
+    ) {
       throw new InternalServerErrorException();
     }
-    this.eventEmitter.emit(
-      ProjectCreatedEvent.eventName,
-      new ProjectCreatedEvent(requestingUserEmail, createdProject.id),
-    );
     return <POSTSuccessDto & {clientId: string}>{
       isSuccessful: true,
       clientId: createdClient.id,
