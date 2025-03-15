@@ -19,7 +19,15 @@
         align-items: center; /* Added for alignment */
      "
          x-show="!$store.api.isMainMenuOpen">
-        <span>Feedback</span>
+<!--        <span>Feedback</span>-->
+        <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32.769 33.359c-2.739-3.286-3.903-6.569-4.397-8.746-.064-.283-.249-.524-.506-.661s-.56-.154-.83-.05l-7.112 2.749c-.303.117-.53.374-.609.688-.079.315-.019.665.211.896C25.492 34.216 31.945 35 32 35c.354 0 .688-.188.867-.503.208-.362.169-.816-.098-1.138z"
+                  fill="#31373D"/>
+            <ellipse cx="18" cy="16" fill="#31373D" rx="18" ry="14"/>
+            <circle cx="18" cy="16" fill="#31373D" r="5"/>
+            <path d="M18 7c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9zm0 14c-2.761 0-5-2.239-5-5s2.239-5 5-5 5 2.239 5 5-2.239 5-5 5z"
+                  fill="#FFF"/>
+        </svg>
     </div>
     <div>
         <div class="js-widget-modal-menu widget-modal items-center justify-center" x-show="$store.api.isMainMenuOpen">
