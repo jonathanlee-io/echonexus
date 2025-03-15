@@ -14,7 +14,6 @@ import {ApplicationConfig} from '../../../../lib/config/Application.config';
 import {ClientsService} from '../../../clients/services/clients/clients.service';
 import {CreateProjectDto} from '../../dto/CreateProject.dto';
 import {UpdateProjectDto} from '../../dto/UpdateProject.dto';
-import {ProjectCreatedEvent} from '../../events/ProjectCreated.event';
 import {ProjectsRepositoryService} from '../../repositories/projects-repository/projects-repository.service';
 
 @Injectable()
@@ -54,13 +53,6 @@ export class ProjectsService {
     const project = await this.projectsRepository.create(
       requestingUserId,
       createProjectDto,
-    );
-    this.logger.log(
-      `Project created successfully with ID: ${project.id}, emitting event to begin linked product creation`,
-    );
-    this.eventEmitter.emit(
-      ProjectCreatedEvent.eventName,
-      new ProjectCreatedEvent(requestingUserId, project.id),
     );
     return project;
   }

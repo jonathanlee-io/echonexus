@@ -29,7 +29,7 @@ export class ProjectsRepositoryService {
         `Could not find user with id: ${requestingUserId}`,
       );
     }
-    const [createdProject, createdSubdomain] =
+    const [createdProject, createdSubdomain, createdProduct] =
       await this.prismaService.$transaction(async (prisma) => {
         const createdProject = await prisma.project.create({
           data: {
@@ -67,11 +67,23 @@ export class ProjectsRepositoryService {
           },
         });
 
-        return [createdProject, createdSubdomain];
+        // Creates the product here to avoid race conditions and circular dependency with products/projects services
+        const createdProduct = await prisma.product.create({
+          data: {
+            project: {
+              connect: {
+                id: createdProject.id,
+              },
+            },
+          },
+        });
+
+        return [createdProject, createdSubdomain, createdProduct];
       });
     return {
       ...createdProject,
       subdomains: [createdSubdomain],
+      createdProduct,
     };
   }
 
