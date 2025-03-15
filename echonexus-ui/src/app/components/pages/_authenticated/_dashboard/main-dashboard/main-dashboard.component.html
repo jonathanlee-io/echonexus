@@ -26,7 +26,7 @@
         <td><a
           [routerLink]="[rebaseRoutePathAsString(RoutePath.PROJECT_DASHBOARD.replace(':projectId', project.id))]">{{ project.name }}
           <i class="px-2 pi pi-arrow-right"></i></a></td>
-        <td>{{ (project.subdomains?.length === 0) ? 'None' : project.subdomains?.[0].subdomain }}</td>
+        <td>{{ (project.subdomains?.length === 0) ? 'None' : commaListSubdomains(project.subdomains) }}</td>
         <td>{{ (project.hostnames?.length === 0) ? 'None' : project.hostnames?.[0].hostname }}</td>
         <td>
           <p-tag [severity]="(project.isBugReportsEnabled) ? 'success': 'danger'"

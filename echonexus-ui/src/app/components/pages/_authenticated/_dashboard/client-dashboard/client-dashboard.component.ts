@@ -110,4 +110,8 @@ export class ClientDashboardComponent implements OnInit, OnDestroy {
   getSeverityLabel(flag: boolean) {
     return (flag) ? 'Enabled': 'Disabled';
   }
+
+  commaListSubdomains(subdomains: {subdomain: string}[]) {
+    return subdomains.map((subdomain) => subdomain.subdomain).join(' , ');
+  }
 }

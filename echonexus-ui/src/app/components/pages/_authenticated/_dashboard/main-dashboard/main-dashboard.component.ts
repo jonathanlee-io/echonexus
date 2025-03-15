@@ -31,6 +31,9 @@ import {rebaseRoutePath, rebaseRoutePathAsString} from '../../../../../util/rout
 })
 export class MainDashboardComponent implements OnInit {
   protected readonly projectStore = inject(ProjectStore);
+  protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
+  protected readonly RoutePath = RoutePath;
 
   ngOnInit() {
     this.projectStore.loadProjectsWhereInvolved()
@@ -39,7 +42,7 @@ export class MainDashboardComponent implements OnInit {
         });
   }
 
-  protected readonly rebaseRoutePath = rebaseRoutePath;
-  protected readonly rebaseRoutePathAsString = rebaseRoutePathAsString;
-  protected readonly RoutePath = RoutePath;
+  commaListSubdomains(subdomains: {subdomain: string}[]) {
+    return subdomains.map((subdomain) => subdomain.subdomain).join(' , ');
+  }
 }
