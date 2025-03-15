@@ -110,6 +110,19 @@ export class ClientsRepositoryService {
     return {createdClient, createdSubdomain, createdProject, createdProduct};
   }
 
+  async addSubdomainToProject(subdomain: string, projectId: string) {
+    await this.prismaService.subdomain.create({
+      data: {
+        subdomain,
+        project: {
+          connect: {
+            id: projectId,
+          },
+        },
+      },
+    });
+  }
+
   async isExistsSubdomain(subdomain: string) {
     const existingSubdomain = await this.prismaService.subdomain.findUnique({
       where: {subdomain},

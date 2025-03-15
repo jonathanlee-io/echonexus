@@ -7,7 +7,6 @@ import {
   NotFoundException,
   OnModuleInit,
 } from '@nestjs/common';
-import {EventEmitter2} from '@nestjs/event-emitter';
 
 import {AdminConfig} from '../../../../lib/config/AdminConfig';
 import {reservedSubdomains} from '../../../../lib/constants/subdomains/reserved-subdomains.constants';
@@ -25,7 +24,6 @@ export class ClientsService implements OnModuleInit {
     private readonly adminConfig: AdminConfig,
     private readonly clientsRepository: ClientsRepositoryService,
     private readonly usersRepository: UsersRepositoryService,
-    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async onModuleInit() {
@@ -57,7 +55,13 @@ export class ClientsService implements OnModuleInit {
           'Failed to create default client',
         );
       }
-      this.logger.log('Default client created successfully');
+      await this.clientsRepository.addSubdomainToProject(
+        'echonexus',
+        creationResult.projectId,
+      );
+      this.logger.log(
+        'Default client created successfully with subdomains: www, echonexus',
+      );
       return;
     }
 
@@ -117,9 +121,10 @@ export class ClientsService implements OnModuleInit {
     ) {
       throw new InternalServerErrorException();
     }
-    return <POSTSuccessDto & {clientId: string}>{
+    return <POSTSuccessDto & {clientId: string; projectId: string}>{
       isSuccessful: true,
       clientId: createdClient.id,
+      projectId: createdProject.id,
     };
   }
 
