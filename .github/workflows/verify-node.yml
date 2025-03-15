@@ -2,7 +2,7 @@ name: Verify Node.js
 
 on:
   push:
-    branches: [staging]
+    branches: [ staging ]
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
     runs-on: blacksmith-4vcpu-ubuntu-2204
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [ 22.x ]
     name: Lint Backend (v${{ matrix.node-version }})
     steps:
       - name: Checkout
@@ -34,7 +34,7 @@ jobs:
     runs-on: blacksmith-4vcpu-ubuntu-2204
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [ 22.x ]
     name: Build Backend (v${{ matrix.node-version }})
     steps:
       - name: Checkout
@@ -55,7 +55,7 @@ jobs:
     runs-on: blacksmith-4vcpu-ubuntu-2204
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [ 22.x ]
     name: Test Backend (v${{ matrix.node-version }})
     steps:
       - name: Checkout
@@ -74,12 +74,14 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
 
   lint-frontend:
     runs-on: blacksmith-4vcpu-ubuntu-2204
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [ 22.x ]
     name: Lint Frontend (v${{ matrix.node-version }})
     steps:
       - name: Checkout
@@ -100,7 +102,7 @@ jobs:
     runs-on: blacksmith-4vcpu-ubuntu-2204
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [ 22.x ]
     name: Build Frontend (v${{ matrix.node-version }})
     steps:
       - name: Checkout
@@ -124,7 +126,7 @@ jobs:
     runs-on: blacksmith-4vcpu-ubuntu-2204
     strategy:
       matrix:
-        node-version: [22.x]
+        node-version: [ 22.x ]
     name: Test Frontend (v${{ matrix.node-version }})
     steps:
       - name: Checkout
