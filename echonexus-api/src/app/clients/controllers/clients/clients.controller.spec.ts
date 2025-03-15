@@ -33,6 +33,7 @@ describe('ClientsController', () => {
     mockClientsService.createClient.mockResolvedValue({
       isSuccessful: true,
       clientId: faker.string.uuid(),
+      projectId: faker.string.uuid(),
     });
 
     const result = await controller.registerNewClient(
