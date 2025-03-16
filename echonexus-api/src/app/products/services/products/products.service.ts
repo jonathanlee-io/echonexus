@@ -72,7 +72,10 @@ export class ProductsService {
     return this.productsRepository.getFeedbackForProduct(product.id);
   }
 
-  async getProductConfigFlagStatus(clientSubdomain: string, flag: string) {
+  async getProductConfigFlagStatus(
+    clientSubdomain: string,
+    flag: WidgetMetadataType,
+  ) {
     const [project] =
       await this.projectsService.getProjectFromSubdomain(clientSubdomain);
     if (!project) {
