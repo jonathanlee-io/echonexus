@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  Logger,
   NotFoundException,
 } from '@nestjs/common';
 
@@ -81,7 +80,6 @@ export class ProductsService {
         `Product with subdomain ${clientSubdomain} not found`,
       );
     }
-    Logger.log(project);
     if (flag === 'bug_report') {
       return project.isBugReportsEnabled;
     } else if (flag === 'feature_request') {
