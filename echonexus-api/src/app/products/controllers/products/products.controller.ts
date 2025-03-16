@@ -41,7 +41,7 @@ export class ProductsController {
   @IsPublic()
   @Get('config')
   async getProductConfig(@CurrentUser() {clientSubdomain}: CurrentUserDto) {
-    return this.productsService.getProductConfigFlagStatus(clientSubdomain);
+    return this.productsService.getProductConfig(clientSubdomain);
   }
 
   @Get('feedback/:id')
