@@ -50,6 +50,7 @@ export class ProductsService {
       product.id,
       productFeedback,
     );
+    return {isSuccessful: true};
   }
 
   async getProductFeedbackForProjectId(

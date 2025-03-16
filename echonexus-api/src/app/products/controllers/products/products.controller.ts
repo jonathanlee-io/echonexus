@@ -36,7 +36,7 @@ export class ProductsController {
     }: SubmitProductFeedbackRequestDto,
     @Ip() ip: string,
   ) {
-    await this.productsService.submitProductFeedback({
+    return this.productsService.submitProductFeedback({
       clientSubdomain,
       userFeedback,
       widgetMetadataType,

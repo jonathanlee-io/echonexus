@@ -107,11 +107,13 @@ function app(window) {
         headers: {
           Accept: 'application/json',
         },
-        mode: 'no-cors',
       })
-        .then(() => {
+        .then((response) => {
           this.isLoading = false;
           this.isSubmissionSuccessfulOpen = true;
+          response.json().then((body) => {
+            console.log(body.isSuccessful);
+          });
         })
         .catch((err) => {
           console.error(err);
