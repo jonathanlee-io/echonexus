@@ -25,29 +25,17 @@ function app(window) {
     isSubmissionErrorOpen: false,
 
     init() {
-      fetch(`${this.baseUrl}/products/config?flag=bug_report`, {
+      fetch(`${this.baseUrl}/products/config`, {
         method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
       })
-        .then((response) => {
-          this.isBugReportEnabled = response.status === 200;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      fetch(`${this.baseUrl}/products/config?flag=feature_request`, {
-        method: 'GET',
-      })
-        .then((response) => {
-          this.isFeatureRequestEnabled = response.status === 200;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-      fetch(`${this.baseUrl}/products/config?flag=feature_feedback`, {
-        method: 'GET',
-      })
-        .then((response) => {
-          this.isFeatureFeedbackEnabled = response.status === 200;
+        .then(async (response) => {
+          const body = await response.json();
+          this.isBugReportEnabled = body.isBugReportEnabled;
+          this.isFeatureRequestEnabled = body.isFeatureRequestEnabled;
+          this.isFeatureFeedbackEnabled = body.isFeatureFeedbackEnabled;
         })
         .catch((err) => {
           console.error(err);

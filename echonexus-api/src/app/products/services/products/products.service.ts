@@ -72,10 +72,7 @@ export class ProductsService {
     return this.productsRepository.getFeedbackForProduct(product.id);
   }
 
-  async getProductConfigFlagStatus(
-    clientSubdomain: string,
-    flag: WidgetMetadataType,
-  ) {
+  async getProductConfigFlagStatus(clientSubdomain: string) {
     const [project] =
       await this.projectsService.getProjectFromSubdomain(clientSubdomain);
     if (!project) {
@@ -83,12 +80,10 @@ export class ProductsService {
         `Product with subdomain ${clientSubdomain} not found`,
       );
     }
-    if (flag === 'bug_report') {
-      return project.isBugReportsEnabled;
-    } else if (flag === 'feature_request') {
-      return project.isFeatureRequestsEnabled;
-    } else if (flag === 'feature_feedback') {
-      return project.isFeatureFeedbackEnabled;
-    }
+    return {
+      isBugReportsEnabled: project.isBugReportsEnabled,
+      isFeatureRequestsEnabled: project.isFeatureRequestsEnabled,
+      isFeatureFeedbackEnabled: project.isFeatureFeedbackEnabled,
+    };
   }
 }

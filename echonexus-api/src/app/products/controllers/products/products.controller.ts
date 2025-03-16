@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  HttpStatus,
-  Ip,
-  Param,
-  Query,
-  Res,
-} from '@nestjs/common';
+import {Controller, Get, Ip, Param, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {DateTime} from 'luxon';
 
@@ -14,7 +6,6 @@ import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-
 import {IsPublic} from '../../../../lib/auth/decorators/is-public/is-public.decorator';
 import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {IdParamDto} from '../../../../lib/validation/id.param.dto';
-import {GetProductConfigFlagStatusDto} from '../../dto/GetProductConfigFlagStatus.dto';
 import {SubmitProductFeedbackRequestDto} from '../../dto/SubmitProductFeedbackRequest.dto';
 import {ProductsService} from '../../services/products/products.service';
 
@@ -49,22 +40,8 @@ export class ProductsController {
 
   @IsPublic()
   @Get('config')
-  async getProductConfig(
-    @CurrentUser() {clientSubdomain}: CurrentUserDto,
-    @Query()
-    {flag}: GetProductConfigFlagStatusDto,
-    @Res({passthrough: true}) res: any,
-  ) {
-    const flagStatus = await this.productsService.getProductConfigFlagStatus(
-      clientSubdomain,
-      flag,
-    );
-    if (flagStatus) {
-      res.status(HttpStatus.OK);
-    } else {
-      res.status(HttpStatus.NO_CONTENT);
-    }
-    return {flagStatus};
+  async getProductConfig(@CurrentUser() {clientSubdomain}: CurrentUserDto) {
+    return this.productsService.getProductConfigFlagStatus(clientSubdomain);
   }
 
   @Get('feedback/:id')
