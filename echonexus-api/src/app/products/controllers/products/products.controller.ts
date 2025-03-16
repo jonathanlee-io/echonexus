@@ -14,6 +14,7 @@ import {CurrentUser} from '../../../../lib/auth/decorators/current-user/current-
 import {IsPublic} from '../../../../lib/auth/decorators/is-public/is-public.decorator';
 import {CurrentUserDto} from '../../../../lib/auth/dto/CurrentUserDto';
 import {IdParamDto} from '../../../../lib/validation/id.param.dto';
+import {GetProductConfigFlagStatusDto} from '../../dto/GetProductConfigFlagStatus.dto';
 import {SubmitProductFeedbackRequestDto} from '../../dto/SubmitProductFeedbackRequest.dto';
 import {ProductsService} from '../../services/products/products.service';
 
@@ -51,7 +52,7 @@ export class ProductsController {
   async getProductConfig(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
     @Query()
-    {flag}: {flag: string},
+    {flag}: GetProductConfigFlagStatusDto,
     @Res({passthrough: true}) res: any,
   ) {
     const flagStatus = await this.productsService.getProductConfigFlagStatus(
