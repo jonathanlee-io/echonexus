@@ -96,7 +96,7 @@ function app(window) {
           Accept: 'application/json',
         },
       })
-        .then((response) => {
+        .then(() => {
           this.isLoading = false;
           this.isSubmissionSuccessfulOpen = true;
         })
