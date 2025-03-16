@@ -1,4 +1,4 @@
-import {Controller, Get, Ip, Param, Query} from '@nestjs/common';
+import {Body, Controller, Get, Ip, Param, Post} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {DateTime} from 'luxon';
 
@@ -15,10 +15,10 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @IsPublic()
-  @Get('feedback')
+  @Post('feedback')
   async receiveFeedback(
     @CurrentUser() {clientSubdomain}: CurrentUserDto,
-    @Query()
+    @Body()
     {
       userFeedback,
       widgetMetadataType,
