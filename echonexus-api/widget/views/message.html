@@ -62,7 +62,8 @@
       text-align: center;
       cursor: pointer;
       transition: transform 200ms, box-shadow 200ms;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);">
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);"
+                                        x-show="$store.api.isBugReportEnabled">
                                     Report a Bug
                                 </button>
 
@@ -83,7 +84,8 @@
       text-align: center;
       cursor: pointer;
       transition: transform 200ms, box-shadow 200ms;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);">
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);"
+                                        x-show="$store.api.isFeatureRequestEnabled">
                                     Request a Feature
                                 </button>
 
@@ -104,9 +106,14 @@
       text-align: center;
       cursor: pointer;
       transition: transform 200ms, box-shadow 200ms;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);">
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);"
+                                        x-show="$store.api.isFeatureFeedbackEnabled">
                                     Specific Feature Feedback
                                 </button>
+
+                                <p style="margin-top: 0.5rem; font-size: 0.875rem; text-align: center; color: black;" x-show="!$store.api.isBugReportEnabled && !$store.api.isFeatureRequestEnabled && !$store.api.isFeatureFeedbackEnabled">
+                                    No feedback options available.
+                                </p>
 
                                 <!-- Close Button -->
                                 <button
@@ -265,7 +272,8 @@
                     </div>
                 </div>
             </div>
-            <div aria-labelledby="modal-title" aria-modal="true" class="js-widget-modal-feature-feedback z-10" role="dialog"
+            <div aria-labelledby="modal-title" aria-modal="true" class="js-widget-modal-feature-feedback z-10"
+                 role="dialog"
                  x-show="$store.api.isFeatureFeedbackOpen">
                 <div aria-hidden="false"
                      style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
@@ -326,7 +334,8 @@
         </div>
     </div>
 </div>
-<div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog" x-show="$store.api.isSubmissionSuccessfulOpen">
+<div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog"
+     x-show="$store.api.isSubmissionSuccessfulOpen">
     <div aria-hidden="false"
          style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
     <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -335,7 +344,8 @@
 
                 <!-- Success Icon -->
                 <div style="width: 4rem; height: 4rem; margin: 0 auto; background-color: #34D399; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <svg fill="none" stroke="currentColor" style="width: 2rem; height: 2rem; color: white;" viewBox="0 0 24 24">
+                    <svg fill="none" stroke="currentColor" style="width: 2rem; height: 2rem; color: white;"
+                         viewBox="0 0 24 24">
                         <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                     </svg>
                 </div>
@@ -364,7 +374,8 @@
         </div>
     </div>
 </div>
-<div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog" x-show="$store.api.isSubmissionErrorOpen">
+<div aria-labelledby="modal-title" aria-modal="true" class="z-10" role="dialog"
+     x-show="$store.api.isSubmissionErrorOpen">
     <div aria-hidden="false"
          style="position: fixed; inset: 0; background-color: rgba(75, 85, 99, 0.75); transition: opacity;"></div>
     <div style="position: fixed; inset: 0; z-index: 10; width: 100vw; overflow-y: auto;">
@@ -373,8 +384,10 @@
 
                 <!-- Error Icon -->
                 <div style="width: 4rem; height: 4rem; margin: 0 auto; background-color: #F87171; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <svg fill="none" stroke="currentColor" style="width: 2rem; height: 2rem; color: white;" viewBox="0 0 24 24">
-                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    <svg fill="none" stroke="currentColor" style="width: 2rem; height: 2rem; color: white;"
+                         viewBox="0 0 24 24">
+                        <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2"></path>
                     </svg>
                 </div>
 
@@ -425,7 +438,11 @@
 
 <style>
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>

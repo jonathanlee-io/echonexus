@@ -1,4 +1,12 @@
-import {Controller, Get, Ip, Param, Query} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Ip,
+  Param,
+  Query,
+  Res,
+} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {DateTime} from 'luxon';
 
@@ -36,6 +44,26 @@ export class ProductsController {
       ip,
       submittedAt: DateTime.now().toISO(),
     });
+  }
+
+  @IsPublic()
+  @Get('config')
+  async getProductConfig(
+    @CurrentUser() {clientSubdomain}: CurrentUserDto,
+    @Query()
+    {flag}: {flag: string},
+    @Res({passthrough: true}) res: any,
+  ) {
+    const flagStatus = await this.productsService.getProductConfigFlagStatus(
+      clientSubdomain,
+      flag,
+    );
+    if (flagStatus) {
+      res.set({'echonexus-bug-report-enabled': true}).status(HttpStatus.OK);
+    } else {
+      res.status(HttpStatus.NO_CONTENT);
+    }
+    return {flagStatus};
   }
 
   @Get('feedback/:id')

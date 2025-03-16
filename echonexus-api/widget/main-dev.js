@@ -16,10 +16,43 @@ function app(window) {
     isLoading: false,
     isMainMenuOpen: false,
     isBugReportOpen: false,
+    isBugReportEnabled: false,
     isFeatureRequestOpen: false,
+    isFeatureRequestEnabled: false,
     isFeatureFeedbackOpen: false,
+    isFeatureFeedbackEnabled: false,
     isSubmissionSuccessfulOpen: false,
     isSubmissionErrorOpen: false,
+
+    init() {
+      fetch(`${this.baseUrl}/products/config?flag=bug_report`, {
+        method: 'GET',
+      })
+        .then((response) => {
+          this.isBugReportEnabled = response.status === 200;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      fetch(`${this.baseUrl}/products/config?flag=feature_request`, {
+        method: 'GET',
+      })
+        .then((response) => {
+          this.isFeatureRequestEnabled = response.status === 200;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      fetch(`${this.baseUrl}/products/config?flag=feature_feedback`, {
+        method: 'GET',
+      })
+        .then((response) => {
+          this.isFeatureFeedbackEnabled = response.status === 200;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
 
     openMainMenu() {
       this.isMainMenuOpen = true;

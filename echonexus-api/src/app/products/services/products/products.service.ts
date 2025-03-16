@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {Injectable, Logger, NotFoundException} from '@nestjs/common';
 
 import {ProjectsService} from '../../../projects/services/projects/projects.service';
 import {ProductsRepositoryService} from '../../repositories/products-repository/products-repository.service';
@@ -54,5 +54,23 @@ export class ProductsService {
       throw new NotFoundException(`Product for project ${projectId} not found`);
     }
     return this.productsRepository.getFeedbackForProduct(product.id);
+  }
+
+  async getProductConfigFlagStatus(clientSubdomain: string, flag: string) {
+    const [project] =
+      await this.projectsService.getProjectFromSubdomain(clientSubdomain);
+    if (!project) {
+      throw new NotFoundException(
+        `Product with subdomain ${clientSubdomain} not found`,
+      );
+    }
+    Logger.log(project);
+    if (flag === 'bug_report') {
+      return project.isBugReportsEnabled;
+    } else if (flag === 'feature_request') {
+      return project.isFeatureRequestsEnabled;
+    } else if (flag === 'feature_feedback') {
+      return project.isFeatureFeedbackEnabled;
+    }
   }
 }
