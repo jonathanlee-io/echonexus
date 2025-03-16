@@ -59,7 +59,7 @@ export class ProductsController {
       flag,
     );
     if (flagStatus) {
-      res.set({'echonexus-bug-report-enabled': true}).status(HttpStatus.OK);
+      res.status(HttpStatus.OK);
     } else {
       res.status(HttpStatus.NO_CONTENT);
     }

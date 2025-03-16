@@ -1,4 +1,9 @@
-import {Injectable, Logger, NotFoundException} from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 
 import {ProjectsService} from '../../../projects/services/projects/projects.service';
 import {ProductsRepositoryService} from '../../repositories/products-repository/products-repository.service';
@@ -26,6 +31,16 @@ export class ProductsService {
       throw new NotFoundException(
         `Project with subdomain ${productFeedback.clientSubdomain} not found`,
       );
+    }
+    if (
+      (productFeedback.widgetMetadataType === 'bug_report' &&
+        !project.isBugReportsEnabled) ||
+      (productFeedback.widgetMetadataType === 'feature_request' &&
+        !project.isFeatureRequestsEnabled) ||
+      (productFeedback.widgetMetadataType === 'feature_feedback' &&
+        !project.isFeatureFeedbackEnabled)
+    ) {
+      throw new BadRequestException(`Feature not enabled for this project`);
     }
     const product = await this.productsRepository.findProductFromProject(
       project.id,
