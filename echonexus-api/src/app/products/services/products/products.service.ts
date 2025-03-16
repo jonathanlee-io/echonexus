@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 
 import {ProjectsService} from '../../../projects/services/projects/projects.service';
+import {WidgetMetadataType} from '../../dto/SubmitProductFeedbackRequest.dto';
 import {ProductsRepositoryService} from '../../repositories/products-repository/products-repository.service';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class ProductsService {
   async submitProductFeedback(productFeedback: {
     clientSubdomain: string;
     userFeedback: string;
-    widgetMetadataType: 'bug_report' | 'feature_request' | 'feature_feedback';
+    widgetMetadataType: WidgetMetadataType;
     widgetMetadataUrl: string;
     widgetMetadataTimezone: string;
     ip: string;
