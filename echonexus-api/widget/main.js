@@ -33,8 +33,8 @@ function app(window) {
       })
         .then(async (response) => {
           const body = await response.json();
-          this.isBugReportEnabled = body.isBugReportEnabled;
-          this.isFeatureRequestEnabled = body.isFeatureRequestEnabled;
+          this.isBugReportEnabled = body.isBugReportsEnabled;
+          this.isFeatureRequestEnabled = body.isFeatureRequestsEnabled;
           this.isFeatureFeedbackEnabled = body.isFeatureFeedbackEnabled;
         })
         .catch((err) => {
