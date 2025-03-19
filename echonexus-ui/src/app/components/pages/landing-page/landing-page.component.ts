@@ -1,6 +1,7 @@
 import {NgIf, NgOptimizedImage} from '@angular/common';
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
+import {YouTubePlayer} from '@angular/youtube-player';
 import {SharedModule} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
@@ -32,6 +33,7 @@ import {BetaMessageComponent} from '../../lib/_message/beta-message/beta-message
     BetaMessageComponent,
     MeteorsComponent,
     NgOptimizedImage,
+    YouTubePlayer,
   ],
   templateUrl: './landing-page.component.html',
   styleUrl: './landing-page.component.scss',
