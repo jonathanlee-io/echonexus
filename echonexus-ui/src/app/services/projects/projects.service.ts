@@ -37,7 +37,7 @@ export class ProjectsService {
     return this.httpClient.delete<ProjectDto>(this.tenantStore.getFullRequestUrl(`v1/projects/${projectId}`));
   }
 
-  fetchProductFeedbackForProjectById(projectId: string) {
-    return this.httpClient.get<ProductFeedbackSubmissionDto[]>(this.tenantStore.getFullRequestUrl(`v1/products/feedback/${projectId}`));
+  fetchProductFeedbackForProjectById(projectId: string, offset?: number) {
+    return this.httpClient.get<{total: number, rows: ProductFeedbackSubmissionDto[]}>(this.tenantStore.getFullRequestUrl(`v1/products/feedback/${projectId}?offset=${offset ?? 0}&limit=5`));
   }
 }

@@ -19,6 +19,8 @@ export type ProjectState = {
   projectsWhereInvolved: ProjectDto[];
   projectsForClient: ProjectDto[];
   productFeedbackSubmissions: (ProductFeedbackSubmissionDto & {serverResponseTime: string})[];
+  productFeedbackSubmissionsOffset: number;
+  productFeedbackSubmissionsTotal: number;
 };
 
 const initialState: ProjectState = {
@@ -28,6 +30,8 @@ const initialState: ProjectState = {
   projectsWhereInvolved: [],
   projectsForClient: [],
   productFeedbackSubmissions: [],
+  productFeedbackSubmissionsOffset: 0,
+  productFeedbackSubmissionsTotal: 0,
 };
 
 export const ProjectStore = signalStore(
@@ -82,15 +86,19 @@ export const ProjectStore = signalStore(
                   }),
               ).subscribe();
         },
+        setProductFeedbackSubmissionsOffset: (offset: number) => {
+          patchState(store, {productFeedbackSubmissionsOffset: offset});
+        },
         loadProductFeedbackByProjectId: (projectId: string) => {
           patchState(store, {isFeedbackLoading: true});
-          projectsService.fetchProductFeedbackForProjectById(projectId)
+          projectsService.fetchProductFeedbackForProjectById(projectId, store.productFeedbackSubmissionsOffset())
               .pipe(
                   take(1),
                   tap((productFeedbackSubmissions) => {
                     patchState(store, {
                       isFeedbackLoading: false,
-                      productFeedbackSubmissions: [...productFeedbackSubmissions.map((submission) => ({
+                      productFeedbackSubmissionsTotal: productFeedbackSubmissions.total,
+                      productFeedbackSubmissions: [...productFeedbackSubmissions.rows.map((submission) => ({
                         ...submission,
                         serverResponseTime: String(Math.abs(DateTime
                             .fromJSDate(new Date(submission.submittedAt))

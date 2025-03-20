@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Ip, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Ip, Param, Post, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {DateTime} from 'luxon';
 
@@ -48,10 +48,13 @@ export class ProductsController {
   async getFeedbackForProductById(
     @CurrentUser() {requestingUserId}: CurrentUserDto,
     @Param() {id: projectId}: IdParamDto,
+    @Query() {limit, offset}: {limit: number; offset: number},
   ) {
     return this.productsService.getProductFeedbackForProjectId(
       requestingUserId,
       projectId,
+      limit,
+      offset,
     );
   }
 }

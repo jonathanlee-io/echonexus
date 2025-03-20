@@ -55,6 +55,8 @@ export class ProductsService {
   async getProductFeedbackForProjectId(
     requestingUserId: string,
     projectId: string,
+    limit: number,
+    offset: number,
   ) {
     const project = await this.projectsService.getProjectById(
       requestingUserId,
@@ -69,7 +71,11 @@ export class ProductsService {
     if (!product) {
       throw new NotFoundException(`Product for project ${projectId} not found`);
     }
-    return this.productsRepository.getFeedbackForProduct(product.id);
+    return this.productsRepository.getFeedbackForProduct(
+      product.id,
+      limit,
+      offset,
+    );
   }
 
   async getProductConfig(clientSubdomain: string) {

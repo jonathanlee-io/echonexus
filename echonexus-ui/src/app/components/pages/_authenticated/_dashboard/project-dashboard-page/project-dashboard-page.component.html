@@ -36,7 +36,7 @@
         <p-progressSpinner styleClass="mt-8" />
       </ng-container>
       <ng-template #feedbackLoaded>
-        <app-product-feedback-dashboard-panel [productFeedbackSubmissions]="projectStore.productFeedbackSubmissions()"/>
+        <app-product-feedback-dashboard-panel [productFeedbackSubmissions]="projectStore.productFeedbackSubmissions()" [projectId]="projectStore.projectById()?.id ?? ''"/>
       </ng-template>
     </div>
   </div>

@@ -52,11 +52,23 @@ export class ProductsRepositoryService {
     });
   }
 
-  async getFeedbackForProduct(productId: string) {
-    return this.prisma.productFeedbackSubmission.findMany({
-      where: {
-        productId,
-      },
+  async getFeedbackForProduct(
+    productId: string,
+    limit: number,
+    offset: number,
+  ) {
+    const total = await this.prisma.productFeedbackSubmission.count({
+      where: {productId},
     });
+    return {
+      total,
+      rows: await this.prisma.productFeedbackSubmission.findMany({
+        where: {
+          productId,
+        },
+        skip: +offset,
+        take: +limit,
+      }),
+    };
   }
 }
