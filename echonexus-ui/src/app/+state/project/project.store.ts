@@ -98,15 +98,16 @@ export const ProjectStore = signalStore(
                     patchState(store, {
                       isFeedbackLoading: false,
                       productFeedbackSubmissionsTotal: productFeedbackSubmissions.total,
-                      productFeedbackSubmissions: [...productFeedbackSubmissions.rows.map((submission) => ({
-                        ...submission,
-                        serverResponseTime: String(Math.abs(DateTime
-                            .fromJSDate(new Date(submission.submittedAt))
-                            .diff(
-                                DateTime.fromJSDate(new Date(submission.createdAt)),
-                                ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'],
-                            ).toMillis())),
-                      }))]});
+                      productFeedbackSubmissions: [
+                        ...productFeedbackSubmissions.rows.map((submission) => ({
+                          ...submission,
+                          serverResponseTime: String(Math.abs(DateTime
+                              .fromJSDate(new Date(submission.submittedAt))
+                              .diff(
+                                  DateTime.fromJSDate(new Date(submission.createdAt)),
+                                  ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'],
+                              ).toMillis())),
+                        }))]});
                   }),
                   catchError((err) => {
                     patchState(store, {...initialState});

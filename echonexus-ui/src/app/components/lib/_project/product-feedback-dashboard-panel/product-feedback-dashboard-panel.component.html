@@ -16,16 +16,13 @@
       <div class="font-bold">Updated At:</div> <div>{{ feedback.updatedAt | date }}</div>
     </div>
   </div>
-  <div class="card flex justify-center">
-    <p-paginator
-      (onPageChange)="onPageChange($event)"
-      [first]="first"
-      [rows]="rows"
-      [showCurrentPageReport]="true"
-      [showJumpToPageDropdown]="false"
-      [showPageLinks]="false"
-      [totalRecords]="projectStore.productFeedbackSubmissionsTotal()"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" />
+  <div class="flex justify-center">
+    <app-paginator
+      (pageChanged)="onPageChange($event)"
+      [currentPage]="currentPage"
+      [itemsPerPage]="itemsPerPage"
+      [totalItems]="projectStore.productFeedbackSubmissionsTotal()"
+    />
   </div>
 </div>
 
