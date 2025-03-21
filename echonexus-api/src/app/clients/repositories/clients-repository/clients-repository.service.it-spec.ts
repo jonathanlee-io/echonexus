@@ -78,6 +78,7 @@ describe('ClientsRepositoryService', () => {
     const result = await repository.registerNewClientWithTransaction(
       userEmail,
       faker.internet.displayName(),
+      faker.animal.petName(),
       faker.internet.domainName().split('.')[0],
       PaymentsService.paymentPlans[0].id,
       {
