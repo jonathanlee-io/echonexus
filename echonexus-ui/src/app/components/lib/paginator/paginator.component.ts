@@ -18,7 +18,7 @@ export class PaginatorComponent {
   currentPage = model<number>(0);
   protected readonly totalPages = computed(() => Math.ceil(this.totalItems() / this.itemsPerPage()));
   protected readonly isClickPrevDisabled = computed(() => this.currentPage() === 0);
-  protected readonly isClickNextDisabled = computed(() => this.currentPage() === ((this.totalItems() / this.itemsPerPage()) - 1));
+  protected readonly isClickNextDisabled = computed(() => this.currentPage() === this.totalPages() - 1);
   protected startItemIndex: number = 0;
   protected endItemIndex: number = 0;
 
