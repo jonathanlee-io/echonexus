@@ -2,13 +2,11 @@
   <div class="sm:flex sm:flex-1 sm:items-center sm:justify-between">
     <div class="mx-4">
       <p class="text-sm text-gray-700">
-        Showing
-        <span class="font-medium">{{ startItemIndex + 1 }}</span>
-        to
-        <span class="font-medium">{{ endItemIndex }}</span>
-        of
-        <span class="font-medium">{{ totalItems() }}</span>
-        results
+        Showing page
+        <span class="font-medium">{{ currentPage() + 1 }}</span>
+        of total
+        <span class="font-medium">{{ totalPages() }}</span>
+        pages
       </p>
     </div>
     <div>
