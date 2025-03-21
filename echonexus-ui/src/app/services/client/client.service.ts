@@ -24,6 +24,7 @@ export class ClientService {
 
   registerNewClientAndProjectWithPlan(
       clientDisplayName: string,
+      projectDisplayName: string,
       subdomain: string,
       isBugReportsEnabled: boolean,
       isFeatureRequestsEnabled: boolean,
@@ -33,6 +34,7 @@ export class ClientService {
         this.tenantStore.getFullRequestUrl('v1/clients/create'),
         {
           clientDisplayName,
+          projectDisplayName,
           subdomain,
           isBugReportsEnabled,
           isFeatureRequestsEnabled,

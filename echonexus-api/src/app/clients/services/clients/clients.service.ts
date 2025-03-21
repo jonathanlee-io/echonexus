@@ -44,6 +44,7 @@ export class ClientsService implements OnModuleInit {
         this.adminConfig.adminEmail,
         {
           clientDisplayName: 'EchoNexus',
+          projectDisplayName: 'EchoNexus',
           subdomain: 'www',
           isBugReportsEnabled: true,
           isFeatureRequestsEnabled: true,
@@ -87,6 +88,7 @@ export class ClientsService implements OnModuleInit {
     requestingUserEmail: string,
     {
       clientDisplayName,
+      projectDisplayName,
       subdomain,
       isBugReportsEnabled,
       isFeatureRequestsEnabled,
@@ -105,6 +107,7 @@ export class ClientsService implements OnModuleInit {
       await this.clientsRepository.registerNewClientWithTransaction(
         requestingUserEmail,
         clientDisplayName,
+        projectDisplayName,
         subdomain,
         PaymentsService.paymentPlans[0].id,
         {

@@ -18,6 +18,13 @@ export class CreateClientDto {
 
   @IsDefined()
   @IsString()
+  @MinLength(3)
+  @MaxLength(100)
+  @ApiProperty({required: true})
+  projectDisplayName: string;
+
+  @IsDefined()
+  @IsString()
   @Matches(/^[a-zA-Z0-9][a-zA-Z0-9.-]+[a-zA-Z0-9]$/)
   @ApiProperty({required: true})
   subdomain: string;

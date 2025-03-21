@@ -22,22 +22,24 @@ import {rebaseRoutePath} from '../../../../util/router/Router.utils';
   styleUrl: './cancel-continue.component.scss',
 })
 export class CancelContinueComponent {
-  private readonly projectStore = inject(ProjectStore);
-  protected readonly RoutePath = RoutePath;
-  protected readonly rebaseRoutePath = rebaseRoutePath;
-  protected readonly clientStore = inject(ClientStore);
   isNewClient = input.required<boolean>();
   isReadyToContinue = input.required<boolean>();
   cancelRoutePath = input.required<string>();
   clientDisplayNameFormControl = input.required<FormControl<string>>();
+  projectDisplayNameFormControl = input.required<FormControl<string>>();
   subdomainFormControl = input.required<FormControl<string>>();
   bugReportsEnabledFormControl = input.required<FormControl<boolean>>();
   featureRequestsEnabledFormControl = input.required<FormControl<boolean>>();
   featureFeedbackEnabledFormControl = input.required<FormControl<boolean>>();
+  protected readonly RoutePath = RoutePath;
+  protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly clientStore = inject(ClientStore);
+  private readonly projectStore = inject(ProjectStore);
 
   doCreateProject() {
     if (!this.isReadyToContinue() ||
       (this.clientDisplayNameFormControl().invalid && this.clientDisplayNameFormControl().enabled) ||
+      this.projectDisplayNameFormControl().invalid ||
       !this.subdomainFormControl().valid
     ) {
       return;
@@ -45,6 +47,7 @@ export class CancelContinueComponent {
     if (this.isNewClient()) {
       this.clientStore.registerNewClientAndProjectWithPlan(
           this.clientDisplayNameFormControl().value,
+          this.projectDisplayNameFormControl().value,
           this.subdomainFormControl().value,
           this.bugReportsEnabledFormControl().value,
           this.featureRequestsEnabledFormControl().value,
@@ -60,7 +63,7 @@ export class CancelContinueComponent {
         clientId,
         {
           clientId,
-          name: this.subdomainFormControl().value,
+          name: this.projectDisplayNameFormControl().value,
           subdomain: this.subdomainFormControl().value,
           isBugReportsEnabled: this.bugReportsEnabledFormControl().value,
           isFeatureRequestsEnabled: this.featureRequestsEnabledFormControl().value,

@@ -13,6 +13,7 @@ export class ClientsRepositoryService {
   async registerNewClientWithTransaction(
     requestingUserEmail: string,
     clientDisplayName: string,
+    projectDisplayName: string,
     subdomain: string,
     paymentPlanId: string,
     {
@@ -60,7 +61,7 @@ export class ClientsRepositoryService {
         });
         const createdProject = await prisma.project.create({
           data: {
-            name: subdomain,
+            name: projectDisplayName,
             isBugReportsEnabled,
             isFeatureRequestsEnabled,
             isFeatureFeedbackEnabled,

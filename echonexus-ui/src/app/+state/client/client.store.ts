@@ -105,6 +105,7 @@ export const ClientStore = signalStore(
         },
         registerNewClientAndProjectWithPlan: (
             clientDisplayName: string,
+            projectDisplayName: string,
             subdomain: string,
             isBugReportsEnabled: boolean,
             isFeatureRequestsEnabled: boolean,
@@ -114,6 +115,7 @@ export const ClientStore = signalStore(
           clientService
               .registerNewClientAndProjectWithPlan(
                   clientDisplayName,
+                  projectDisplayName,
                   subdomain,
                   isBugReportsEnabled,
                   isFeatureRequestsEnabled,

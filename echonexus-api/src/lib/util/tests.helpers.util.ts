@@ -38,6 +38,7 @@ export const createMockRequestingUser = (overrides?: {
 
 export const createMockCreateClientDto = (overrides?: {
   clientDisplayName?: string;
+  projectDisplayName?: string;
   subdomain?: string;
   isBugReportsEnabled?: boolean;
   isFeatureRequestsEnabled?: boolean;
@@ -45,6 +46,7 @@ export const createMockCreateClientDto = (overrides?: {
 }): CreateClientDto => ({
   clientDisplayName:
     overrides?.clientDisplayName ?? faker.internet.displayName(),
+  projectDisplayName: overrides?.projectDisplayName ?? faker.animal.petName(),
   subdomain: overrides?.subdomain ?? faker.internet.domainName().split('.')[0],
   isBugReportsEnabled: overrides?.isBugReportsEnabled ?? true,
   isFeatureRequestsEnabled: overrides?.isFeatureRequestsEnabled ?? true,

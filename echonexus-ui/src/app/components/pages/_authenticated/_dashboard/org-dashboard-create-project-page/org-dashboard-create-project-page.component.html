@@ -7,6 +7,11 @@
         [isReadonly]="true"
       />
 
+      <app-create-project-display-name
+        [isReadonly]="false"
+        [projectDisplayNameFormControl]="projectDisplayNameFormControl"
+      />
+
       <app-create-project
         [subdomainFormControl]="subdomainFormControl"
         [subdomainState]="subdomainState"
@@ -15,22 +20,23 @@
       <div class="mt-3">
         <app-project-features-switches
           [bugReportsEnabledFormControl]="bugReportsEnabledFormControl"
-          [featureRequestsEnabledFormControl]="featureRequestsEnabledFormControl"
           [featureFeedbackEnabledFormControl]="featureFeedbackEnabledFormControl"
+          [featureRequestsEnabledFormControl]="featureRequestsEnabledFormControl"
           [isHintEnabled]="true"
         />
       </div>
     </div>
 
     <app-cancel-continue
-      [isNewClient]="false"
-      [cancelRoutePath]="rebaseRoutePath(RoutePath.DASHBOARD)"
-      [isReadyToContinue]="isReadyToContinue()"
-      [clientDisplayNameFormControl]="clientDisplayNameFormControl"
-      [subdomainFormControl]="subdomainFormControl"
       [bugReportsEnabledFormControl]="bugReportsEnabledFormControl"
-      [featureRequestsEnabledFormControl]="featureRequestsEnabledFormControl"
+      [cancelRoutePath]="rebaseRoutePath(RoutePath.DASHBOARD)"
+      [clientDisplayNameFormControl]="clientDisplayNameFormControl"
       [featureFeedbackEnabledFormControl]="featureFeedbackEnabledFormControl"
+      [featureRequestsEnabledFormControl]="featureRequestsEnabledFormControl"
+      [isNewClient]="false"
+      [isReadyToContinue]="isReadyToContinue()"
+      [projectDisplayNameFormControl]="projectDisplayNameFormControl"
+      [subdomainFormControl]="subdomainFormControl"
     />
   </form>
 </div>

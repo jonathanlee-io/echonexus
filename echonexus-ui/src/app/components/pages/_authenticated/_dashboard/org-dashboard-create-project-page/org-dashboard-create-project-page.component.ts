@@ -11,6 +11,9 @@ import {CancelContinueComponent} from '../../../../lib/_project/cancel-continue/
 import {ClientFormComponent} from '../../../../lib/_project/client-form/client-form.component';
 import {CreateProjectComponent} from '../../../../lib/_project/create-project/create-project.component';
 import {
+  CreateProjectDisplayNameComponent,
+} from '../../../../lib/_project/create-project-display-name/create-project-display-name.component';
+import {
   ProjectFeaturesSwitchesComponent,
 } from '../../../../lib/_project/project-features-switches/project-features-switches.component';
 import {SubdomainState} from '../../_create_client_pages/create-project-page/create-project-page.component';
@@ -23,51 +26,52 @@ import {SubdomainState} from '../../_create_client_pages/create-project-page/cre
     CreateProjectComponent,
     ProjectFeaturesSwitchesComponent,
     ReactiveFormsModule,
+    CreateProjectDisplayNameComponent,
   ],
   templateUrl: './org-dashboard-create-project-page.component.html',
   styleUrl: './org-dashboard-create-project-page.component.scss',
 })
 export class OrgDashboardCreateProjectPageComponent implements OnDestroy {
-  private readonly subdomainValueChangesSubscription: Subscription;
-  private readonly route = inject(ActivatedRoute);
-
-  protected readonly clientStore = inject(ClientStore);
-  protected readonly isReadyToContinue = signal<boolean>(false);
-  protected readonly rebaseRoutePath = rebaseRoutePath;
-  protected readonly RoutePath = RoutePath;
-
   subdomainState: SubdomainState = 'INIT';
-
-  clientDisplayNameFormControl = new FormControl<string>('', {
+  protected readonly clientDisplayNameFormControl = new FormControl<string>('', {
     nonNullable: true, validators: Validators.compose([
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(100),
     ]),
   });
-
-  subdomainFormControl = new FormControl<string>('', {
+  protected readonly subdomainFormControl = new FormControl<string>('', {
     nonNullable: true,
     validators: Validators.compose([
       Validators.required,
       Validators.pattern(/^[a-z0-9][a-z0-9-_]{0,61}$/),
     ]),
   });
-
-  bugReportsEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly bugReportsEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-
-  featureRequestsEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly featureRequestsEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-
-  featureFeedbackEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly featureFeedbackEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
+  protected readonly projectDisplayNameFormControl = new FormControl<string>('', {
+    nonNullable: true, validators: Validators.compose([
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(100),
+    ]),
+  });
+  protected readonly clientStore = inject(ClientStore);
+  protected readonly isReadyToContinue = signal<boolean>(false);
+  protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly RoutePath = RoutePath;
+  private readonly subdomainValueChangesSubscription: Subscription;
+  private readonly route = inject(ActivatedRoute);
 
   constructor() {
     watchState(this.clientStore, (state) => {
