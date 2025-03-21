@@ -1,8 +1,9 @@
-import {DatePipe, NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {Component, effect, inject, input, OnInit, signal} from '@angular/core';
 
 import {ProductFeedbackSubmissionsOffsetKey, ProjectStore} from '../../../../+state/project/project.store';
 import {ProductFeedbackSubmissionDto} from '../../../../dtos/projects/ProductFeedbackSubmissionDto';
+import {DateTimeService} from '../../../../services/date-time/date-time.service';
 import {PaginatorComponent} from '../../paginator/paginator.component';
 
 @Component({
@@ -10,7 +11,6 @@ import {PaginatorComponent} from '../../paginator/paginator.component';
   imports: [
     NgIf,
     NgForOf,
-    DatePipe,
     PaginatorComponent,
   ],
   templateUrl: './product-feedback-dashboard-panel.component.html',
@@ -20,9 +20,11 @@ export class ProductFeedbackDashboardPanelComponent implements OnInit {
   private static readonly paginationKey = 'productFeedbackDashboardPanelPagination';
 
   productFeedbackSubmissions = input.required<(ProductFeedbackSubmissionDto & {serverResponseTime: string})[]>();
+
   protected readonly currentPage = signal<number>(this.getLocalStorageValueOrDefault());
   protected readonly projectStore = inject(ProjectStore);
   protected readonly itemsPerPage: number = 5;
+  protected readonly formatDateString = DateTimeService.formatDateTimeString;
 
   constructor() {
     let isInitialized = false;

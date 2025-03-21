@@ -2,7 +2,7 @@
   <div *ngFor="let feedback of productFeedbackSubmissions()" class="border p-4 mb-4 rounded shadow-md">
     <div class="flex flex-col md:flex-row justify-between mb-2">
       <span class="font-bold">Type: {{ feedback.widgetMetadataType }}</span>
-      <span class="md:ml-4">Submitted: {{ feedback.submittedAt | date }}</span>
+      <span class="md:ml-4">Submitted: {{ formatDateString(feedback.submittedAt) }}</span>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-2">
       <div class="font-bold">User Feedback:</div> <div>{{ feedback.userFeedback }}</div>
@@ -12,8 +12,8 @@
       <div class="font-bold">Widget Metadata URL:</div> <div class="break-all">{{ feedback.widgetMetadataUrl }}</div>
       <div class="font-bold">Widget Metadata Timezone:</div> <div>{{ feedback.widgetMetadataTimezone }}</div>
       <div class="font-bold">Server Response Time:</div> <div>{{ feedback.serverResponseTime }} ms</div>
-      <div class="font-bold">Created At:</div> <div>{{ feedback.createdAt | date }}</div>
-      <div class="font-bold">Updated At:</div> <div>{{ feedback.updatedAt | date }}</div>
+      <div class="font-bold">Created At:</div> <div>{{ formatDateString(feedback.createdAt) }}</div>
+      <div class="font-bold">Updated At:</div> <div>{{ formatDateString(feedback.updatedAt) }}</div>
     </div>
   </div>
   <div class="flex justify-center">
