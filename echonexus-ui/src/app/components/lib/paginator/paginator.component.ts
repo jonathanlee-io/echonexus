@@ -1,4 +1,3 @@
-import {NgClass, NgForOf} from '@angular/common';
 import {Component, EventEmitter, input, OnInit, Output} from '@angular/core';
 import {ButtonDirective} from 'primeng/button';
 import {ArrowLeftIcon, ArrowRightIcon} from 'primeng/icons';
@@ -10,8 +9,6 @@ export type PageChangedEvent = {
 @Component({
   selector: 'app-paginator',
   imports: [
-    NgClass,
-    NgForOf,
     ButtonDirective,
     ArrowRightIcon,
     ArrowLeftIcon,
