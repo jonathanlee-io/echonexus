@@ -18,8 +18,7 @@
   </div>
   <div class="flex justify-center">
     <app-paginator
-      (pageChanged)="onPageChange($event)"
-      [currentPage]="currentPage"
+      [(currentPage)]="currentPage"
       [itemsPerPage]="itemsPerPage"
       [totalItems]="projectStore.productFeedbackSubmissionsTotal()"
     />

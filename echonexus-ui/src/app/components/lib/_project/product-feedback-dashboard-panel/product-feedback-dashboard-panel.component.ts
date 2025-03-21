@@ -1,9 +1,9 @@
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
-import {Component, inject, input} from '@angular/core';
+import {Component, effect, inject, input, signal} from '@angular/core';
 
 import {ProjectStore} from '../../../../+state/project/project.store';
 import {ProductFeedbackSubmissionDto} from '../../../../dtos/projects/ProductFeedbackSubmissionDto';
-import {PageChangedEvent, PaginatorComponent} from '../../paginator/paginator.component';
+import {PaginatorComponent} from '../../paginator/paginator.component';
 
 @Component({
   selector: 'app-product-feedback-dashboard-panel',
@@ -18,20 +18,26 @@ import {PageChangedEvent, PaginatorComponent} from '../../paginator/paginator.co
 })
 export class ProductFeedbackDashboardPanelComponent {
   productFeedbackSubmissions = input.required<(ProductFeedbackSubmissionDto & {serverResponseTime: string})[]>();
-  projectId = input.required<string>();
-  protected currentPage: number = 0;
+  protected readonly currentPage = signal<number>(0);
   protected readonly projectStore = inject(ProjectStore);
   protected readonly itemsPerPage: number = 5;
 
-  onPageChange($event: PageChangedEvent) {
-    if ($event.pageChangedTo === this.currentPage) {
-      return;
-    } else if ($event.pageChangedTo < this.currentPage) {
-      this.projectStore.setProductFeedbackSubmissionsOffset(this.projectStore.productFeedbackSubmissionsOffset() - 5);
-    } else {
-      this.projectStore.setProductFeedbackSubmissionsOffset(this.projectStore.productFeedbackSubmissionsOffset() + 5);
-    }
-    this.currentPage = $event.pageChangedTo;
-    this.projectStore.loadProductFeedbackByProjectId(this.projectId());
+  constructor() {
+    let isInitialized = false;
+
+    effect(() => {
+      const page = this.currentPage();
+      console.log('Inside effect', page);
+
+      if (!isInitialized) {
+        isInitialized = true;
+        console.log('Skipping initial effect');
+        return;
+      }
+
+      const offset = page * this.itemsPerPage;
+      this.projectStore.setProductFeedbackSubmissionsOffset(offset);
+      this.projectStore.loadProductFeedbackByProjectId(String(this.projectStore.projectById()?.id));
+    });
   }
 }

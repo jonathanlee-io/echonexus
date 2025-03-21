@@ -1,10 +1,6 @@
-import {Component, EventEmitter, input, OnInit, Output} from '@angular/core';
+import {Component, computed, effect, input, model} from '@angular/core';
 import {ButtonDirective} from 'primeng/button';
 import {ArrowLeftIcon, ArrowRightIcon} from 'primeng/icons';
-
-export type PageChangedEvent = {
-  pageChangedTo: number;
-}
 
 @Component({
   selector: 'app-paginator',
@@ -16,27 +12,24 @@ export type PageChangedEvent = {
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.scss',
 })
-export class PaginatorComponent implements OnInit {
+export class PaginatorComponent {
   totalItems = input.required<number>();
   itemsPerPage = input.required<number>();
-  currentPage = input.required<number>();
-
-  @Output() pageChanged = new EventEmitter<PageChangedEvent>();
-
+  currentPage = model<number>(0);
+  protected readonly isClickPrevDisabled = computed(() => this.currentPage() === 0);
+  protected readonly isClickNextDisabled = computed(() => this.currentPage() === ((this.totalItems() / this.itemsPerPage()) - 1));
   protected startItemIndex: number = 0;
   protected endItemIndex: number = 0;
 
-  ngOnInit() {
-    this.endItemIndex = Math.min(this.itemsPerPage(), this.totalItems());
-    if (this.currentPage() === 0) {
-      this.startItemIndex = 0;
-      return;
-    }
-    this.startItemIndex = this.itemsPerPage() * (this.currentPage() - 1);
+  constructor() {
+    effect(() => {
+      console.log('Inside effect', this.currentPage());
+      this.updateIndices(this.currentPage());
+    });
   }
 
   onClickPrev() {
-    this.pageChanged.emit({pageChangedTo: this.currentPage() - 1});
+    this.currentPage.update((oldValue) => oldValue - 1);
   }
 
   onClickNext() {
@@ -44,6 +37,16 @@ export class PaginatorComponent implements OnInit {
       return;
     }
     this.startItemIndex += this.itemsPerPage();
-    this.pageChanged.emit({pageChangedTo: this.currentPage() + 1});
+    this.currentPage.update((oldValue) => oldValue + 1);
+  }
+
+  private updateIndices(currentPage: number) {
+    console.log(currentPage);
+    this.endItemIndex = Math.min(this.itemsPerPage(), this.totalItems());
+    if (currentPage === 0) {
+      this.startItemIndex = 0;
+      return;
+    }
+    this.startItemIndex = this.itemsPerPage() * (currentPage - 1);
   }
 }
