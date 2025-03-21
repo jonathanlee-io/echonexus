@@ -17,8 +17,10 @@ import {PaginatorComponent} from '../../paginator/paginator.component';
   styleUrl: './product-feedback-dashboard-panel.component.scss',
 })
 export class ProductFeedbackDashboardPanelComponent {
+  private static readonly paginationKey = 'productFeedbackDashboardPanelPagination';
+
   productFeedbackSubmissions = input.required<(ProductFeedbackSubmissionDto & {serverResponseTime: string})[]>();
-  protected readonly currentPage = signal<number>(0);
+  protected readonly currentPage = signal<number>(this.getLocalStorageValueOrDefault());
   protected readonly projectStore = inject(ProjectStore);
   protected readonly itemsPerPage: number = 5;
 
@@ -27,17 +29,24 @@ export class ProductFeedbackDashboardPanelComponent {
 
     effect(() => {
       const page = this.currentPage();
-      console.log('Inside effect', page);
 
       if (!isInitialized) {
         isInitialized = true;
-        console.log('Skipping initial effect');
         return;
       }
 
+      localStorage.setItem(ProductFeedbackDashboardPanelComponent.paginationKey, String(page));
       const offset = page * this.itemsPerPage;
       this.projectStore.setProductFeedbackSubmissionsOffset(offset);
       this.projectStore.loadProductFeedbackByProjectId(String(this.projectStore.projectById()?.id));
     });
+  }
+
+  private getLocalStorageValueOrDefault() {
+    const localStorageValue = localStorage.getItem(ProductFeedbackDashboardPanelComponent.paginationKey);
+    if (!localStorageValue) {
+      return 0;
+    }
+    return Number(localStorageValue);
   }
 }

@@ -88,9 +88,14 @@ export const ProjectStore = signalStore(
         },
         setProductFeedbackSubmissionsOffset: (offset: number) => {
           patchState(store, {productFeedbackSubmissionsOffset: offset});
+          localStorage.setItem('productFeedbackSubmissionsOffset', offset.toString());
         },
         loadProductFeedbackByProjectId: (projectId: string) => {
-          patchState(store, {isFeedbackLoading: true});
+          patchState(store, {isFeedbackLoading: true, productFeedbackSubmissionsOffset:
+              (localStorage.getItem('productFeedbackSubmissionsOffset') ?
+                Number(localStorage.getItem('productFeedbackSubmissionsOffset')) :
+                0),
+          });
           projectsService.fetchProductFeedbackForProjectById(projectId, store.productFeedbackSubmissionsOffset())
               .pipe(
                   take(1),

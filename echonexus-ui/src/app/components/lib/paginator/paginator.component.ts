@@ -23,12 +23,14 @@ export class PaginatorComponent {
 
   constructor() {
     effect(() => {
-      console.log('Inside effect', this.currentPage());
       this.updateIndices(this.currentPage());
     });
   }
 
   onClickPrev() {
+    if (this.currentPage() === 0) {
+      return;
+    }
     this.currentPage.update((oldValue) => oldValue - 1);
   }
 
