@@ -5,10 +5,8 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
-  Logger,
   NotFoundException,
 } from '@nestjs/common';
-import {EventEmitter2} from '@nestjs/event-emitter';
 
 import {ApplicationConfig} from '../../../../lib/config/Application.config';
 import {ClientsService} from '../../../clients/services/clients/clients.service';
@@ -19,10 +17,8 @@ import {ProjectsRepositoryService} from '../../repositories/projects-repository/
 @Injectable()
 export class ProjectsService {
   constructor(
-    private readonly logger: Logger,
     private readonly projectsRepository: ProjectsRepositoryService,
     private readonly clientsService: ClientsService,
-    private readonly eventEmitter: EventEmitter2,
     private readonly applicationConfig: ApplicationConfig,
   ) {}
 
@@ -50,11 +46,7 @@ export class ProjectsService {
     ) {
       return new BadRequestException('Subdomain already exists');
     }
-    const project = await this.projectsRepository.create(
-      requestingUserId,
-      createProjectDto,
-    );
-    return project;
+    return this.projectsRepository.create(requestingUserId, createProjectDto);
   }
 
   async getProjectsWhereInvolved(requestingUserId: string) {
