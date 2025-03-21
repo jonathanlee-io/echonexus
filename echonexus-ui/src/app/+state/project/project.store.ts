@@ -34,6 +34,8 @@ const initialState: ProjectState = {
   productFeedbackSubmissionsTotal: 0,
 };
 
+export const ProductFeedbackSubmissionsOffsetKey = 'productFeedbackSubmissionsOffset';
+
 export const ProjectStore = signalStore(
     {providedIn: 'root'},
     withState(initialState),
@@ -92,8 +94,8 @@ export const ProjectStore = signalStore(
         },
         loadProductFeedbackByProjectId: (projectId: string) => {
           patchState(store, {isFeedbackLoading: true, productFeedbackSubmissionsOffset:
-              (localStorage.getItem('productFeedbackSubmissionsOffset') ?
-                Number(localStorage.getItem('productFeedbackSubmissionsOffset')) :
+              (localStorage.getItem(ProductFeedbackSubmissionsOffsetKey) ?
+                Number(localStorage.getItem(ProductFeedbackSubmissionsOffsetKey)) :
                 0),
           });
           projectsService.fetchProductFeedbackForProjectById(projectId, store.productFeedbackSubmissionsOffset())

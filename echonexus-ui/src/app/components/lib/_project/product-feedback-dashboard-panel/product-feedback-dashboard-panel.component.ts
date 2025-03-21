@@ -1,7 +1,7 @@
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
-import {Component, effect, inject, input, signal} from '@angular/core';
+import {Component, effect, inject, input, OnInit, signal} from '@angular/core';
 
-import {ProjectStore} from '../../../../+state/project/project.store';
+import {ProductFeedbackSubmissionsOffsetKey, ProjectStore} from '../../../../+state/project/project.store';
 import {ProductFeedbackSubmissionDto} from '../../../../dtos/projects/ProductFeedbackSubmissionDto';
 import {PaginatorComponent} from '../../paginator/paginator.component';
 
@@ -16,7 +16,7 @@ import {PaginatorComponent} from '../../paginator/paginator.component';
   templateUrl: './product-feedback-dashboard-panel.component.html',
   styleUrl: './product-feedback-dashboard-panel.component.scss',
 })
-export class ProductFeedbackDashboardPanelComponent {
+export class ProductFeedbackDashboardPanelComponent implements OnInit {
   private static readonly paginationKey = 'productFeedbackDashboardPanelPagination';
 
   productFeedbackSubmissions = input.required<(ProductFeedbackSubmissionDto & {serverResponseTime: string})[]>();
@@ -40,6 +40,11 @@ export class ProductFeedbackDashboardPanelComponent {
       this.projectStore.setProductFeedbackSubmissionsOffset(offset);
       this.projectStore.loadProductFeedbackByProjectId(String(this.projectStore.projectById()?.id));
     });
+  }
+
+  ngOnInit() {
+    localStorage.removeItem(ProductFeedbackDashboardPanelComponent.paginationKey);
+    localStorage.removeItem(ProductFeedbackSubmissionsOffsetKey);
   }
 
   private getLocalStorageValueOrDefault() {
