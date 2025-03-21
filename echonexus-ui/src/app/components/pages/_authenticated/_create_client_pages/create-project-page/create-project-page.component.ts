@@ -15,6 +15,9 @@ import {CancelContinueComponent} from '../../../../lib/_project/cancel-continue/
 import {ClientFormComponent} from '../../../../lib/_project/client-form/client-form.component';
 import {CreateProjectComponent} from '../../../../lib/_project/create-project/create-project.component';
 import {
+  CreateProjectDisplayNameComponent,
+} from '../../../../lib/_project/create-project-display-name/create-project-display-name.component';
+import {
   ProjectFeaturesSwitchesComponent,
 } from '../../../../lib/_project/project-features-switches/project-features-switches.component';
 
@@ -31,28 +34,24 @@ export type SubdomainState = 'INIT' | 'AVAILABLE' | 'UNAVAILABLE' | 'LOADING';
     CreateProjectComponent,
     CancelContinueComponent,
     ClientFormComponent,
+    CreateProjectDisplayNameComponent,
   ],
   standalone: true,
   templateUrl: './create-project-page.component.html',
   styleUrl: './create-project-page.component.scss',
 })
 export class CreateProjectPageComponent implements OnInit, OnDestroy {
-  protected readonly rebaseRoutePath = rebaseRoutePath;
-  protected readonly RoutePath = RoutePath;
-  protected readonly clientStore = inject(ClientStore);
-
-  protected readonly isReadyToContinue = signal<boolean>(false);
-
-  private readonly pricingPlans = signal<PaymentPlanDto[]>([]);
-
-  private readonly paymentsService = inject(PaymentsService);
-
-  private subdomainValueChangesSubscription?: Subscription;
-  private clientDisplayNameValueChangesSubscription?: Subscription;
-
   subdomainState: SubdomainState = 'INIT';
 
   clientDisplayNameFormControl = new FormControl<string>('', {
+    nonNullable: true, validators: Validators.compose([
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(100),
+    ]),
+  });
+
+  projectDisplayNameFormControl = new FormControl<string>('', {
     nonNullable: true, validators: Validators.compose([
       Validators.required,
       Validators.minLength(3),
@@ -82,6 +81,15 @@ export class CreateProjectPageComponent implements OnInit, OnDestroy {
     nonNullable: true,
     validators: [Validators.required],
   });
+
+  protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly RoutePath = RoutePath;
+  protected readonly clientStore = inject(ClientStore);
+  protected readonly isReadyToContinue = signal<boolean>(false);
+  private readonly pricingPlans = signal<PaymentPlanDto[]>([]);
+  private readonly paymentsService = inject(PaymentsService);
+  private subdomainValueChangesSubscription?: Subscription;
+  private clientDisplayNameValueChangesSubscription?: Subscription;
 
   constructor() {
     watchState(this.clientStore, (state) => {
