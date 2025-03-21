@@ -22,7 +22,7 @@ export class PaginatorComponent implements OnInit {
   currentPage = input.required<number>();
 
   @Output() pageChanged = new EventEmitter<PageChangedEvent>();
-  pages = [0, 1];
+
   protected startItemIndex: number = 0;
   protected endItemIndex: number = 0;
 
@@ -39,12 +39,8 @@ export class PaginatorComponent implements OnInit {
     this.pageChanged.emit({pageChangedTo: this.currentPage() - 1});
   }
 
-  onClickPage(page: number) {
-    this.pageChanged.emit({pageChangedTo: page});
-  }
-
   onClickNext() {
-    if (this.currentPage() === this.pages.length - 1) {
+    if (this.currentPage() === (this.totalItems() / this.itemsPerPage()) - 1) {
       return;
     }
     this.startItemIndex += this.itemsPerPage();

@@ -18,7 +18,7 @@
           <ArrowLeftIcon class="h-5 w-5" />
         </button>
 
-        <button (click)="onClickNext()" [disabled]="currentPage() === (pages.length - 1)" class="relative inline-flex items-center mx-1 px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" pButton>
+        <button (click)="onClickNext()" [disabled]="currentPage() === ((totalItems() / itemsPerPage()) - 1)" class="relative inline-flex items-center mx-1 px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" pButton>
           <span class="sr-only">Next</span>
           <ArrowRightIcon class="h-5 w-5" />
         </button>

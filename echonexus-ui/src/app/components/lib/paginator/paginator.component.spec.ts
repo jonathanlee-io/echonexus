@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PaginatorComponent } from './paginator.component';
+import {PaginatorComponent} from './paginator.component';
 
 describe('PaginatorComponent', () => {
   let component: PaginatorComponent;
@@ -8,9 +8,9 @@ describe('PaginatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PaginatorComponent]
+      imports: [PaginatorComponent],
     })
-    .compileComponents();
+        .compileComponents();
 
     fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
