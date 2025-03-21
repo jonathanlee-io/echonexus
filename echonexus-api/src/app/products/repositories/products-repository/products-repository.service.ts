@@ -68,6 +68,9 @@ export class ProductsRepositoryService {
         },
         skip: +offset,
         take: +limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
       }),
     };
   }
