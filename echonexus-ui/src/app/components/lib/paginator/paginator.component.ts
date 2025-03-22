@@ -44,7 +44,6 @@ export class PaginatorComponent {
   }
 
   private updateIndices(currentPage: number) {
-    console.log(currentPage);
     this.endItemIndex = Math.min(this.itemsPerPage(), this.totalItems());
     if (currentPage === 0) {
       this.startItemIndex = 0;
