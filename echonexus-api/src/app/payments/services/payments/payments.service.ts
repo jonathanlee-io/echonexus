@@ -14,7 +14,7 @@ export class PaymentsService implements OnModuleInit {
       description: 'The essentials to provide your best work for your clients',
       monthlyPrice: '$4.99',
       features: [
-        'Up to 1 project',
+        'Up to 3 projects',
         'Up to 1 team member',
         'Custom subdomain',
         'Embeddable Feedback Widget',
