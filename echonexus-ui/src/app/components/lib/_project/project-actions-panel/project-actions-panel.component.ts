@@ -1,13 +1,24 @@
 import {NgIf} from '@angular/common';
 import {Component, inject} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
-import {ConfirmationService, MessageService} from 'primeng/api';
-import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
+import {ConfirmationService} from 'primeng/api';
+import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
+import {Dialog} from 'primeng/dialog';
+import {InputText} from 'primeng/inputtext';
 import {ProgressSpinner} from 'primeng/progressspinner';
+import {Select} from 'primeng/select';
 
 import {ProjectStore} from '../../../../+state/project/project.store';
 import {RoutePath} from '../../../../app.routes';
 import {rebaseRoutePathAsString} from '../../../../util/router/Router.utils';
+
+export type PostTypeValue = 'update' | 'issue';
+
+export interface PostType {
+  name: string;
+  value: PostTypeValue;
+}
 
 @Component({
   selector: 'app-project-actions-panel',
@@ -18,14 +29,35 @@ import {rebaseRoutePathAsString} from '../../../../util/router/Router.utils';
     ButtonIcon,
     RouterLink,
     ButtonLabel,
+    Dialog,
+    Button,
+    InputText,
+    Select,
+    FormsModule,
   ],
   templateUrl: './project-actions-panel.component.html',
   styleUrl: './project-actions-panel.component.scss',
 })
 export class ProjectActionsPanelComponent {
+  protected readonly postTypes: PostType[] = [
+    {
+      name: 'Update',
+      value: 'update',
+    },
+    {
+      name: 'Issue',
+      value: 'issue',
+    },
+  ];
+  protected postType: PostType;
   protected readonly projectStore = inject(ProjectStore);
+  protected isCreatePostDialogVisible: boolean = false;
   private readonly confirmationService = inject(ConfirmationService);
-  private readonly messageService = inject(MessageService);
+
+  constructor() {
+    this.postType = this.postTypes[0];
+  }
+
 
   getProductPath() {
     const projectById = this.projectStore.projectById();
