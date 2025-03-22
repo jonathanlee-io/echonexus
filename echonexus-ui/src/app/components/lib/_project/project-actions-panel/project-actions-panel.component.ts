@@ -82,4 +82,8 @@ export class ProjectActionsPanelComponent {
         this.projectStore.deleteProjectById(projectById.id),
     });
   }
+
+  isOwnerPostsEnabled() {
+    return this.projectStore.projectById()?.isOwnerUpdatesEnabled || this.projectStore.projectById()?.isOwnerIssuesEnabled;
+  }
 }

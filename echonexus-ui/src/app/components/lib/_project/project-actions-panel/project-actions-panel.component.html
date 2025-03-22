@@ -24,7 +24,7 @@
         <div class="flex gap-3">
           <div class="flex items-center">
             <div class="grid grid-cols-1">
-              <button (click)="isCreatePostDialogVisible = true;" pButton>
+              <button (click)="isCreatePostDialogVisible = true;" [disabled]="!isOwnerPostsEnabled()" pButton>
                 <span pButtonLabel>Create Post</span>
                 <span class="pi pi-plus" pButtonIcon></span>
                 <span class="sr-only">Go to Product Page</span>
