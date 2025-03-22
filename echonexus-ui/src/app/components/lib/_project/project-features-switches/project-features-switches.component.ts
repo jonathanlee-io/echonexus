@@ -18,10 +18,12 @@ import {ProjectStore} from '../../../../+state/project/project.store';
   styleUrl: './project-features-switches.component.scss',
 })
 export class ProjectFeaturesSwitchesComponent {
-  protected readonly projectStore = inject(ProjectStore);
-
   bugReportsEnabledFormControl = input.required<FormControl<boolean>>();
   featureRequestsEnabledFormControl = input.required<FormControl<boolean>>();
   featureFeedbackEnabledFormControl = input.required<FormControl<boolean>>();
+  ownerUpdatesEnabledFormControl = input.required<FormControl<boolean>>();
+  ownerIssuesEnabledFormControl = input.required<FormControl<boolean>>();
+  userIssuesEnabledFormControl = input.required<FormControl<boolean>>();
   isHintEnabled = input.required<boolean>();
+  protected readonly projectStore = inject(ProjectStore);
 }

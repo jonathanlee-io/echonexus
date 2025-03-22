@@ -59,6 +59,18 @@ export class OrgDashboardCreateProjectPageComponent implements OnDestroy {
     nonNullable: true,
     validators: [Validators.required],
   });
+  protected readonly ownerUpdatesEnabledFormControl = new FormControl<boolean>(true, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly ownerIssuesEnabledFormControl = new FormControl<boolean>(false, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly userIssuesEnabledFormControl = new FormControl<boolean>(false, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
   protected readonly projectDisplayNameFormControl = new FormControl<string>('', {
     nonNullable: true, validators: Validators.compose([
       Validators.required,

@@ -42,46 +42,51 @@ export type SubdomainState = 'INIT' | 'AVAILABLE' | 'UNAVAILABLE' | 'LOADING';
 })
 export class CreateProjectPageComponent implements OnInit, OnDestroy {
   subdomainState: SubdomainState = 'INIT';
-
-  clientDisplayNameFormControl = new FormControl<string>('', {
+  protected readonly projectDisplayNameFormControl = new FormControl<string>('', {
     nonNullable: true, validators: Validators.compose([
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(100),
     ]),
   });
-
-  projectDisplayNameFormControl = new FormControl<string>('', {
-    nonNullable: true, validators: Validators.compose([
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(100),
-    ]),
-  });
-
-  subdomainFormControl = new FormControl<string>('', {
+  protected readonly subdomainFormControl = new FormControl<string>('', {
     nonNullable: true,
     validators: Validators.compose([
       Validators.required,
       Validators.pattern(/^[a-z0-9][a-z0-9-_]{0,61}$/),
     ]),
   });
-
-  bugReportsEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly bugReportsEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-
-  featureRequestsEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly featureRequestsEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-
-  featureFeedbackEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly featureFeedbackEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-
+  protected readonly ownerUpdatesEnabledFormControl = new FormControl<boolean>(true, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly ownerIssuesEnabledFormControl = new FormControl<boolean>(false, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly userIssuesEnabledFormControl = new FormControl<boolean>(false, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly clientDisplayNameFormControl = new FormControl<string>('', {
+    nonNullable: true, validators: Validators.compose([
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(100),
+    ]),
+  });
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
   protected readonly clientStore = inject(ClientStore);

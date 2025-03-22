@@ -157,6 +157,9 @@ export class ProjectsRepositoryService {
         isBugReportsEnabled: updateProjectDto.isBugReportsEnabled,
         isFeatureRequestsEnabled: updateProjectDto.isFeatureRequestsEnabled,
         isFeatureFeedbackEnabled: updateProjectDto.isFeatureFeedbackEnabled,
+        isOwnerUpdatesEnabled: updateProjectDto.isOwnerUpdatesEnabled,
+        isOwnerIssuesEnabled: updateProjectDto.isOwnerIssuesEnabled,
+        isUserIssuesEnabled: updateProjectDto.isUserIssuesEnabled,
       },
       include: {
         createdBy: true,

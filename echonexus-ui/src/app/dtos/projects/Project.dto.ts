@@ -4,6 +4,9 @@ export interface ProjectDto {
   isBugReportsEnabled: boolean;
   isFeatureRequestsEnabled: boolean;
   isFeatureFeedbackEnabled: boolean;
+  isOwnerUpdatesEnabled: boolean;
+  isOwnerIssuesEnabled: boolean;
+  isUserIssuesEnabled: boolean;
   subdomains: {
     subdomain: string;
   }[];

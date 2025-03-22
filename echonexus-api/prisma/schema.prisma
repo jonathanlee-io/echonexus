@@ -8,17 +8,19 @@ datasource db {
 }
 
 model User {
-  id                 String    @id @default(uuid())
-  email              String    @unique
-  supabaseUserId     String    @unique
-  displayName        String
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @default(now())
-  clientCreated      Client[]  @relation(name: "createdByUser")
-  project            Project[]
-  clientsWhereMember Client[]  @relation(name: "membersOfClient")
-  clientsWhereAdmin  Client[]  @relation(name: "adminsOfClient")
-  clientId           String?
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  supabaseUserId      String               @unique
+  displayName         String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @default(now())
+  productPostUpvotes  ProductPostUpvote[]
+  productPostComments ProductPostComment[]
+  clientCreated       Client[]             @relation(name: "createdByUser")
+  project             Project[]
+  clientsWhereMember  Client[]             @relation(name: "membersOfClient")
+  clientsWhereAdmin   Client[]             @relation(name: "adminsOfClient")
+  clientId            String?
 }
 
 model Client {
@@ -59,6 +61,9 @@ model Project {
   isBugReportsEnabled      Boolean     @default(true)
   isFeatureRequestsEnabled Boolean     @default(true)
   isFeatureFeedbackEnabled Boolean     @default(true)
+  isOwnerUpdatesEnabled    Boolean     @default(true)
+  isOwnerIssuesEnabled     Boolean     @default(false)
+  isUserIssuesEnabled      Boolean     @default(false)
   hostnames                Hostname[]
   subdomains               Subdomain[]
   client                   Client?     @relation(fields: [clientId], references: [id], onDelete: Cascade)
@@ -93,6 +98,47 @@ model Product {
   project                   Project                     @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId                 String                      @unique
   ProductFeedbackSubmission ProductFeedbackSubmission[]
+  ProductPost               ProductPost?
+}
+
+enum ProductPostType {
+  OWNER_UPDATE
+  OWNER_ISSUE
+  USER_ISSUE
+}
+
+model ProductPost {
+  id          String               @id @default(uuid())
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @default(now())
+  type        ProductPostType
+  title       String
+  description String
+  upvotes     ProductPostUpvote[]
+  comments    ProductPostComment[]
+  product     Product              @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String               @unique
+}
+
+model ProductPostUpvote {
+  id            String       @id @default(uuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now())
+  ProductPost   ProductPost? @relation(fields: [productPostId], references: [id], onDelete: Cascade)
+  productPostId String?
+  User          User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String?
+}
+
+model ProductPostComment {
+  id            String       @id @default(uuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @default(now())
+  text          String
+  ProductPost   ProductPost? @relation(fields: [productPostId], references: [id], onDelete: Cascade)
+  productPostId String?
+  User          User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String?
 }
 
 enum ProductFeedbackSubmissionType {

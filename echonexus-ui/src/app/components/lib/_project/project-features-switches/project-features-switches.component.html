@@ -22,7 +22,7 @@
           <div class="ml-6">
             <label class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Bug
               Reports</label>
-            <p id="comments-description" class="text-xl text-light-text-primary dark:text-dark-text-primary">Allow
+            <p class="text-xl text-light-text-primary dark:text-dark-text-primary" id="comments-description">Allow
               users to report issues with your
               software so you can fix it quickly.</p>
           </div>
@@ -36,7 +36,7 @@
           <div class="ml-6">
             <label class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Feature
               Requests</label>
-            <p id="candidates-description" class="text-xl text-light-text-primary dark:text-dark-text-primary">
+            <p class="text-xl text-light-text-primary dark:text-dark-text-primary" id="candidates-description">
               Sometimes customers have the best ideas,
               this way they can submit them directly to you.</p>
           </div>
@@ -50,9 +50,42 @@
           <div class="ml-6">
             <label class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Feature
               Feedback</label>
-            <p id="offers-description" class="text-xl text-light-text-primary dark:text-dark-text-primary">You can
+            <p class="text-xl text-light-text-primary dark:text-dark-text-primary">You can
               see exactly how customers are
               responding to your newly launched features.</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex h-6 shrink-0 items-center">
+            <div class="group grid size-4 grid-cols-1">
+              <p-toggleswitch [formControl]="ownerUpdatesEnabledFormControl()"/>
+            </div>
+          </div>
+          <div class="ml-6">
+            <label class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Owner Update Posts</label>
+            <p class="text-xl text-light-text-primary dark:text-dark-text-primary">You can make posts updating your most engaged users on the progress you&apos;re making with your product.</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex h-6 shrink-0 items-center">
+            <div class="group grid size-4 grid-cols-1">
+              <p-toggleswitch [formControl]="ownerIssuesEnabledFormControl()"/>
+            </div>
+          </div>
+          <div class="ml-6">
+            <label class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">Owner Issue Posts</label>
+            <p class="text-xl text-light-text-primary dark:text-dark-text-primary">You can make posts updating your most engaged users on the progress and awareness of ongoing production issues.</p>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <div class="flex h-6 shrink-0 items-center">
+            <div class="group grid size-4 grid-cols-1">
+              <p-toggleswitch [formControl]="userIssuesEnabledFormControl()"/>
+            </div>
+          </div>
+          <div class="ml-6">
+            <label class="text-2xl font-bold text-light-text-primary dark:text-dark-text-primary">User/Customer Issue Posts</label>
+            <p class="text-xl text-light-text-primary dark:text-dark-text-primary" id="offers-description">Popular for community-driven software, users or customers can create posts making you aware of any production issues or potential improvements that customers desire.</p>
           </div>
         </div>
       </div>

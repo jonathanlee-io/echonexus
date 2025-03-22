@@ -36,15 +36,27 @@ import {
   styleUrl: './project-dashboard-page.component.scss',
 })
 export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
-  bugReportsEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly bugReportsEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-  featureRequestsEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly featureRequestsEnabledFormControl = new FormControl<boolean>(true, {
     nonNullable: true,
     validators: [Validators.required],
   });
-  featureFeedbackEnabledFormControl = new FormControl<boolean>(true, {
+  protected readonly featureFeedbackEnabledFormControl = new FormControl<boolean>(true, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly ownerUpdatesEnabledFormControl = new FormControl<boolean>(true, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly ownerIssuesEnabledFormControl = new FormControl<boolean>(false, {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly userIssuesEnabledFormControl = new FormControl<boolean>(false, {
     nonNullable: true,
     validators: [Validators.required],
   });
@@ -58,6 +70,9 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
   private readonly featureFeedbackSubscription: Subscription;
   private routeParamsSubscription?: Subscription;
   private projectByIdSubscription?: Subscription;
+  private ownerUpdatesSubscription?: Subscription;
+  private ownerIssuesSubscription?: Subscription;
+  private userIssuesSubscription?: Subscription;
 
   constructor() {
     this.projectByIdSubscription = toObservable<ProjectDto | null>(this.projectStore.projectById).pipe(
@@ -66,6 +81,9 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
           this.bugReportsEnabledFormControl.setValue(projectById.isBugReportsEnabled, {emitEvent: false});
           this.featureRequestsEnabledFormControl.setValue(projectById.isFeatureRequestsEnabled, {emitEvent: false});
           this.featureFeedbackEnabledFormControl.setValue(projectById.isFeatureFeedbackEnabled, {emitEvent: false});
+          this.ownerUpdatesEnabledFormControl.setValue(projectById.isOwnerUpdatesEnabled, {emitEvent: false});
+          this.ownerIssuesEnabledFormControl.setValue(projectById.isOwnerIssuesEnabled, {emitEvent: false});
+          this.userIssuesEnabledFormControl.setValue(projectById.isUserIssuesEnabled, {emitEvent: false});
         }),
     ).subscribe();
 
@@ -79,6 +97,18 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
 
     this.featureFeedbackSubscription = this.featureFeedbackEnabledFormControl.valueChanges.pipe(
         tap((newValue) => this.updateProjectFormControlValue({isFeatureFeedbackEnabled: newValue})),
+    ).subscribe();
+
+    this.ownerUpdatesSubscription = this.ownerUpdatesEnabledFormControl.valueChanges.pipe(
+        tap((newValue) => this.updateProjectFormControlValue({isOwnerUpdatesEnabled: newValue})),
+    ).subscribe();
+
+    this.ownerIssuesSubscription = this.ownerIssuesEnabledFormControl.valueChanges.pipe(
+        tap((newValue) => this.updateProjectFormControlValue({isOwnerIssuesEnabled: newValue})),
+    ).subscribe();
+
+    this.userIssuesSubscription = this.userIssuesEnabledFormControl.valueChanges.pipe(
+        tap((newValue) => this.updateProjectFormControlValue({isUserIssuesEnabled: newValue})),
     ).subscribe();
   }
 
@@ -94,9 +124,12 @@ export class ProjectDashboardPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeParamsSubscription?.unsubscribe();
     this.projectByIdSubscription?.unsubscribe();
-    this.bugReportsSubscription.unsubscribe();
-    this.featureRequestsSubscription.unsubscribe();
-    this.featureFeedbackSubscription.unsubscribe();
+    this.bugReportsSubscription?.unsubscribe();
+    this.featureRequestsSubscription?.unsubscribe();
+    this.featureFeedbackSubscription?.unsubscribe();
+    this.ownerUpdatesSubscription?.unsubscribe();
+    this.ownerIssuesSubscription?.unsubscribe();
+    this.userIssuesSubscription?.unsubscribe();
   }
 
   private updateProjectFormControlValue(updateProjectValue: Partial<ProjectDto>) {

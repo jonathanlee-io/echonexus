@@ -16,4 +16,19 @@ export class UpdateProjectDto {
   @IsBoolean()
   @ApiProperty({required: true})
   isFeatureFeedbackEnabled: boolean;
+
+  @IsDefined()
+  @IsBoolean()
+  @ApiProperty({required: true})
+  isOwnerUpdatesEnabled: boolean;
+
+  @IsDefined()
+  @IsBoolean()
+  @ApiProperty({required: true})
+  isOwnerIssuesEnabled: boolean;
+
+  @IsDefined()
+  @IsBoolean()
+  @ApiProperty({required: true})
+  isUserIssuesEnabled: boolean;
 }
