@@ -3,8 +3,13 @@ export interface PaymentPlanDto {
   name: string;
   description: string;
   monthlyPrice: string;
-  features: string[];
+  maxProjectCount: number;
+  maxTeamMemberCount: number;
+  isCustomSubdomainIncluded: boolean;
+  isEmbeddableFeedbackWidgetIncluded: boolean;
+  isCustomHostnameIncluded: boolean;
   tag?: string;
+  sortIndex: number;
   stripePricingTableId: string;
   stripePublishableKey: string;
 }

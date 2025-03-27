@@ -3,6 +3,7 @@ import {Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 
 import {RoutePath} from '../../../../app.routes';
+import {PaymentPlanDto} from '../../../../dtos/payments/PaymentPlan.dto';
 import {rebaseRoutePath} from '../../../../util/router/Router.utils';
 
 @Component({
@@ -16,11 +17,11 @@ import {rebaseRoutePath} from '../../../../util/router/Router.utils';
   standalone: true,
 })
 export class PricingDisplayComponent {
-  protected readonly rebaseRoutePath = rebaseRoutePath;
-  protected readonly RoutePath = RoutePath;
   name = input.required<string>();
   description = input.required<string>();
   monthlyPrice = input.required<string>();
-  features = input.required<string[]>();
   tag = input<string | undefined>(undefined);
+  paymentPlanDetails = input.required<PaymentPlanDto>();
+  protected readonly rebaseRoutePath = rebaseRoutePath;
+  protected readonly RoutePath = RoutePath;
 }

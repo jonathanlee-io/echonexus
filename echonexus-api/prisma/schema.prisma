@@ -38,18 +38,22 @@ model Client {
 }
 
 model PaymentPlan {
-  id                   String   @id @default(uuid())
-  name                 String
-  description          String
-  monthlyPrice         String
-  features             String[]
-  tag                  String?
-  sortIndex            Int      @default(0)
-  stripePricingTableId String
-  stripePublishableKey String
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now())
-  clients              Client[]
+  id                                 String   @id @default(uuid())
+  name                               String
+  description                        String
+  monthlyPrice                       String
+  maxProjectCount                    Int      @default(0)
+  maxTeamMemberCount                 Int      @default(0)
+  isCustomSubdomainIncluded          Boolean  @default(true)
+  isEmbeddableFeedbackWidgetIncluded Boolean  @default(true)
+  isCustomHostnameIncluded           Boolean  @default(false)
+  tag                                String?
+  sortIndex                          Int      @default(0)
+  stripePricingTableId               String
+  stripePublishableKey               String
+  createdAt                          DateTime @default(now())
+  updatedAt                          DateTime @default(now())
+  clients                            Client[]
 }
 
 model Project {

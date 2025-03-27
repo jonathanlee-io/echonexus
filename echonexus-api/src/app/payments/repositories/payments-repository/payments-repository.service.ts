@@ -26,22 +26,28 @@ export class PaymentsRepositoryService {
             id: paymentPlan.id,
           },
         });
-        const data = {
-          name: paymentPlan.name,
-          description: paymentPlan.description,
-          monthlyPrice: paymentPlan.monthlyPrice,
-          features: paymentPlan.features,
-          tag: paymentPlan.tag,
-          sortIndex: paymentPlan.sortIndex,
-          stripePricingTableId: paymentPlan.stripePricingTableId,
-          stripePublishableKey: paymentPlan.stripePublishableKey,
-        };
+        Logger.log(existingPlan);
         if (!existingPlan) {
           this.logger.log(
             `Creating new payment plan <${paymentPlan.id}>: ${paymentPlan.name}`,
           );
           await prisma.paymentPlan.create({
-            data: {...data, id: paymentPlan.id},
+            data: {
+              id: paymentPlan.id,
+              name: paymentPlan.name,
+              description: paymentPlan.description,
+              monthlyPrice: paymentPlan.monthlyPrice,
+              maxProjectCount: paymentPlan.maxProjectCount,
+              maxTeamMemberCount: paymentPlan.maxTeamMemberCount,
+              isCustomSubdomainIncluded: paymentPlan.isCustomSubdomainIncluded,
+              isCustomHostnameIncluded: paymentPlan.isCustomHostnameIncluded,
+              isEmbeddableFeedbackWidgetIncluded:
+                paymentPlan.isEmbeddableFeedbackWidgetIncluded,
+              tag: paymentPlan.tag,
+              sortIndex: paymentPlan.sortIndex,
+              stripePricingTableId: paymentPlan.stripePricingTableId,
+              stripePublishableKey: paymentPlan.stripePublishableKey,
+            },
           });
         } else {
           this.logger.log(
@@ -51,7 +57,21 @@ export class PaymentsRepositoryService {
             where: {
               id: paymentPlan.id,
             },
-            data,
+            data: {
+              name: paymentPlan.name,
+              description: paymentPlan.description,
+              monthlyPrice: paymentPlan.monthlyPrice,
+              maxProjectCount: paymentPlan.maxProjectCount,
+              maxTeamMemberCount: paymentPlan.maxTeamMemberCount,
+              isCustomSubdomainIncluded: paymentPlan.isCustomSubdomainIncluded,
+              isCustomHostnameIncluded: paymentPlan.isCustomHostnameIncluded,
+              isEmbeddableFeedbackWidgetIncluded:
+                paymentPlan.isEmbeddableFeedbackWidgetIncluded,
+              tag: paymentPlan.tag,
+              sortIndex: paymentPlan.sortIndex,
+              stripePricingTableId: paymentPlan.stripePricingTableId,
+              stripePublishableKey: paymentPlan.stripePublishableKey,
+            },
           });
         }
       }
