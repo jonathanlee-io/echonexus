@@ -155,14 +155,21 @@ export class ProjectsService {
     } else {
       widgetSrc = `http://${clientSubdomain}.api.echonexus-local.io:8000/v1/scripts/echonexus-widget.js`;
     }
+
+    let paramProject = {};
+    if (returnedProject && typeof returnedProject === 'object') {
+      paramProject = {...returnedProject, subdomain: clientSubdomain};
+    }
+
     return `
         (function (w,d,s,o,f,js,fjs) {
             w['JS-Widget']=o;w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments) };
             js = d.createElement(s), fjs = d.getElementsByTagName(s)[0];
             js.id = o; js.src = f; js.async = 1; fjs.parentNode.insertBefore(js, fjs);
         }(window, document, 'script', 'mw', '${widgetSrc}'));
-        mw('init', { project: ${returnedProject ? JSON.stringify(returnedProject) : null} } );
-        mw('message', { project: ${returnedProject ? JSON.stringify(returnedProject) : null} });
+        // @ts-expect-error We know that returned project is an object
+        mw('init', { project: ${returnedProject ? JSON.stringify(paramProject) : null} } );
+        mw('message', { project: ${returnedProject ? JSON.stringify(paramProject) : null} });
     `;
   }
 }
