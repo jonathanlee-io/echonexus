@@ -66,6 +66,7 @@ export class AppService {
             .catch((reason) => console.error(reason));
       } else if (event === 'TOKEN_REFRESHED') {
         this.supabaseService.session = session;
+        localStorage.setItem('supabase-session', JSON.stringify(session));
       } else if (event === 'SIGNED_OUT') {
         this.supabaseService.session = null;
         localStorage.removeItem('supabase-session');
