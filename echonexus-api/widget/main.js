@@ -24,7 +24,9 @@ function app(window) {
     isSubmissionSuccessfulOpen: false,
     isSubmissionErrorOpen: false,
 
-    init() {
+    init() {},
+
+    fetchConfig() {
       fetch(`${this.baseUrl}/products/config`, {
         method: 'GET',
         headers: {
@@ -175,6 +177,9 @@ function apiHandler(api, params) {
 
   switch (api) {
     case 'message':
+      Alpine.store('api').baseUrl =
+        `https://${params.project.subdomain}.api.echonexus.io/v1`;
+      Alpine.store('api').fetchConfig();
       show(params);
       break;
     default:

@@ -4,7 +4,9 @@ import './message.css';
 const elements = [];
 let body;
 
-export function show(_params) {
+export function show(params) {
+  localStorage.setItem('echonexus-api-subdomain', params.project.subdomain);
+
   // convert plain HTML string into DOM elements
   const temporary = document.createElement('div');
   temporary.innerHTML = html;

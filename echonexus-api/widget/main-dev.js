@@ -11,7 +11,7 @@ function app(window) {
   Alpine.start();
 
   Alpine.store('api', {
-    baseUrl: `http://roomyledger.api.echonexus-local.io:8000/v1`,
+    baseUrl: `http://${window.location.hostname.split('.')[window.location.hostname.split('.').length - 2]}.api.echonexus-local.io:8000/v1`,
 
     isLoading: false,
     isMainMenuOpen: false,
@@ -24,7 +24,9 @@ function app(window) {
     isSubmissionSuccessfulOpen: false,
     isSubmissionErrorOpen: false,
 
-    init() {
+    init() {},
+
+    fetchConfig() {
       fetch(`${this.baseUrl}/products/config`, {
         method: 'GET',
         headers: {
@@ -175,6 +177,9 @@ function apiHandler(api, params) {
 
   switch (api) {
     case 'message':
+      Alpine.store('api').baseUrl =
+        `http://${params.project.subdomain}.api.echonexus-local.io:8000/v1`;
+      Alpine.store('api').fetchConfig();
       show(params);
       break;
     default:
