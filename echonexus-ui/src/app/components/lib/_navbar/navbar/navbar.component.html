@@ -37,10 +37,10 @@
                 <p-toggleswitch (onChange)="userPreferencesStore.toggleDarkMode()" [(ngModel)]="isDarkMode"
                                 class="mt-2"/>
                 <i [ngClass]="userPreferencesStore.isDarkMode() ? 'pi-moon' : 'pi-sun'"
-                   class="pi text-light-secondary dark:text-light-white mb-0.5 px-2"></i>
-                <span class="font-medium text-surface-900 dark:text-surface-0 block mb-2">Dark Mode</span>
+                   class="pi text-light-white dark:text-light-white mb-0.5 px-2"></i>
+                <span class="font-medium text-light-white dark:text-light-white block mb-2">{{ getOppositeOfCurrentDarkModeStatus() }} Mode</span>
                 <span
-                  class="text-surface-500 dark:text-surface-700">{{ getColorModePrompt() }}</span>
+                  class="text-light-white dark:text-light-white">{{ getColorModePrompt() }}</span>
               </div>
             </div>
           </div>

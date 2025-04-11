@@ -39,11 +39,15 @@ import {rebaseRoutePath} from '../../../../util/router/Router.utils';
 export class NavbarComponent {
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
   protected readonly userPreferencesStore = inject(UserPreferencesStore);
+  isDarkMode: boolean = this.userPreferencesStore.isDarkMode();
   protected readonly rebaseRoutePath = rebaseRoutePath;
   protected readonly RoutePath = RoutePath;
-  isDarkMode: boolean = this.userPreferencesStore.isDarkMode();
 
   getColorModePrompt() {
     return `Enable ${(this.isDarkMode) ? 'light' : 'dark'} mode to get a ${(this.isDarkMode) ? 'lighter' : 'darker'} experience.`;
+  }
+
+  getOppositeOfCurrentDarkModeStatus() {
+    return this.isDarkMode ? 'Dark' : 'Light';
   }
 }
