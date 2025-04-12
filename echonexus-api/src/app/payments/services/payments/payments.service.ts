@@ -44,7 +44,7 @@ export class PaymentsService implements OnModuleInit {
       id: 'dc3f31cf-7d7d-4a54-b3c8-067bb6439fbc',
       name: 'Enterprise',
       description: 'Dedicated support and infrastructure for your company.',
-      monthlyPrice: '$199.99',
+      monthlyPrice: 'Negotiable',
       maxProjectCount: -1,
       maxTeamMemberCount: -1,
       isEmbeddableFeedbackWidgetIncluded: true,
