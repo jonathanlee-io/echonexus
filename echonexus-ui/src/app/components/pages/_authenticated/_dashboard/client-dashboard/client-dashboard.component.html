@@ -30,11 +30,9 @@
       </ng-template>
       <ng-template let-project pTemplate="body">
         <tr>
-          <td><a
-            [routerLink]="[rebaseRoutePathAsString(RoutePath.CLIENT_DASHBOARD.replace(':clientId', project.clientId))]">{{ project.client.displayName }}
-            <i class="px-2 pi pi-arrow-right"></i></a></td>
-          <td><a
-            [routerLink]="[rebaseRoutePathAsString(RoutePath.PROJECT_DASHBOARD.replace(':projectId', project.id))]">{{ project.name }}
+          <td>{{ project.client.displayName }}</td>
+          <td><a [routerLink]="[rebaseRoutePathAsString(RoutePath.PROJECT_DASHBOARD.replace(':projectId', project.id))]"
+            pButton>{{ project.name }}
             <i class="px-2 pi pi-arrow-right"></i></a></td>
           <td>{{ (project.subdomains?.length === 0) ? 'None' : commaListSubdomains(project.subdomains) }}</td>
           <td>{{ (project.hostnames?.length === 0) ? 'None' : project.hostnames?.[0].hostname }}</td>
