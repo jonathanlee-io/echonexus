@@ -26,7 +26,6 @@ export class PaymentsRepositoryService {
             id: paymentPlan.id,
           },
         });
-        Logger.log(existingPlan);
         if (!existingPlan) {
           this.logger.log(
             `Creating new payment plan <${paymentPlan.id}>: ${paymentPlan.name}`,

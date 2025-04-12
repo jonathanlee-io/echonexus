@@ -29,7 +29,7 @@ export class PaymentsService implements OnModuleInit {
       name: 'Startup',
       description: 'A plan that scales with your rapidly growing business.',
       monthlyPrice: '$24.99',
-      maxProjectCount: 5,
+      maxProjectCount: 10,
       maxTeamMemberCount: 100,
       isEmbeddableFeedbackWidgetIncluded: true,
       isCustomSubdomainIncluded: true,
