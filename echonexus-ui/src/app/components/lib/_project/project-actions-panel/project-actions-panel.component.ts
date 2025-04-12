@@ -1,5 +1,5 @@
 import {NgIf} from '@angular/common';
-import {Component, inject} from '@angular/core';
+import {Component, computed, inject, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {ConfirmationService} from 'primeng/api';
@@ -39,7 +39,10 @@ export interface PostType {
   styleUrl: './project-actions-panel.component.scss',
 })
 export class ProjectActionsPanelComponent {
-  protected readonly postTypes: PostType[] = [
+  protected postType?: PostType;
+  protected readonly projectStore = inject(ProjectStore);
+  protected isCreatePostDialogVisible: boolean = false;
+  private readonly postTypes = signal<PostType[]>([
     {
       name: 'Update',
       value: 'update',
@@ -48,15 +51,19 @@ export class ProjectActionsPanelComponent {
       name: 'Issue',
       value: 'issue',
     },
-  ];
-  protected postType: PostType;
-  protected readonly projectStore = inject(ProjectStore);
-  protected isCreatePostDialogVisible: boolean = false;
+  ]);
+  protected readonly filteredPostTypes = computed(() => this.postTypes()
+      .filter((postType) => {
+        if (postType.value === 'update') {
+          return !!this.projectStore.projectById()?.isOwnerUpdatesEnabled;
+        }
+        if (postType.value === 'issue') {
+          return !!this.projectStore.projectById()?.isOwnerIssuesEnabled;
+        }
+        return true;
+      },
+      ));
   private readonly confirmationService = inject(ConfirmationService);
-
-  constructor() {
-    this.postType = this.postTypes[0];
-  }
 
 
   getProductPath() {
