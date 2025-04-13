@@ -110,14 +110,10 @@ export const UserAuthenticationStore = signalStore(
       return {
         attemptSupabaseLoginWithGoogle: async () => {
           patchState(store, {loggedInState: 'LOADING'});
-          setTimeout(async () => {
-            const {error} = await supabaseService.signInWithGoogle();
-            if (error) {
-              store.onLoginError(error);
-            } else {
-              store.onLoginComplete();
-            }
-          }, 2500);
+          const {error} = await supabaseService.signInWithGoogle();
+          if (error) {
+            store.onLoginError(error);
+          }
         },
         attemptSupabaseLoginWithGitHub: async () => {
           patchState(store, {loggedInState: 'LOADING'});
