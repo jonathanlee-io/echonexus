@@ -30,13 +30,6 @@ export class SharedAccountPageComponent implements OnInit {
   private readonly flagService = inject(FlagService);
   protected readonly isSignInWithGoogleEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'SIGN_IN_WITH_GOOGLE')?.isEnabled ?? false);
   protected readonly isSignInWithGithubEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'SIGN_IN_WITH_GITHUB')?.isEnabled ?? false);
-  protected readonly isSignInWithGoogleButtonDisabled = computed(() =>
-    !this.isSignInWithGoogleEnabled() || this.userAuthenticationStore.isLoading(),
-  );
-  protected readonly isSignInWithGithubButtonDisabled = computed(() =>
-    !this.isSignInWithGithubEnabled() || this.userAuthenticationStore.isLoading(),
-  );
-
 
   ngOnInit() {
     window.scrollTo(0, 0);

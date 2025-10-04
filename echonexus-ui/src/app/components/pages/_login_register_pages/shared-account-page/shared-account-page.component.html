@@ -16,8 +16,8 @@
       <ng-container *ngIf="!userAuthenticationStore.isLoading() else loading">
         <div>
           <div class="mt-6 grid grid-cols-1 gap-4">
-          <button (click)="doGoogleLogin()" [disabled]="isSignInWithGoogleButtonDisabled()"
-                    [ngClass]="{'opacity-50 cursor-not-allowed hover:scale-100': isSignInWithGoogleButtonDisabled()}"
+          <button (click)="doGoogleLogin()" [disabled]="!isSignInWithGoogleEnabled() || userAuthenticationStore.isLoading()"
+                    [ngClass]="{'opacity-50 cursor-not-allowed hover:scale-100': !isSignInWithGoogleEnabled() || userAuthenticationStore.isLoading()}"
                     class="flex w-full items-center justify-center gap-3 rounded-full px-4 py-3 text-lg font-bold text-black shadow-md transition-transform transform hover:scale-110 bg-dark-blue dark:bg-dark-blue"
                     data-testid="sign-in-with-google-button">
               <svg aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24">
@@ -37,8 +37,8 @@
               <span class="text-light-white dark:text-dark-text-primary">Google</span>
             </button>
 
-            <button (click)="doGithubLogin()" [disabled]="isSignInWithGithubButtonDisabled()"
-                    [ngClass]="{'opacity-50 cursor-not-allowed hover:scale-100': isSignInWithGithubButtonDisabled()}"
+            <button (click)="doGithubLogin()" [disabled]="!isSignInWithGithubEnabled() || userAuthenticationStore.isLoading()"
+                    [ngClass]="{'opacity-50 cursor-not-allowed hover:scale-100': !isSignInWithGithubEnabled() || userAuthenticationStore.isLoading()}"
                     class="flex w-full items-center justify-center gap-3 rounded-full px-4 py-3 text-lg font-bold text-black shadow-md transition-transform transform hover:scale-110 bg-light-secondary dark:bg-dark-secondary"
                     data-testid="sign-in-with-github-button">
               <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
