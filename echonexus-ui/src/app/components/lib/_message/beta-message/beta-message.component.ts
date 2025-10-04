@@ -1,8 +1,7 @@
 import {NgIf} from '@angular/common';
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {Message} from 'primeng/message';
-
-import {FeatureFlagsStore} from '../../../../+state/feature-flags/feature-flags.store';
+import {FlagService} from 'zenigo-client-sdk';
 
 @Component({
   selector: 'app-beta-message',
@@ -16,7 +15,8 @@ import {FeatureFlagsStore} from '../../../../+state/feature-flags/feature-flags.
 export class BetaMessageComponent implements OnInit {
   static readonly BETA_MESSAGE_CLOSED_KEY = 'beta-message-closed';
 
-  protected readonly featureFlagStore = inject(FeatureFlagsStore);
+  private readonly flagService = inject(FlagService);
+  protected readonly isBetaMessageEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'BETA_MESSAGE_ENABLED')?.isEnabled ?? false);
 
   protected readonly isShown = signal(true);
 

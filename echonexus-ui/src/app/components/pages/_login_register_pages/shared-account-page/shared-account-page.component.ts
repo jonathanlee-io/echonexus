@@ -1,11 +1,11 @@
 import {NgClass, NgIf, NgOptimizedImage} from '@angular/common';
-import {Component, inject, input, OnInit} from '@angular/core';
+import {Component, computed, inject, input, OnInit} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ButtonModule} from 'primeng/button';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {FlagService} from 'zenigo-client-sdk';
 
 import {UserAuthenticationStore} from '../../../../+state/auth/user-auth.store';
-import {FeatureFlagsStore} from '../../../../+state/feature-flags/feature-flags.store';
 
 @Component({
   selector: 'app-shared-account-page',
@@ -27,37 +27,32 @@ export class SharedAccountPageComponent implements OnInit {
   accountPromptRoute = input.required<string>();
   redirectAnchorText = input.required<string>();
   protected readonly userAuthenticationStore = inject(UserAuthenticationStore);
-  private readonly featureFlagStore = inject(FeatureFlagsStore);
+  private readonly flagService = inject(FlagService);
+  protected readonly isSignInWithGoogleEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'SIGN_IN_WITH_GOOGLE')?.isEnabled ?? false);
+  protected readonly isSignInWithGithubEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'SIGN_IN_WITH_GITHUB')?.isEnabled ?? false);
+  protected readonly isSignInWithGoogleButtonDisabled = computed(() =>
+    !this.isSignInWithGoogleEnabled() && this.userAuthenticationStore.isLoading(),
+  );
+  protected readonly isSignInWithGithubButtonDisabled = computed(() =>
+    !this.isSignInWithGithubEnabled() && this.userAuthenticationStore.isLoading(),
+  );
+
 
   ngOnInit() {
     window.scrollTo(0, 0);
   }
 
   doGoogleLogin() {
-    if (!this.featureFlagStore.isSignInWithGoogleEnabled()) {
+    if (!this.isSignInWithGoogleEnabled()) {
       return;
     }
     this.userAuthenticationStore.attemptSupabaseLoginWithGoogle();
   }
 
   doGithubLogin() {
-    if (!this.featureFlagStore.isSignInWithGoogleEnabled()) {
+    if (!this.isSignInWithGoogleEnabled()) {
       return;
     }
     this.userAuthenticationStore.attemptSupabaseLoginWithGitHub();
-  }
-
-  isGoogleButtonDisabled() {
-    if (this.userAuthenticationStore.isLoading()) {
-      return true;
-    }
-    return !this.featureFlagStore.isSignInWithGoogleEnabled();
-  }
-
-  isGitHubButtonDisabled() {
-    if (this.userAuthenticationStore.isLoading()) {
-      return true;
-    }
-    return !this.featureFlagStore.isSignInWithGitHubEnabled();
   }
 }

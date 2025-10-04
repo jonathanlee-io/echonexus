@@ -7,9 +7,11 @@ import {ConfirmDialog} from 'primeng/confirmdialog';
 import {DialogModule} from 'primeng/dialog';
 import {ToastModule} from 'primeng/toast';
 import {filter, tap} from 'rxjs';
+import {FlagService} from 'zenigo-client-sdk';
 
 import {UserAuthenticationStore} from './+state/auth/user-auth.store';
 import {AppService} from './app.service';
+import {environment} from '../environments/environment';
 import {NavbarComponent} from './components/lib/_navbar/navbar/navbar.component';
 import {ToastComponent} from './components/lib/_toast/toast/toast.component';
 import {FooterComponent} from './components/lib/footer/footer.component';
@@ -36,6 +38,7 @@ export class AppComponent implements OnInit {
   title = 'EchoNexus';
   isSidebarVisible = signal<boolean>(false);
   private readonly userAuthenticationStore = inject(UserAuthenticationStore);
+  private readonly flagService = inject(FlagService);
 
   constructor(
     private readonly router: Router,
@@ -61,6 +64,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.appService.pipeAuthRouterEvents(this.router);
     this.appService.pipeNextParamAuthEvents(this.router);
-    this.appService.initFeatureFlags();
+    this.flagService.init({apiKey: environment.ZENIGO_API_KEY, host: environment.ZENIGO_HOST});
+    this.flagService.fetchFlags();
+    this.flagService.startFlagUpdateStream();
   }
 }
