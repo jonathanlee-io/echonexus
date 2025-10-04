@@ -1,7 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
 import {UserAuthenticationStore} from './+state/auth/user-auth.store';
-import {FeatureFlagsStore} from './+state/feature-flags/feature-flags.store';
 import {NotificationsStore} from './+state/notifications/notifications.store';
 import {PaymentStore} from './+state/payment/payment.store';
 import {AppService} from './app.service';
@@ -16,17 +15,13 @@ describe('AppService', () => {
   beforeEach(() => {
     supabaseService = jasmine.createSpyObj<SupabaseService>(['authChanges']);
     authService = jasmine.createSpyObj<AuthService>([
-      'setNextParamInLocalStorageIfNotAnonymous',
+      'setNextParamInLocalStorage',
     ]);
 
     TestBed.configureTestingModule({
       providers: [
         {
           provide: UserAuthenticationStore,
-          useValue: {},
-        },
-        {
-          provide: FeatureFlagsStore,
           useValue: {},
         },
         {
