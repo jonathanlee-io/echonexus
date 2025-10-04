@@ -31,10 +31,10 @@ export class SharedAccountPageComponent implements OnInit {
   protected readonly isSignInWithGoogleEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'SIGN_IN_WITH_GOOGLE')?.isEnabled ?? false);
   protected readonly isSignInWithGithubEnabled = computed(() => this.flagService.flags().find((flag) => flag.key === 'SIGN_IN_WITH_GITHUB')?.isEnabled ?? false);
   protected readonly isSignInWithGoogleButtonDisabled = computed(() =>
-    !this.isSignInWithGoogleEnabled() && this.userAuthenticationStore.isLoading(),
+    !this.isSignInWithGoogleEnabled() || this.userAuthenticationStore.isLoading(),
   );
   protected readonly isSignInWithGithubButtonDisabled = computed(() =>
-    !this.isSignInWithGithubEnabled() && this.userAuthenticationStore.isLoading(),
+    !this.isSignInWithGithubEnabled() || this.userAuthenticationStore.isLoading(),
   );
 
 
