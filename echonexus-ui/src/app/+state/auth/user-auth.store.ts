@@ -10,6 +10,7 @@ import {AuthService} from '../../services/auth/auth.service';
 import {SupabaseService} from '../../services/supabase/supabase.service';
 import {rebaseRoutePath, RouterUtils} from '../../util/router/Router.utils';
 import {NotificationsStore} from '../notifications/notifications.store';
+import {FlagService} from 'zenigo-client-sdk';
 
 export type LoggedInState = 'INIT' | 'NOT_LOGGED_IN' | 'LOADING' | 'LOGGED_IN';
 
@@ -62,6 +63,7 @@ export const UserAuthenticationStore = signalStore(
       const notificationsStore = inject(NotificationsStore);
       const supabaseService = inject(SupabaseService);
       const pageDocument = inject(DOCUMENT);
+      const flagService = inject(FlagService);
       return {
         toggleDarkMode: () => {
           const element = pageDocument.querySelector('html');
@@ -74,12 +76,14 @@ export const UserAuthenticationStore = signalStore(
         onLoginComplete: async () => {
           localStorage.setItem('supabase-session', JSON.stringify(supabaseService.session));
           patchState(store, {loggedInState: 'LOGGED_IN'});
+          flagService.login({userEmail: supabaseService.session?.user.email ?? ''});
           store.userCheckIn();
         },
         logout: async () => {
           patchState(store, {loggedInState: 'LOADING'});
           localStorage.removeItem('supabase-session');
           await supabaseService.signOut();
+          flagService.anonymize();
           patchState(store, {...initialState});
           router
               .navigate([rebaseRoutePath(RoutePath.LOGIN)])
@@ -101,7 +105,7 @@ export const UserAuthenticationStore = signalStore(
             life: 5_000,
             closable: true,
           });
-          store.logout().catch((reason) => console.error(reason));
+          store.logout().catch(console.error);
         },
       };
     }),

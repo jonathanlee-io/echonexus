@@ -58,7 +58,7 @@ export class AppService {
         this.supabaseService.session = session;
         this.userAuthenticationStore
             .onLoginComplete()
-            .catch((reason) => console.error(reason));
+            .catch(console.error);
       } else if (event === 'TOKEN_REFRESHED') {
         this.supabaseService.session = session;
         localStorage.setItem('supabase-session', JSON.stringify(session));
