@@ -4,13 +4,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {patchState, signalStore, withComputed, withMethods, withState} from '@ngrx/signals';
 import {MessageService} from 'primeng/api';
 import {take, tap} from 'rxjs';
+import {FlagService} from 'zenigo-client-sdk';
 
 import {RoutePath} from '../../app.routes';
 import {AuthService} from '../../services/auth/auth.service';
 import {SupabaseService} from '../../services/supabase/supabase.service';
 import {rebaseRoutePath, RouterUtils} from '../../util/router/Router.utils';
 import {NotificationsStore} from '../notifications/notifications.store';
-import {FlagService} from 'zenigo-client-sdk';
 
 export type LoggedInState = 'INIT' | 'NOT_LOGGED_IN' | 'LOADING' | 'LOGGED_IN';
 
